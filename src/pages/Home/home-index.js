@@ -17,7 +17,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../Home/home-index.css"; // O "manual de estilo" que define as cores e o layout.
 import Theme from "../../components/Tema/tema"; // O componente que permite trocar o tema (claro/escuro).
-import HomeIcon from "../../assets/Images/home_icon.png"; // Imagem do ícone da Home.
 import logoRemedioImg from '../../assets/Images/logo-rem.png'; // Imagem do logo para o cartão.
 import logoMedicamento from '../../assets/Images/logo-medicamento.png'; // Outra imagem de logo para o cartão.
 
@@ -31,230 +30,111 @@ const Home = () => {
   // com as informações de cada medicamento que queremos mostrar no carrossel.
   // Cada item da lista é um "cartão de informações".
   const medicamentos = [
-    {
-      nome: "Paracetamol",
-      descricao:
-        "Analgésico e antitérmico, usado no tratamento de febre e dores leves a moderadas.",
-      dose: "500mg",
-      frequencia: "A cada 6 horas",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "paracetamol",
-    },
-    {
-      nome: "Dipirona",
-      descricao:
-        "Analgésico e antipirético, eficaz para febres altas e dores intensas.",
-      dose: "1g",
-      frequencia: "A cada 8 horas",
-      faixaEtaria: "A partir de 10 anos",
-      classe: "dipirona",
-    },
-    {
-      nome: "Ibuprofeno",
-      descricao:
-        "Anti-inflamatório não esteroidal com ação analgésica, antitérmica e anti-inflamatória.",
-      dose: "400mg",
-      frequencia: "A cada 8 horas",
-      faixaEtaria: "A partir de 6 meses",
-      classe: "ibuprofeno",
-    },
-    {
-      nome: "Amoxicilina",
-      descricao:
-        "Antibiótico do grupo das penicilinas, usado para infecções bacterianas como amigdalite e sinusite.",
-      dose: "500mg",
-      frequencia: "A cada 8 horas",
-      faixaEtaria: "A partir de 2 anos",
-      classe: "amoxicilina",
-    },
-    {
-      nome: "Metformina",
-      descricao:
-        "Medicamento antidiabético oral utilizado no controle da glicemia em pessoas com diabetes tipo 2.",
-      dose: "850mg",
-      frequencia: "2x ao dia",
-      faixaEtaria: "A partir de 10 anos",
-      classe: "metformina",
-    },
-    {
-      nome: "Omeprazol",
-      descricao:
-        "Inibidor da bomba de prótons usado no tratamento de úlceras, refluxo e gastrite.",
-      dose: "20mg",
-      frequencia: "Antes do café",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "omeprazol",
-    },
-    {
-      nome: "Ibuprofeno XR",
-      descricao:
-        "Formulação de liberação prolongada para controle de dores crônicas.",
-      dose: "600mg",
-      frequencia: "A cada 12 horas",
-      faixaEtaria: "A partir de 18 anos",
-      classe: "ibuprofeno",
-    },
-    {
-      nome: "Paracetamol Plus",
-      descricao:
-        "Paracetamol combinado com cafeína para alívio mais rápido das dores.",
-      dose: "500mg + 65mg cafeína",
-      frequencia: "A cada 6 horas",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "paracetamol",
-    },
-    {
-      nome: "Amoxicilina Clavulanato",
-      descricao: "Antibiótico combinado para infecções resistentes.",
-      dose: "875mg + 125mg",
-      frequencia: "A cada 12 horas",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "amoxicilina",
-    },
-    {
-      nome: "Metformina XR",
-      descricao:
-        "Versão de liberação prolongada para melhor adesão ao tratamento.",
-      dose: "1000mg",
-      frequencia: "1x ao dia",
-      faixaEtaria: "A partir de 10 anos",
-      classe: "metformina",
-    },
-    {
-      nome: "Omeprazol DR",
-      descricao:
-        "Cápsulas de liberação retardada para tratamento gástrico.",
-      dose: "40mg",
-      frequencia: "1x ao dia",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "omeprazol",
-    },
-    {
-      nome: "Dipirona Sódica",
-      descricao:
-        "Dipirona em solução injetável para alívio rápido de dores intensas.",
-      dose: "2g",
-      frequencia: "A cada 6 horas",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "dipirona",
-    },
-    {
-      nome: "Ibuprofeno Infantil",
-      descricao:
-        "Suspensão oral para alívio de febre e dor em crianças.",
-      dose: "100mg/5ml",
-      frequencia: "A cada 8 horas",
-      faixaEtaria: "A partir de 3 meses",
-      classe: "ibuprofeno",
-    },
-    {
-      nome: "Paracetamol Infantil",
-      descricao:
-        "Suspensão para tratamento de febre e dor em crianças.",
-      dose: "100mg/5ml",
-      frequencia: "A cada 6 horas",
-      faixaEtaria: "A partir de 3 meses",
-      classe: "paracetamol",
-    },
-    {
-      nome: "Amoxicilina Infantil",
-      descricao:
-        "Suspensão antibiótica para infecções em crianças.",
-      dose: "250mg/5ml",
-      frequencia: "A cada 8 horas",
-      faixaEtaria: "A partir de 2 anos",
-      classe: "amoxicilina",
-    },
-    {
-      nome: "Metformina XR Plus",
-      descricao:
-        "Metformina de liberação prolongada combinada com outras substâncias para diabetes.",
-      dose: "1000mg",
-      frequencia: "1x ao dia",
-      faixaEtaria: "A partir de 10 anos",
-      classe: "metformina",
-    },
-    {
-      nome: "Omeprazol Infantil",
-      descricao:
-        "Cápsulas para tratamento gástrico em crianças.",
-      dose: "10mg",
-      frequencia: "1x ao dia",
-      faixaEtaria: "A partir de 6 anos",
-      classe: "omeprazol",
-    },
-    {
-      nome: "Dipirona Comprimidos",
-      descricao:
-        "Comprimidos para dores moderadas e febre.",
-      dose: "500mg",
-      frequencia: "A cada 6 horas",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "dipirona",
-    },
-    {
-      nome: "Ibuprofeno Gel",
-      descricao:
-        "Gel para aplicação tópica contra inflamações musculares.",
-      dose: "5%",
-      frequencia: "3x ao dia",
-      faixaEtaria: "Adultos",
-      classe: "ibuprofeno",
-    },
-    {
-      nome: "Paracetamol Solução",
-      descricao:
-        "Solução oral para alívio de dor e febre.",
-      dose: "250mg/5ml",
-      frequencia: "A cada 6 horas",
-      faixaEtaria: "A partir de 6 meses",
-      classe: "paracetamol",
-    },
-    {
-      nome: "Amoxicilina XR",
-      descricao:
-        "Amoxicilina de liberação prolongada para infecções bacterianas.",
-      dose: "875mg",
-      frequencia: "1x ao dia",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "amoxicilina",
-    },
-    {
-      nome: "Metformina Comprimidos",
-      descricao:
-        "Comprimidos para controle de glicemia em diabetes tipo 2.",
-      dose: "500mg",
-      frequencia: "2x ao dia",
-      faixaEtaria: "A partir de 10 anos",
-      classe: "metformina",
-    },
-    {
-      nome: "Omeprazol Cápsulas",
-      descricao: "Cápsulas para tratamento gástrico.",
-      dose: "20mg",
-      frequencia: "1x ao dia",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "omeprazol",
-    },
-    {
-      nome: "Dipirona Solução",
-      descricao:
-        "Solução oral para alívio de febre e dores.",
-      dose: "500mg/5ml",
-      frequencia: "A cada 6 horas",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "dipirona",
-    },
-    {
-      nome: "Ibuprofeno Comprimidos",
-      descricao:
-        "Comprimidos para dores e inflamações.",
-      dose: "400mg",
-      frequencia: "A cada 8 horas",
-      faixaEtaria: "A partir de 12 anos",
-      classe: "ibuprofeno",
-    },
-  ];
+     {
+    nome: "Paracetamol",
+    descricao: "Analgésico e antitérmico para dores leves, moderadas e febre.",
+    dose: "500mg ou 750mg",
+    frequencia: "1 comprimido a cada 4 a 6 horas",
+    faixaEtaria: "Adultos e crianças acima de 12 anos",
+    classe: "paracetamol",
+  },
+  {
+    nome: "Dipirona Monoidratada",
+    descricao: "Analgésico e antitérmico para tratamento de dor e febre.",
+    dose: "500mg ou 1g",
+    frequencia: "1 comprimido a cada 6 horas (máx. 4x ao dia)",
+    faixaEtaria: "Adultos e adolescentes acima de 15 anos",
+    classe: "dipirona",
+  },
+  {
+    nome: "Ibuprofeno",
+    descricao: "Anti-inflamatório com ação analgésica e antitérmica.",
+    dose: "400mg ou 600mg",
+    frequencia: "1 comprimido a cada 6 ou 8 horas",
+    faixaEtaria: "Adultos e crianças acima de 12 anos",
+    classe: "ibuprofeno",
+  },
+  {
+    nome: "Amoxicilina",
+    descricao: "Antibiótico para tratamento de diversas infecções bacterianas.",
+    dose: "500mg",
+    frequencia: "1 cápsula a cada 8 horas",
+    faixaEtaria: "Uso adulto e pediátrico (sob prescrição)",
+    classe: "amoxicilina",
+  },
+  {
+    nome: "Cloridrato de Metformina",
+    descricao: "Antidiabético oral para tratamento do diabetes tipo 2.",
+    dose: "500mg ou 850mg",
+    frequencia: "1 a 2 vezes ao dia, com as refeições",
+    faixaEtaria: "Adultos e crianças acima de 10 anos",
+    classe: "metformina",
+  },
+  {
+    nome: "Omeprazol",
+    descricao: "Reduz a acidez do estômago. Para úlceras, refluxo e gastrite.",
+    dose: "20mg",
+    frequencia: "1 cápsula ao dia, pela manhã",
+    faixaEtaria: "Adultos e crianças acima de 1 ano",
+    classe: "omeprazol",
+  },
+  {
+    nome: "Amoxicilina + Clavulanato de Potássio",
+    descricao: "Antibiótico potente para infecções bacterianas resistentes.",
+    dose: "875mg + 125mg",
+    frequencia: "1 comprimido a cada 12 horas",
+    faixaEtaria: "Adultos e crianças acima de 12 anos",
+    classe: "amoxicilina",
+  },
+  {
+    nome: "Cloridrato de Metformina XR",
+    descricao: "Versão de liberação prolongada para tratamento do diabetes tipo 2.",
+    dose: "500mg, 750mg ou 1000mg",
+    frequencia: "1 vez ao dia, ao jantar",
+    faixaEtaria: "Adultos e adolescentes acima de 17 anos",
+    classe: "metformina",
+  },
+  {
+    nome: "Dipirona Sódica (Gotas)",
+    descricao: "Analgésico e antitérmico em gotas para dor e febre.",
+    dose: "500mg/mL",
+    frequencia: "20 a 40 gotas, até 4x ao dia",
+    faixaEtaria: "Adultos e crianças acima de 3 meses",
+    classe: "dipirona",
+  },
+  {
+    nome: "Ibuprofeno (Suspensão Infantil)",
+    descricao: "Suspensão infantil para alívio de febre e dores.",
+    dose: "100mg/5mL",
+    frequencia: "A cada 6 a 8 horas (dose por peso)",
+    faixaEtaria: "Crianças a partir de 6 meses",
+    classe: "ibuprofeno",
+  },
+  {
+    nome: "Paracetamol (Suspensão Infantil)",
+    descricao: "Suspensão infantil para tratamento de febre e dor.",
+    dose: "100mg/mL (Gotas) ou 32mg/mL",
+    frequencia: "A cada 4 a 6 horas (dose por peso)",
+    faixaEtaria: "Uso pediátrico desde o nascimento (com orientação médica)",
+    classe: "paracetamol",
+  },
+  {
+    nome: "Amoxicilina (Suspensão Infantil)",
+    descricao: "Suspensão antibiótica para infecções em crianças.",
+    dose: "250mg/5mL ou 500mg/5mL",
+    frequencia: "A cada 8 ou 12 horas",
+    faixaEtaria: "Uso pediátrico (dose por peso)",
+    classe: "amoxicilina",
+  },
+  {
+    nome: "Ibuprofeno (Gel Tópico)",
+    descricao: "Gel tópico para alívio de dores musculares e inflamações locais.",
+    dose: "50mg/g (5%)",
+    frequencia: "Aplicar 3 a 4 vezes ao dia",
+    faixaEtaria: "Adultos e crianças acima de 12 anos",
+    classe: "ibuprofeno",
+  },
+];
 
  // --- PASSO 3: Os "Painéis de Controle" do Carrossel ---
   // Usamos "estados" para controlar as partes dinâmicas do carrossel.
@@ -428,6 +308,7 @@ const Home = () => {
                 </div>
                 <div className="tarja-vermelha">
                   <div className="tarja-content">
+                  
                     <p><strong>Dose:</strong> {med.dose}</p>
                     <p><strong>Frequência:</strong> {med.frequencia}</p>
                     <p><strong>Idade:</strong> {med.faixaEtaria}</p>
