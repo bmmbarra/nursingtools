@@ -146,7 +146,7 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
       const dadosTopo = [
         ["Turma:", checklist.turma || "", "Matriz Curricular:", checklist.matrizCurricular || ""],
         ["Aluno:", checklist.aluno || "", "", ""],
-        ["Unidade Curricular:", `UC${uc} - Estágio Profissional Supervisionado – Promovendo a saúde`, "Carga Horária:", checklist.cargaHoraria || ""]
+        ["Unidade Curricular:", checklist.matrizCUrricular || `UC${uc} - Estágio Profissional Supervisionado – Promovendo a saúde`, "Carga Horária:", checklist.cargaHoraria || ""]
       ];
       autoTable(doc, {
         startY: 35,
