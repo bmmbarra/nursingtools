@@ -294,8 +294,8 @@ export default function Penicilina() {
                   ) : (
                       // Se o histórico estiver vazio, mostra uma mensagem amigável.
                       <div className="historico-vazio">
-                          <p>Nenhum cálculo no histórico</p>
-                          <p>Realize cálculos para vê-los aqui</p>
+                          <p>Seus cálculos aparecerão aqui.</p>
+                          
                       </div>
                   )}
               </div>
