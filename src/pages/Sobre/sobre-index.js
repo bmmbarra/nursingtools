@@ -141,7 +141,7 @@ const SobrePage = () => {
           {/* Seção: Versão */}
           <section className="sobre-section">
             <h2>Versão</h2>
-            <p>1.2</p>
+            <p>1.0</p>
           </section>
         </div>
       </div>
