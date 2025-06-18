@@ -1,0 +1,97 @@
+.main-content{
+    overflow-y: auto; /* Mudei para auto para só aparecer quando necessário */
+    scrollbar-width: thin; /* Para navegadores Firefox */
+    scrollbar-color: #00d1b2 rgba(255, 255, 255, 0.1); /* Firefox */
+    max-height: 80vh; /* Adicionei uma altura máxima */
+    padding-right: 8px; /* Espaço para a scrollbar */
+    
+}
+
+/* Personalização da scrollbar para Chrome/Edge/Safari */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background-color: #00d1b2;
+    border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background-color: #00b89c;
+}
+
+/* Ajuste geral da seção */
+.sobre-section {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+  color: #000000;
+  box-sizing: border-box;
+  overflow: hidden; /* evita transbordo de conteúdo */
+}
+
+
+/* Título da seção */
+.sobre-section h2 {
+  color: #000000;
+  border-bottom: 2px solid #00d1b2;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+
+/* Lista de tecnologias */
+.tech-list {
+  list-style-type: disc;
+  padding-left: 2rem;
+  color: #000000;
+}
+
+.tech-list li {
+  margin-bottom: 0.6rem;
+}
+
+/* Container da equipe */
+.equipe-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  max-width: 100%; /* Evita ultrapassar os limites */
+  box-sizing: border-box;
+}
+
+/* Card de membro (mantém visual atual com fundo claro) */
+.membro {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.1); /* fundo claro transparente */
+  border-radius: 12px;
+  min-width: 140px;
+  max-width: 220px;
+  flex: 1;
+  color: #000000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Nome do membro com cor preta */
+.membro h3 {
+  color: #000000; /* nome em preto */
+  margin-bottom: 0.5rem;
+}
+
+/* Subtítulo (descrição) */
+.membro p {
+  color: #000000;
+}

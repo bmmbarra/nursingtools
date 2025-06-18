@@ -1,0 +1,252 @@
+
+/* Área do chat */
+.glossario-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 1rem;
+  width: 100%;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.glossario-chat {
+  background-color: #ffffff;
+  color: #000;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  max-height: 50vh;
+  min-height: 300px;
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f0f0f0;
+}
+
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 6px;
+}
+
+.message {
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  max-width: 85%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  font-size: 15px;
+}
+
+.message.user {
+  background-color: #d0ebff;
+  align-self: flex-end;
+  margin-left: 0;
+}
+
+.message.bot {
+  background-color: #eeeeee;
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+/* Área de entrada */
+.input-area {
+  display: flex;
+  gap: 0.5rem;
+  position: relative;
+  width: 100%;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border 0.3s;
+}
+
+.input-area input:focus {
+  outline: none;
+  border-color: #00ff9d;
+}
+
+.input-area button {
+  padding: 0.75rem 1.25rem;
+  background-color: #00ff9d;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.input-area button:hover {
+  background-color: #485e8b;
+  color: white;
+}
+
+/* Sugestões */
+.suggestions-list {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  list-style: none;
+  padding: 0;
+}
+
+.suggestions-list li {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Resumo do glossário */
+.glossario-summary {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1rem auto;
+  width: 100%;
+  max-width: 600px;
+  color: #333;
+  text-align: center;
+}
+
+.glossario-summary ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.glossario-summary li button {
+  background-color: #007bff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.glossario-summary li button:hover {
+  background-color: #466d5e;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  .glossario-content-box {
+    min-height: 90vh;
+    padding: 15px;
+    border-radius: 16px;
+  }
+  
+  .custom-header {
+    border-radius: 30px;
+    padding: 10px;
+  }
+  
+  .bar-link {
+    min-width: 100px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  
+  .glossario-chat {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .messages {
+    max-height: 60vh;
+    min-height: 250px;
+    padding: 0.8rem;
+  }
+  
+  .message {
+    padding: 0.6rem 0.8rem;
+    font-size: 14px;
+    max-width: 90%;
+  }
+  
+  .input-area input {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .input-area button {
+    padding: 0.6rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bar-link {
+    min-width: 80px;
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+  
+  .bar-link-home, .bar-link-about {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .glossario-summary li button {
+    padding: 0.4rem 0.8rem;
+    font-size: 12px;
+  }
+  
+  .input-area {
+    flex-direction: column;
+  }
+  
+  .input-area button {
+    width: 100%;
+  }
+}

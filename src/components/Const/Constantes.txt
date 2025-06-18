@@ -1,0 +1,45 @@
+1. Os Aplicativos (Arquivos de Lógica, como Quiz.js)
+Os arquivos como Quiz.js, Formulario.js e Calculadora.js são como os aplicativos (apps) do seu celular: o app de Telefone, o de Mensagens, o de E-mail, etc.
+
+O que esses apps fazem? Eles executam ações.
+
+O app de Telefone sabe como fazer uma ligação.
+O app de Mensagens sabe como enviar um texto.
+O seu app Quiz.js sabe como mostrar uma pergunta e verificar a resposta.
+Eles são as ferramentas que fazem as coisas.
+
+2. A Agenda de Contatos (Seus arquivos de "constantes", como questionsData.js)
+Agora, imagine o seguinte: toda vez que você fosse ligar para alguém, precisasse digitar o número. E para mandar uma mensagem, digitar o número de novo. Seria terrível! É por isso que todo celular tem uma Agenda de Contatos centralizada.
+
+Seus arquivos como questionsData.js, glossarioData.js e habilidades.js são a Agenda de Contatos do seu site.
+
+A Agenda de Contatos, por si só, não faz nada. Ela só guarda informações de forma muito organizada.
+
+Por que este sistema é perfeito?
+
+Fonte Única de Verdade: Você só tem uma Agenda de Contatos. O app de Telefone, o de Mensagens e o de E-mail usam a mesma lista. Se você edita um contato, ele é atualizado para todos os apps ao mesmo tempo.
+
+Manutenção Incrivelmente Fácil: Se um amigo troca de número, o que você faz? Você vai até a Agenda, edita aquele contato uma única vez, e pronto! Todos os seus apps já sabem o número novo. É exatamente o que acontece no seu código: se você quer corrigir uma pergunta no questionsData.js, você a corrige lá, e o seu Quiz.js automaticamente já a exibe da forma correta, sem precisar mexer no app do Quiz.
+
+Olhando um "Cartão de Contato" (o arquivo questionsData.js)
+Vamos abrir a sua "agenda" e olhar um "cartão de contato":
+
+
+// Este é o ato de abrir a sua agenda de contatos chamada "questionsData"
+const questionsData = [
+
+  // E aqui está o primeiro "cartão de contato" da lista
+  {
+    unit: 1,                                  // Campo: "Grupo" (ex: Família, Trabalho)
+    question: "Qual a pressão arterial...",    // Campo: "Nome do Contato"
+    options: ["120/80", "140/90", ...],       // Campo: "Telefones" (pode ter vários)
+    answer: "120/80 mmHg",                    // Campo: "Observação" ou "Nota Especial"
+  },
+
+  // ...próximo cartão de contato...
+];
+Cada pergunta é como um cartão de contato individual, com campos bem definidos: um para o nome (a pergunta), um para os telefones (as opções) e um para uma nota especial (a resposta certa).
+
+A linha final, export default questionsData;, simplesmente torna sua "Agenda de Contatos" pública para que todos os "apps" do seu celular (do seu site) possam acessá-la e usar as informações que estão lá.
+
+Em resumo: estes arquivos são a "Agenda de Contatos" do seu site. Eles centralizam e organizam toda a informação importante para que as diferentes ferramentas (quiz, formulários) possam funcionar de maneira consistente e sejam fáceis de atualizar.

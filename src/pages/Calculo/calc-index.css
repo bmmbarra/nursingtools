@@ -1,0 +1,288 @@
+.calculo {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+
+}
+
+.calculo h2 {
+    text-align: center;
+    color: #000;
+}
+
+.calculo label{
+    display: block;
+    margin: 1px 0 5px;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Inputs e selects */
+.calculo input,
+.calculo select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background-color: white;
+    color: #333;
+    font-size: 9px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.calculo input:focus,
+.calculo select:focus {
+    border: 2px solid #00bfa6;
+}
+
+/* Botão */
+.calculo button {
+    margin: 0 auto; /* Centraliza horizontalmente */
+    padding: 10px 25px;
+    background-color: #00bfa6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    align-self: center;
+}
+
+.calculo button:hover {
+    background-color: #009f8a;
+}
+
+/* Resultado */
+.calculo h3 {
+  
+    color: #000000;
+    text-align: center;
+}
+
+.calculo p {
+    color: #000;
+ 
+    text-align: center;
+}
+
+.calculo strong {
+    color: #000000;
+}
+
+
+/* Layout principal */
+.main-content-wrapper {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: start;      /* Alinha ao topo */
+    gap: 40px;               /* Espaço entre calculadora e histórico */
+   
+}
+
+.calculadora-container {
+    flex: 1;
+    max-width: 500px;
+}
+
+.historico-sidebar {
+    left: 90%;
+    margin-top: 20px;
+    width: 200px;
+    background-color: #a3ddd594;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: 532px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos do histórico */
+.historico-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.historico-header h3 {
+    margin: 0;
+    color: #495057;
+}
+
+.limpar-historico {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.limpar-historico:hover {
+    background-color: #ff5252;
+}
+
+.historico-lista {
+    height: 5dvh;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 5px;
+}
+
+.historico-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+    border-left: 4px solid #4a6fa5;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.historico-item:hover {
+    background-color: #f1f7ff;
+    transform: translateX(2px);
+}
+
+.historico-item p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.historico-item strong {
+    color: #2c7be5;
+}
+
+.historico-data {
+    font-size: 0.8em;
+    color: #6c757d;
+    margin-top: 8px !important;
+}
+
+.historico-vazio {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        flex-direction: column;
+    }
+    
+    .historico-sidebar {
+        width: 100%;
+        max-height: 300px;
+    }
+}
+
+/* Estilos existentes da calculadora (mantidos) */
+.resultado-container {
+    height: 70px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-size: 16px;
+    max-height: 180px; /* Limita altura, mas evita scroll desnecessário */
+    overflow-y: auto;
+    transition: box-shadow 0.3s ease;
+}
+
+.resultado-container:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.resultado-container h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c7be5;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.resultado-container p {
+    margin: 5px 0;
+    text-align: center;
+    color: #000;
+    font-size: 16px;
+}
+
+.resultado-container strong {
+    color: #2c7be5;
+}
+
+.dose-final {
+    color: #2c7be5;
+    font-size: 1.1em;
+}
+
+.data-calculo {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Adicione estas regras ao final do seu arquivo CSS */
+
+/* --- ESTILIZAÇÃO DA SCROLLBAR PARA HISTÓRICO E RESULTADOS DA CALCULADORA --- */
+
+/* Método Padrão (para Firefox e navegadores que suportam bem) */
+.historico-lista,
+.resultado-container { /* <<<< SELETORES ATUALIZADOS */
+    scrollbar-width: thin; /* Mantém a barra fina */
+    /* Cor do polegar (thumb) | Cor da trilha (track) */
+    scrollbar-color: #009f8a rgba(0, 0, 0, 0.08); /* Um verde/azul do seu tema para o polegar e uma trilha bem sutil */
+}
+
+/* Método WebKit (Chrome, Safari, Edge, Opera) para controle mais detalhado e visual refinado */
+.historico-lista::-webkit-scrollbar,
+.resultado-container::-webkit-scrollbar { /* <<<< SELETORES ATUALIZADOS */
+    width: 8px;  /* Largura da barra de rolagem vertical */
+    height: 8px; /* Altura para a barra de rolagem horizontal (se aparecer) */
+}
+
+.historico-lista::-webkit-scrollbar-track,
+.resultado-container::-webkit-scrollbar-track { /* <<<< SELETORES ATUALIZADOS */
+    background: rgba(0, 0, 0, 0.05); /* Cor de fundo da trilha - muito sutil, quase transparente */
+    border-radius: 10px; /* Cantos totalmente arredondados para a trilha */
+    margin: 2px; /* Pequena margem interna para a trilha, opcional */
+}
+
+.historico-lista::-webkit-scrollbar-thumb,
+.resultado-container::-webkit-scrollbar-thumb { /* <<<< SELETORES ATUALIZADOS */
+    background-color: #009f8a; /* Cor principal do polegar (a parte que você arrasta) - pode usar #2c7be5 se preferir um tom azulado do histórico */
+    border-radius: 10px; /* Cantos totalmente arredondados para o polegar */
+    /* A combinação de borda transparente com background-clip faz o polegar parecer mais fino e "flutuante" */
+    border: 2px solid transparent;
+    background-clip: content-box;
+    transition: background-color 0.2s ease-in-out; /* Transição suave para o hover */
+}
+
+.historico-lista::-webkit-scrollbar-thumb:hover,
+.resultado-container::-webkit-scrollbar-thumb:hover { /* <<<< SELETORES ATUALIZADOS */
+    background-color: #00bfa6; /* Cor do polegar ao passar o mouse - pode usar um azul mais claro se o polegar for azul */
+}
+
+/* Opcional: Estilizar os botões de seta (geralmente não são muito usados/visíveis com polegares finos) */
+.historico-lista::-webkit-scrollbar-button,
+.resultado-container::-webkit-scrollbar-button { /* <<<< SELETORES ATUALIZADOS */
+    display: none; /* Esconde os botões de seta para um visual mais limpo */
+}

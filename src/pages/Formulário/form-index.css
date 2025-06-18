@@ -1,0 +1,173 @@
+/* Título */
+.titulo {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #1b5e20; /* verde escuro */
+  font-size: 1.8rem;
+}
+
+/* Container geral do formulário */
+.formulario-container {
+  background-color: #ffffff88;
+  border-radius: 16px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Grid de duas colunas */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+
+/* Coluna esquerda */
+.col-esquerda {
+  overflow-y: scroll;
+  background-color: #f0f4f8;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  height: 530px
+}
+
+.col-esquerda label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #1b5e20;
+  
+}
+
+.col-esquerda select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.info-empresa p {
+  margin: 5px 0;
+}
+
+/* Coluna direita */
+.col-direita {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Abas UC */
+.uc-tabs,
+.aba-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.uc-tabs button,
+.aba-tabs button {
+  padding: 10px 20px;
+  border: 2px solid #1b5e20;
+  background-color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #1b5e20;
+  transition: all 0.3s;
+  flex: 1 1 auto;
+  min-width: 120px;
+}
+
+.uc-tabs button.ativo,
+.aba-tabs button.ativo {
+  background-color: #1b5e20;
+  color: white;
+}
+
+/* Conteúdo da aba */
+.aba-conteudo {
+  background-color: #fafafa;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+/* Scroll dentro da aba */
+.aba-conteudo::-webkit-scrollbar {
+  width: 8px;
+}
+
+.aba-conteudo::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.aba-conteudo::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Botão de gerar PDF */
+.btn-enviar {
+  padding: 15px;
+  border: none;
+  background-color: #1b5e20;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  max-width: 300px;
+  margin-left: 20px auto;
+}
+
+.btn-enviar:hover {
+  background-color: #145a1e;
+}
+
+/* RESPONSIVO */
+@media (max-width: 1024px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .formulario-container {
+    padding: 15px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .uc-tabs,
+  .aba-tabs {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .uc-tabs button,
+  .aba-tabs button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .aba-conteudo {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .btn-enviar {
+    font-size: 1rem;
+  }
+}

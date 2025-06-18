@@ -1,0 +1,1057 @@
+const questionsData = [
+  // Unidade 1: Sinais Vitais - Pressão Arterial (Completando para 10 perguntas)
+  {
+    unit: 1,
+    question: "O que é pressão arterial normal para adultos saudáveis?",
+    options: ["120/80 mmHg", "140/90 mmHg", "90/60 mmHg", "160/100 mmHg"],
+    answer: "120/80 mmHg",
+  },
+  {
+    unit: 1,
+    question: "Qual equipamento é usado para medir a pressão arterial?",
+    options: ["Oxímetro", "Estetoscópio", "Esfigmomanômetro", "Glicosímetro"],
+    answer: "Esfigmomanômetro",
+  },
+  {
+    unit: 1,
+    question: "Qual valor indica hipertensão estágio 1?",
+    options: ["120/80 mmHg", "130/85 mmHg", "140/90 mmHg", "160/110 mmHg"],
+    answer: "140/90 mmHg",
+  },
+  {
+    unit: 1,
+    question: "O que significa o termo 'hipotensão'?",
+    options: ["Pressão arterial elevada", "Pressão arterial baixa", "Pulso rápido", "Pulso lento"],
+    answer: "Pressão arterial baixa",
+  },
+  {
+    unit: 1,
+    question: "Qual cuidado é essencial ao medir a pressão arterial para garantir a precisão?",
+    options: ["Paciente com pernas cruzadas", "Manguito muito largo ou muito apertado", "Paciente em repouso por alguns minutos antes da aferição", "Aferir sobre a roupa grossa"],
+    answer: "Paciente em repouso por alguns minutos antes da aferição",
+  },
+  {
+    unit: 1,
+    question: "A diferença entre a pressão sistólica e diastólica é chamada de:",
+    options: ["Pressão média", "Pressão de pulso", "Hiato auscultatório", "Convergência pressórica"],
+    answer: "Pressão de pulso",
+  },
+  {
+    unit: 1,
+    question: "Qual o nome dos sons ouvidos durante a aferição da pressão arterial pelo método auscultatório?",
+    options: ["Sons de Korotkoff", "Sons de Traube", "Sons de Ryle", "Sons de Bowditch"],
+    answer: "Sons de Korotkoff",
+  },
+  {
+    unit: 1,
+    question: "A escolha do tamanho adequado do manguito para aferição da PA é crucial. Um manguito muito pequeno pode resultar em:",
+    options: ["Leituras falsamente baixas", "Leituras falsamente altas", "Nenhuma alteração na leitura", "Desconforto apenas, sem afetar a leitura"],
+    answer: "Leituras falsamente altas",
+  },
+  {
+    unit: 1,
+    question: "Qual posição o braço do paciente deve estar durante a aferição da pressão arterial?",
+    options: ["Abaixo do nível do coração", "Acima do nível do coração", "Apoiado e ao nível do coração", "Flexionado completamente"],
+    answer: "Apoiado e ao nível do coração",
+  },
+  {
+    unit: 1,
+    question: "O 'hiato auscultatório' é um fenômeno que pode ocorrer durante a aferição da PA e significa:",
+    options: ["Um som muito alto no início", "O desaparecimento temporário dos sons durante a desinsuflação do manguito", "A persistência dos sons até zero", "A ausência total de sons"],
+    answer: "O desaparecimento temporário dos sons durante a desinsuflação do manguito",
+  },
+
+  // Unidade 2: Farmacologia Básica - Antibióticos (Completando para 10 perguntas)
+  {
+    unit: 2,
+    question: "O que é um antibiótico?",
+    options: ["Uma vitamina", "Um antiviral", "Um agente que combate bactérias", "Um analgésico"],
+    answer: "Um agente que combate bactérias",
+  },
+  {
+    unit: 2,
+    question: "A penicilina foi descoberta por quem?",
+    options: ["Marie Curie", "Alexander Fleming", "Louis Pasteur", "Albert Einstein"],
+    answer: "Alexander Fleming",
+  },
+  {
+    unit: 2,
+    question: "Qual a principal via de administração da penicilina G benzatina?",
+    options: ["Oral", "Intramuscular", "Intravenosa", "Subcutânea"],
+    answer: "Intramuscular",
+  },
+  {
+    unit: 2,
+    question: "O que é resistência bacteriana a antibióticos?",
+    options: ["Alergia ao medicamento", "Capacidade da bactéria de sobreviver ao antibiótico", "Efeito colateral comum", "Interação com outros medicamentos"],
+    answer: "Capacidade da bactéria de sobreviver ao antibiótico",
+  },
+  {
+    unit: 2,
+    question: "Por que é importante completar todo o ciclo de tratamento com antibióticos prescrito pelo médico?",
+    options: ["Para economizar medicamento", "Para evitar efeitos colaterais", "Para garantir a eliminação completa da infecção e prevenir resistência", "Porque o medicamento perde o efeito rapidamente"],
+    answer: "Para garantir a eliminação completa da infecção e prevenir resistência",
+  },
+  {
+    unit: 2,
+    question: "Qual classe de antibióticos a Amoxicilina pertence?",
+    options: ["Macrolídeos", "Cefalosporinas", "Penicilinas", "Quinolonas"],
+    answer: "Penicilinas",
+  },
+  {
+    unit: 2,
+    question: "Um efeito colateral comum de muitos antibióticos é:",
+    options: ["Aumento de peso", "Distúrbios gastrointestinais (diarreia, náusea)", "Sonolência excessiva", "Melhora do humor"],
+    answer: "Distúrbios gastrointestinais (diarreia, náusea)",
+  },
+  {
+    unit: 2,
+    question: "O que significa um antibiótico de 'amplo espectro'?",
+    options: ["Atua apenas contra um tipo de bactéria", "Atua contra uma vasta gama de bactérias", "É usado apenas em casos graves", "Tem poucos efeitos colaterais"],
+    answer: "Atua contra uma vasta gama de bactérias",
+  },
+  {
+    unit: 2,
+    question: "A anafilaxia é uma reação alérgica grave que pode ocorrer com o uso de antibióticos como a penicilina. Qual é um sinal de anafilaxia?",
+    options: ["Dor de cabeça leve", "Dificuldade respiratória e inchaço da garganta", "Azia", "Pele seca"],
+    answer: "Dificuldade respiratória e inchaço da garganta",
+  },
+  {
+    unit: 2,
+    question: "Qual o mecanismo de ação primário da maioria das penicilinas?",
+    options: ["Inibição da síntese de DNA bacteriano", "Inibição da síntese proteica bacteriana", "Inibição da síntese da parede celular bacteriana", "Alteração da membrana celular bacteriana"],
+    answer: "Inibição da síntese da parede celular bacteriana",
+  },
+
+  // Unidade 3: Sinais Vitais - Temperatura Corporal (Completando para 10 perguntas)
+  {
+    unit: 3,
+    question: "Qual é a temperatura corporal normal em média para um adulto?",
+    options: ["35°C", "36.1°C a 37.2°C", "37.5°C", "38.5°C"],
+    answer: "36.1°C a 37.2°C",
+  },
+  {
+    unit: 3,
+    question: "O que significa febre (pirexia)?",
+    options: ["Temperatura abaixo de 36°C", "Temperatura entre 36–37°C", "Temperatura corporal elevada, geralmente acima de 37.8°C ou 38°C", "Temperatura estável"],
+    answer: "Temperatura corporal elevada, geralmente acima de 37.8°C ou 38°C",
+  },
+  {
+    unit: 3,
+    question: "Qual termômetro é considerado padrão ouro em muitos contextos clínicos pela precisão, embora menos usado rotineiramente?",
+    options: ["Termômetro de mercúrio (em desuso)", "Termômetro digital axilar", "Termômetro timpânico (ouvido)", "Termômetro retal"],
+    answer: "Termômetro retal",
+  },
+  {
+    unit: 3,
+    question: "Qual o termo usado para temperatura corporal abaixo do normal?",
+    options: ["Hipertermia", "Febre", "Hipotermia", "Afebril"],
+    answer: "Hipotermia",
+  },
+  {
+    unit: 3,
+    question: "Aferir a temperatura axilar é um método comum. Qual o tempo geralmente recomendado para um termômetro digital nesta região?",
+    options: ["30 segundos", "1 minuto", "3 a 5 minutos ou até o sinal sonoro", "10 minutos"],
+    answer: "3 a 5 minutos ou até o sinal sonoro",
+  },
+  {
+    unit: 3,
+    question: "Qual parte do cérebro é o principal centro regulador da temperatura corporal?",
+    options: ["Cerebelo", "Córtex frontal", "Hipotálamo", "Bulbo"],
+    answer: "Hipotálamo",
+  },
+  {
+    unit: 3,
+    question: "A febre é frequentemente um sinal de que o corpo está:",
+    options: ["Completamente saudável", "Com falta de vitaminas", "Combatendo uma infecção", "Desidratado"],
+    answer: "Combatendo uma infecção",
+  },
+  {
+    unit: 3,
+    question: "O que é hipertermia?",
+    options: ["Temperatura corporal perigosamente baixa", "Temperatura corporal perigosamente alta devido à falha nos mecanismos de regulação", "Uma infecção viral", "Um tipo de alergia"],
+    answer: "Temperatura corporal perigosamente alta devido à falha nos mecanismos de regulação",
+  },
+  {
+    unit: 3,
+    question: "Calafrios podem ocorrer durante a elevação da temperatura corporal (febre) porque:",
+    options: ["O corpo está tentando se aquecer para atingir o novo ponto de ajuste febril", "É um sinal de que a febre está baixando", "São causados por desidratação", "Indicam uma reação alérgica ao termômetro"],
+    answer: "O corpo está tentando se aquecer para atingir o novo ponto de ajuste febril",
+  },
+  {
+    unit: 3,
+    question: "Qual cuidado de enfermagem é importante para um paciente com febre alta?",
+    options: ["Cobrir com muitos cobertores quentes", "Oferecer líquidos e monitorar sinais vitais", "Restringir a ingestão de líquidos", "Administrar antibióticos sem prescrição"],
+    answer: "Oferecer líquidos e monitorar sinais vitais",
+  },
+
+  // Unidade 4: Sinais Vitais - Glicemia Capilar (Completando para 10 perguntas)
+  {
+    unit: 4,
+    question: "O que é hipoglicemia?",
+    options: ["Excesso de glicose no sangue", "Nível baixo de glicose no sangue", "Aumento da pressão", "Falta de sódio"],
+    answer: "Nível baixo de glicose no sangue",
+  },
+  {
+    unit: 4,
+    question: "Qual o valor de referência para glicemia em jejum considerado normal para adultos?",
+    options: ["Menor que 70 mg/dL", "Entre 70 e 99 mg/dL", "Entre 100 e 125 mg/dL", "Acima de 126 mg/dL"],
+    answer: "Entre 70 e 99 mg/dL",
+  },
+  {
+    unit: 4,
+    question: "Qual equipamento mede a glicemia capilar?",
+    options: ["Esfigmomanômetro", "Termômetro", "Glicosímetro", "Eletrocardiógrafo"],
+    answer: "Glicosímetro",
+  },
+  {
+    unit: 4,
+    question: "O que é hiperglicemia?",
+    options: ["Nível baixo de glicose no sangue", "Nível normal de glicose", "Nível elevado de glicose no sangue", "Ausência de glicose no sangue"],
+    answer: "Nível elevado de glicose no sangue",
+  },
+  {
+    unit: 4,
+    question: "Qual local é comumente utilizado para a punção na glicemia capilar em adultos?",
+    options: ["Lobo da orelha", "Calcanhar", "Lateral da polpa digital (ponta dos dedos)", "Antebraço"],
+    answer: "Lateral da polpa digital (ponta dos dedos)",
+  },
+  {
+    unit: 4,
+    question: "Qual hormônio, produzido pelo pâncreas, é responsável por reduzir os níveis de glicose no sangue?",
+    options: ["Glucagon", "Adrenalina", "Insulina", "Cortisol"],
+    answer: "Insulina",
+  },
+  {
+    unit: 4,
+    question: "Um paciente com diabetes mellitus tipo 1 geralmente necessita de qual tratamento para controlar a glicemia?",
+    options: ["Apenas dieta e exercícios", "Hipoglicemiantes orais", "Administração de insulina", "Nenhum tratamento específico"],
+    answer: "Administração de insulina",
+  },
+  {
+    unit: 4,
+    question: "Sintomas como sede excessiva (polidipsia), aumento da frequência urinária (poliúria) e fome excessiva (polifagia) podem indicar:",
+    options: ["Hipoglicemia", "Hiperglicemia descontrolada", "Hipotensão", "Anemia"],
+    answer: "Hiperglicemia descontrolada",
+  },
+  {
+    unit: 4,
+    question: "Qual o principal cuidado ao utilizar uma lanceta para punção capilar?",
+    options: ["Reutilizar a mesma lanceta várias vezes", "Usar uma nova lanceta estéril para cada punção", "Compartilhar lancetas entre pacientes", "Limpar a lanceta com álcool após o uso para reutilizar"],
+    answer: "Usar uma nova lanceta estéril para cada punção",
+  },
+  {
+    unit: 4,
+    question: "A hemoglobina glicada (HbA1c) é um exame que reflete a média dos níveis de glicose no sangue em qual período aproximado?",
+    options: ["Últimas 24 horas", "Última semana", "Últimos 2 a 3 meses", "Último ano"],
+    answer: "Últimos 2 a 3 meses",
+  },
+
+  // Unidade 5: Sinais Vitais - Pulso (Frequência Cardíaca) (Completando para 10 perguntas)
+  {
+    unit: 5,
+    question: "Qual a faixa de frequência cardíaca normal em repouso para adultos?",
+    options: ["40-60 bpm", "60-100 bpm", "100-120 bpm", "120-140 bpm"],
+    answer: "60-100 bpm",
+  },
+  {
+    unit: 5,
+    question: "Qual local é mais comum e acessível para aferir o pulso periférico?",
+    options: ["Artéria carótida", "Artéria femoral", "Artéria radial", "Artéria poplítea"],
+    answer: "Artéria radial",
+  },
+  {
+    unit: 5,
+    question: "Como é chamada a frequência cardíaca acima de 100 bpm em repouso?",
+    options: ["Bradicardia", "Taquicardia", "Arritmia", "Normocardia"],
+    answer: "Taquicardia",
+  },
+  {
+    unit: 5,
+    question: "O que é bradicardia?",
+    options: ["Frequência cardíaca rápida", "Frequência cardíaca irregular", "Frequência cardíaca lenta (abaixo de 60 bpm em repouso)", "Ausência de pulso"],
+    answer: "Frequência cardíaca lenta (abaixo de 60 bpm em repouso)",
+  },
+  {
+    unit: 5,
+    question: "Ao verificar o pulso, além da frequência, qual outra característica importante deve ser observada?",
+    options: ["Cor da pele", "Temperatura do membro", "Ritmo e amplitude (força)", "Pressão arterial"],
+    answer: "Ritmo e amplitude (força)",
+  },
+  {
+    unit: 5,
+    question: "O pulso apical é verificado em qual local?",
+    options: ["No punho", "No pescoço", "Sobre o ápice do coração, com auxílio de um estetoscópio", "No tornozelo"],
+    answer: "Sobre o ápice do coração, com auxílio de um estetoscópio",
+  },
+  {
+    unit: 5,
+    question: "Um pulso irregular, com batimentos que ocorrem em intervalos desiguais, é chamado de:",
+    options: ["Pulso rítmico", "Pulso arrítmico", "Pulso filiforme", "Pulso cheio"],
+    answer: "Pulso arrítmico",
+  },
+  {
+    unit: 5,
+    question: "Qual o tempo mínimo recomendado para contar a frequência de um pulso regular?",
+    options: ["15 segundos e multiplicar por 4", "30 segundos e multiplicar por 2", "60 segundos (1 minuto completo)", "10 segundos e multiplicar por 6"],
+    answer: "30 segundos e multiplicar por 2", // 60s se irregular
+  },
+  {
+    unit: 5,
+    question: "Se um pulso é irregular, por quanto tempo ele deve ser contado para maior precisão?",
+    options: ["15 segundos", "30 segundos", "60 segundos (1 minuto completo)", "Não precisa contar, apenas registrar como irregular"],
+    answer: "60 segundos (1 minuto completo)",
+  },
+  {
+    unit: 5,
+    question: "O que é um 'déficit de pulso'?",
+    options: ["Quando o pulso está muito fraco", "A diferença entre a frequência do pulso apical e um pulso periférico, contados simultaneamente", "Quando não se consegue sentir o pulso", "Um tipo de arritmia específica"],
+    answer: "A diferença entre a frequência do pulso apical e um pulso periférico, contados simultaneamente",
+  },
+
+  // Unidade 6: Exames Básicos - Eletrocardiograma (ECG) (Completando para 10 perguntas)
+  {
+    unit: 6,
+    question: "Qual exame gráfico registra a atividade elétrica do coração?",
+    options: ["Raio-X de tórax", "Ecocardiograma", "Eletrocardiograma (ECG)", "Tomografia computadorizada"],
+    answer: "Eletrocardiograma (ECG)",
+  },
+  {
+    unit: 6,
+    question: "O que o eletrocardiograma (ECG) avalia primariamente?",
+    options: ["Estrutura das válvulas cardíacas", "Ritmo e condução elétrica do coração", "Níveis de oxigênio no sangue", "Força de contração do miocárdio"],
+    answer: "Ritmo e condução elétrica do coração",
+  },
+  {
+    unit: 6,
+    question: "O que uma linha reta (assistolia) em todas as derivações do ECG indica?",
+    options: ["Ritmo cardíaco normal", "Taquicardia sinusal", "Ausência de atividade elétrica cardíaca", "Artefatos no traçado"],
+    answer: "Ausência de atividade elétrica cardíaca",
+  },
+  {
+    unit: 6,
+    question: "Para que servem os eletrodos fixados na pele do paciente durante um ECG?",
+    options: ["Para administrar medicação", "Para captar os impulsos elétricos do coração", "Para aquecer a pele", "Para medir a temperatura"],
+    answer: "Para captar os impulsos elétricos do coração",
+  },
+  {
+    unit: 6,
+    question: "Qual profissional da equipe de enfermagem geralmente realiza o procedimento de ECG a pedido médico?",
+    options: ["Apenas o médico cardiologista", "Enfermeiro ou Técnico de Enfermagem treinado", "Fisioterapeuta", "Nutricionista"],
+    answer: "Enfermeiro ou Técnico de Enfermagem treinado",
+  },
+  {
+    unit: 6,
+    question: "Quantos eletrodos são tipicamente utilizados para um ECG padrão de 12 derivações?",
+    options: ["3 eletrodos", "6 eletrodos", "10 eletrodos (4 nos membros e 6 precordiais)", "12 eletrodos"],
+    answer: "10 eletrodos (4 nos membros e 6 precordiais)",
+  },
+  {
+    unit: 6,
+    question: "A onda P no traçado do ECG representa qual evento elétrico?",
+    options: ["Despolarização ventricular", "Repolarização ventricular", "Despolarização atrial", "Repolarização atrial"],
+    answer: "Despolarização atrial",
+  },
+  {
+    unit: 6,
+    question: "O complexo QRS no ECG representa qual evento elétrico?",
+    options: ["Despolarização atrial", "Despolarização ventricular", "Repolarização atrial", "Repolarização ventricular"],
+    answer: "Despolarização ventricular",
+  },
+  {
+    unit: 6,
+    question: "Qual cuidado é importante para obter um traçado de ECG de boa qualidade, sem artefatos?",
+    options: ["Paciente se movimentando bastante", "Pele do paciente oleosa ou com muitos pelos nos locais dos eletrodos", "Paciente relaxado e imóvel, com bom contato dos eletrodos na pele", "Eletrodos posicionados aleatoriamente"],
+    answer: "Paciente relaxado e imóvel, com bom contato dos eletrodos na pele",
+  },
+  {
+    unit: 6,
+    question: "Um ECG pode ajudar a diagnosticar qual das seguintes condições cardíacas?",
+    options: ["Níveis de colesterol alto", "Arritmias, isquemia miocárdica e infarto", "Hipertensão pulmonar", "Insuficiência renal"],
+    answer: "Arritmias, isquemia miocárdica e infarto",
+  },
+
+  // Unidade 7: Imunização e Vacinas (Completando para 10 perguntas)
+  {
+    unit: 7,
+    question: "Qual profissional da equipe de saúde é habilitado e frequentemente realiza a aplicação de vacinas?",
+    options: ["Apenas médicos", "Enfermeiros e Técnicos de Enfermagem (com supervisão)", "Nutricionistas", "Psicólogos"],
+    answer: "Enfermeiros e Técnicos de Enfermagem (com supervisão)",
+  },
+  {
+    unit: 7,
+    question: "Em qual local anatômico é comumente aplicada a vacina BCG em recém-nascidos?",
+    options: ["Região deltoide do braço esquerdo", "Região deltoide do braço direito (inserção inferior do músculo deltoide)", "Vasto lateral da coxa", "Glúteo"],
+    answer: "Região deltoide do braço direito (inserção inferior do músculo deltoide)",
+  },
+  {
+    unit: 7,
+    question: "A vacina contra a gripe (Influenza) é geralmente composta por qual tipo de agente?",
+    options: ["Vírus vivo atenuado", "Bactéria viva", "Fragmentos de vírus inativados ou proteínas virais", "Toxoides bacterianos"],
+    answer: "Fragmentos de vírus inativados ou proteínas virais",
+  },
+  {
+    unit: 7,
+    question: "O que é a 'Rede de Frio' no contexto da vacinação?",
+    options: ["Um tipo de reação à vacina", "O sistema de armazenamento e transporte de vacinas em temperaturas adequadas", "A sala de espera da vacinação", "Um sintoma pós-vacinal"],
+    answer: "O sistema de armazenamento e transporte de vacinas em temperaturas adequadas",
+  },
+  {
+    unit: 7,
+    question: "Qual a importância do Calendário Nacional de Vacinação?",
+    options: ["É apenas uma sugestão", "Define as vacinas prioritárias para viajantes", "Estabelece as vacinas recomendadas para cada faixa etária visando a saúde coletiva", "Lista apenas vacinas pagas"],
+    answer: "Estabelece as vacinas recomendadas para cada faixa etária visando a saúde coletiva",
+  },
+  {
+    unit: 7,
+    question: "A vacina Tríplice Viral (SCR) protege contra quais doenças?",
+    options: ["Difteria, Tétano e Coqueluche", "Sarampo, Caxumba e Rubéola", "Hepatite B, Gripe e Catapora", "Poliomielite, Raiva e Febre Amarela"],
+    answer: "Sarampo, Caxumba e Rubéola",
+  },
+  {
+    unit: 7,
+    question: "Qual a via de administração mais comum para a vacina contra Hepatite B em adultos?",
+    options: ["Oral", "Subcutânea", "Intramuscular (no deltoide)", "Intradérmica"],
+    answer: "Intramuscular (no deltoide)",
+  },
+  {
+    unit: 7,
+    question: "O que é imunidade de rebanho (ou coletiva)?",
+    options: ["Quando apenas os mais fortes são imunes", "A proteção indireta de indivíduos não vacinados quando uma alta porcentagem da população está vacinada", "Um tipo de vacina animal", "Imunidade adquirida naturalmente após a doença"],
+    answer: "A proteção indireta de indivíduos não vacinados quando uma alta porcentagem da população está vacinada",
+  },
+  {
+    unit: 7,
+    question: "Após a aplicação de uma vacina, é comum orientar o paciente sobre possíveis reações adversas leves. Qual é um exemplo?",
+    options: ["Convulsões", "Dor local, febre baixa e mal-estar", "Paralisia", "Perda de memória"],
+    answer: "Dor local, febre baixa e mal-estar",
+  },
+  {
+    unit: 7,
+    question: "Vacinas de vírus vivos atenuados são geralmente contraindicadas para qual grupo de pessoas?",
+    options: ["Idosos saudáveis", "Crianças com resfriado comum", "Indivíduos imunocomprometidos e gestantes", "Atletas de alto rendimento"],
+    answer: "Indivíduos imunocomprometidos e gestantes",
+  },
+
+  // Unidade 8: Controle de Infecção e EPIs (Completando para 10 perguntas)
+  {
+    unit: 8,
+    question: "O que é assepsia no contexto hospitalar?",
+    options: ["Limpeza geral do ambiente", "Uso exclusivo de álcool em gel", "Conjunto de medidas para prevenir a introdução de microrganismos em locais estéreis ou no organismo", "Esterilização de todos os objetos"],
+    answer: "Conjunto de medidas para prevenir a introdução de microrganismos em locais estéreis ou no organismo",
+  },
+  {
+    unit: 8,
+    question: "Qual Equipamento de Proteção Individual (EPI) é essencial para proteger os olhos de respingos e aerossóis?",
+    options: ["Máscara cirúrgica simples", "Avental impermeável", "Luvas de procedimento", "Óculos de proteção ou protetor facial"],
+    answer: "Óculos de proteção ou protetor facial",
+  },
+  {
+    unit: 8,
+    question: "A higienização correta e frequente das mãos é a medida individual mais eficaz para prevenir qual tipo de problema?",
+    options: ["Alergias de pele", "Infecções relacionadas à assistência à saúde (IRAS)", "Lesões por esforço repetitivo", "Problemas de coluna"],
+    answer: "Infecções relacionadas à assistência à saúde (IRAS)",
+  },
+  {
+    unit: 8,
+    question: "Qual a sequência correta para calçar os EPIs básicos (avental, máscara, óculos, luvas)?",
+    options: ["Luvas, óculos, máscara, avental", "Avental, máscara, óculos, luvas", "Máscara, avental, luvas, óculos", "Óculos, luvas, avental, máscara"],
+    answer: "Avental, máscara, óculos, luvas",
+  },
+  {
+    unit: 8,
+    question: "O descarte de materiais perfurocortantes (agulhas, lâminas) deve ser feito em qual tipo de recipiente?",
+    options: ["Lixo comum", "Saco plástico vermelho", "Caixa coletora específica para perfurocortantes (Descarpack)", "Recipiente de vidro"],
+    answer: "Caixa coletora específica para perfurocortantes (Descarpack)",
+  },
+  {
+    unit: 8,
+    question: "Qual o tipo de máscara mais indicado para proteção contra aerossóis de partículas pequenas, como no caso da tuberculose pulmonar?",
+    options: ["Máscara cirúrgica", "Máscara N95 ou PFF2", "Protetor facial apenas", "Máscara de tecido simples"],
+    answer: "Máscara N95 ou PFF2",
+  },
+  {
+    unit: 8,
+    question: "O que é esterilização?",
+    options: ["Remoção de sujeira visível", "Redução do número de microrganismos", "Destruição de todas as formas de vida microbiana, incluindo esporos", "Uso de desinfetantes comuns"],
+    answer: "Destruição de todas as formas de vida microbiana, incluindo esporos",
+  },
+  {
+    unit: 8,
+    question: "A sequência correta para a retirada (desparamentação) dos EPIs visa principalmente:",
+    options: ["Economizar tempo", "Evitar a autocontaminação do profissional", "Manter os EPIs limpos para reutilização", "Mostrar habilidade"],
+    answer: "Evitar a autocontaminação do profissional",
+  },
+  {
+    unit: 8,
+    question: "As luvas de procedimento devem ser trocadas:",
+    options: ["Apenas no final do turno", "Entre o cuidado de diferentes pacientes e sempre que houver risco de contaminação ou dano", "Apenas se estiverem visivelmente sujas", "Uma vez por dia"],
+    answer: "Entre o cuidado de diferentes pacientes e sempre que houver risco de contaminação ou dano",
+  },
+  {
+    unit: 8,
+    question: "Qual a finalidade do avental como EPI?",
+    options: ["Manter o profissional aquecido", "Proteger a roupa do profissional e evitar a transmissão de microrganismos", "Apenas para identificação profissional", "Substituir a lavagem das mãos"],
+    answer: "Proteger a roupa do profissional e evitar a transmissão de microrganismos",
+  },
+
+  // Unidade 9: Vias de Administração de Medicamentos (Completando para 10 perguntas)
+  {
+    unit: 9,
+    question: "Qual via de administração de medicamentos geralmente proporciona a absorção mais rápida e efeito sistêmico imediato?",
+    options: ["Via oral (VO)", "Via intramuscular (IM)", "Via intravenosa (IV) ou endovenosa (EV)", "Via subcutânea (SC)"],
+    answer: "Via intravenosa (IV) ou endovenosa (EV)",
+  },
+  {
+    unit: 9,
+    question: "O que significa 'dose terapêutica' de um medicamento?",
+    options: ["A menor dose possível do medicamento", "A maior dose segura sem causar toxicidade", "A quantidade de medicamento necessária para produzir o efeito desejado", "A dose que causa efeitos colaterais"],
+    answer: "A quantidade de medicamento necessária para produzir o efeito desejado",
+  },
+  {
+    unit: 9,
+    question: "Qual via de administração é comumente utilizada para a maioria das vacinas e alguns antibióticos de depósito?",
+    options: ["Via intravenosa (IV)", "Via oral (VO)", "Via subcutânea (SC)", "Via intramuscular (IM)"],
+    answer: "Via intramuscular (IM)",
+  },
+  {
+    unit: 9,
+    question: "A administração de insulina é um exemplo comum de qual via?",
+    options: ["Intradérmica", "Subcutânea", "Intramuscular profunda", "Intravenosa direta"],
+    answer: "Subcutânea",
+  },
+  {
+    unit: 9,
+    question: "O que são os '9 Certos' da administração de medicamentos (expansão dos 5 Certos)?",
+    options: ["Uma lista de medicamentos seguros", "Um protocolo para descarte de medicamentos", "Princípios para garantir a segurança na administração de medicamentos", "Um método de cálculo de doses"],
+    answer: "Princípios para garantir a segurança na administração de medicamentos",
+  },
+  {
+    unit: 9,
+    question: "A via oral (VO) é conveniente, mas a absorção do medicamento pode ser afetada por qual fator?",
+    options: ["Cor do comprimido", "Presença de alimentos no estômago e pH gástrico", "Hora do dia apenas", "Humor do paciente"],
+    answer: "Presença de alimentos no estômago e pH gástrico",
+  },
+  {
+    unit: 9,
+    question: "Qual o ângulo de inserção da agulha recomendado para uma injeção intramuscular no músculo deltoide?",
+    options: ["15 graus", "45 graus", "90 graus", "Paralelo à pele"],
+    answer: "90 graus",
+  },
+  {
+    unit: 9,
+    question: "A via sublingual (SL) oferece qual vantagem em relação à via oral tradicional para alguns medicamentos?",
+    options: ["Absorção mais lenta", "Absorção rápida diretamente para a corrente sanguínea, evitando o metabolismo de primeira passagem pelo fígado", "Menor risco de alergia", "Efeito prolongado por dias"],
+    answer: "Absorção rápida diretamente para a corrente sanguínea, evitando o metabolismo de primeira passagem pelo fígado",
+  },
+  {
+    unit: 9,
+    question: "O que significa 'biodisponibilidade' de um medicamento?",
+    options: ["O preço do medicamento", "A quantidade de efeitos colaterais", "A fração da dose administrada que alcança a circulação sistêmica de forma inalterada", "O prazo de validade"],
+    answer: "A fração da dose administrada que alcança a circulação sistêmica de forma inalterada",
+  },
+  {
+    unit: 9,
+    question: "Para a via intradérmica (ID), como na realização do teste PPD (tuberculina), qual o volume máximo usualmente administrado?",
+    options: ["2 mL", "1 mL", "0,1 mL a 0,5 mL", "5 mL"],
+    answer: "0,1 mL a 0,5 mL", // Comum ser 0,1mL para PPD
+  },
+
+  // Unidade 10: Avaliação de Sinais Vitais - Saturação de Oxigênio (Completando para 10 perguntas)
+  {
+    unit: 10,
+    question: "Qual profissional da equipe de enfermagem é responsável pela avaliação e registro dos sinais vitais dos pacientes?",
+    options: ["Apenas o nutricionista", "Apenas o fisioterapeuta", "Enfermeiro e Técnico/Auxiliar de Enfermagem", "Apenas o farmacêutico clínico"],
+    answer: "Enfermeiro e Técnico/Auxiliar de Enfermagem",
+  },
+  {
+    unit: 10,
+    question: "A oximetria de pulso é um método não invasivo que mede qual parâmetro?",
+    options: ["Frequência respiratória", "Pressão arterial média", "Saturação periférica de oxigênio (SpO2)", "Glicemia capilar"],
+    answer: "Saturação periférica de oxigênio (SpO2)",
+  },
+  {
+    unit: 10,
+    question: "Qual a faixa de valores normais para a saturação periférica de oxigênio (SpO2) em um adulto saudável em ar ambiente?",
+    options: ["85-90%", "90-94%", "95-100%", "Acima de 100%"],
+    answer: "95-100%",
+  },
+  {
+    unit: 10,
+    question: "O que pode interferir na leitura correta do oxímetro de pulso?",
+    options: ["Unhas com esmalte escuro ou postiças", "Temperatura ambiente fria", "Pele limpa e seca", "Boa perfusão periférica"],
+    answer: "Unhas com esmalte escuro ou postiças", // Outras opções também podem interferir, mas esta é uma clássica. Perfusão baixa e frio também.
+  },
+  {
+    unit: 10,
+    question: "Hipoxemia refere-se a:",
+    options: ["Excesso de oxigênio no sangue", "Níveis normais de oxigênio", "Baixos níveis de oxigênio no sangue arterial", "Dificuldade para respirar"],
+    answer: "Baixos níveis de oxigênio no sangue arterial",
+  },
+  {
+    unit: 10,
+    question: "Onde o sensor do oxímetro de pulso é comumente colocado?",
+    options: ["No pulso, como um relógio", "Na testa", "No dedo, lobo da orelha ou pé (em neonatos)", "No tórax"],
+    answer: "No dedo, lobo da orelha ou pé (em neonatos)",
+  },
+  {
+    unit: 10,
+    question: "Qual gás a hemoglobina transporta primariamente e que é medido indiretamente pela oximetria?",
+    options: ["Dióxido de Carbono", "Nitrogênio", "Oxigênio", "Hidrogênio"],
+    answer: "Oxigênio",
+  },
+  {
+    unit: 10,
+    question: "Uma leitura de SpO2 de 92% em um paciente com doença pulmonar crônica pode ser:",
+    options: ["Sempre considerada normal", "Sempre uma emergência grave", "Aceitável para esse paciente, dependendo de sua condição basal e alvo terapêutico", "Indicativo de melhora imediata"],
+    answer: "Aceitável para esse paciente, dependendo de sua condição basal e alvo terapêutico",
+  },
+  {
+    unit: 10,
+    question: "Além da SpO2, qual outro dado o oxímetro de pulso geralmente exibe?",
+    options: ["Temperatura corporal", "Pressão arterial", "Frequência de pulso (ou cardíaca)", "Nível de glicose"],
+    answer: "Frequência de pulso (ou cardíaca)",
+  },
+  {
+    unit: 10,
+    question: "Qual condição pode levar a uma leitura falsamente baixa de SpO2, mesmo com oxigenação adequada?",
+    options: ["Febre alta", "Anemia severa", "Vasoconstrição periférica intensa (ex: frio extremo, choque)", "Alcalose respiratória"],
+    answer: "Vasoconstrição periférica intensa (ex: frio extremo, choque)",
+  },
+
+  // Unidade 11: Cuidados com Feridas (10 perguntas)
+  {
+    unit: 11,
+    question: "Qual o primeiro passo ao cuidar de uma ferida aberta?",
+    options: ["Aplicar pomada", "Limpar a ferida", "Cobrir com gaze", "Avaliar a profundidade"],
+    answer: "Limpar a ferida",
+  },
+  {
+    unit: 11,
+    question: "O que é debridamento de feridas?",
+    options: ["Aplicação de curativo", "Remoção de tecido morto ou infectado", "Irrigação com soro", "Sutura da ferida"],
+    answer: "Remoção de tecido morto ou infectado",
+  },
+  {
+    unit: 11,
+    question: "Qual solução é comumente usada para limpar feridas simples?",
+    options: ["Álcool 70%", "Água oxigenada", "Soro fisiológico 0,9%", "Tintura de iodo"],
+    answer: "Soro fisiológico 0,9%",
+  },
+  {
+    unit: 11,
+    question: "Um sinal clássico de infecção em uma ferida é:",
+    options: ["Cicatrização rápida", "Ausência de dor", "Presença de pus e vermelhidão", "Coceira leve"],
+    answer: "Presença de pus e vermelhidão",
+  },
+  {
+    unit: 11,
+    question: "Que tipo de curativo é ideal para feridas com exsudato moderado a alto?",
+    options: ["Filme transparente", "Hidrocoloide", "Espuma de poliuretano", "Gaze simples"],
+    answer: "Espuma de poliuretano",
+  },
+  {
+    unit: 11,
+    question: "Qual a finalidade de um dreno em uma ferida cirúrgica?",
+    options: ["Acelerar a cicatrização", "Prevenir infecção", "Remover fluidos acumulados", "Aliviar a dor"],
+    answer: "Remover fluidos acumulados",
+  },
+  {
+    unit: 11,
+    question: "O que são úlceras por pressão (escaras)?",
+    options: ["Reações alérgicas na pele", "Lesões causadas por longos períodos de pressão sobre a pele", "Infecções fúngicas", "Queimaduras químicas"],
+    answer: "Lesões causadas por longos períodos de pressão sobre a pele",
+  },
+  {
+    unit: 11,
+    question: "Qual escala é utilizada para avaliar o risco de desenvolvimento de úlceras por pressão?",
+    options: ["Escala de Glasgow", "Escala de Braden", "Escala de Morse", "Escala de Apgar"],
+    answer: "Escala de Braden",
+  },
+  {
+    unit: 11,
+    question: "A técnica de curativo oclusivo serve para:",
+    options: ["Manter a ferida exposta ao ar", "Promover um ambiente úmido para cicatrização", "Secar rapidamente a ferida", "Facilitar a troca frequente de curativos"],
+    answer: "Promover um ambiente úmido para cicatrização",
+  },
+  {
+    unit: 11,
+    question: "Qual cuidado é essencial para prevenir maceração da pele ao redor de uma ferida?",
+    options: ["Manter o curativo sempre seco", "Aplicar muita pomada", "Trocar o curativo com frequência excessiva", "Usar curativos que gerenciem bem a umidade e proteger a pele perilesional"],
+    answer: "Usar curativos que gerenciem bem a umidade e proteger a pele perilesional",
+  },
+
+  // Unidade 12: Saúde do Idoso (10 perguntas)
+  {
+    unit: 12,
+    question: "Qual alteração fisiológica é comum no envelhecimento do sistema cardiovascular?",
+    options: ["Aumento da elasticidade arterial", "Diminuição da pressão arterial", "Rigidez arterial aumentada", "Aumento da frequência cardíaca de repouso"],
+    answer: "Rigidez arterial aumentada",
+  },
+  {
+    unit: 12,
+    question: "A polifarmácia em idosos refere-se a:",
+    options: ["Uso de apenas um medicamento", "Uso de múltiplos medicamentos concomitantemente", "Alergia a vários medicamentos", "Dificuldade em engolir comprimidos"],
+    answer: "Uso de múltiplos medicamentos concomitantemente",
+  },
+  {
+    unit: 12,
+    question: "Qual é um dos principais riscos associados à imobilidade em idosos?",
+    options: ["Aumento da massa muscular", "Melhora da circulação", "Desenvolvimento de úlceras por pressão e trombose venosa profunda", "Aumento da densidade óssea"],
+    answer: "Desenvolvimento de úlceras por pressão e trombose venosa profunda",
+  },
+  {
+    unit: 12,
+    question: "A demência mais comum em idosos é:",
+    options: ["Demência vascular", "Doença de Parkinson", "Doença de Alzheimer", "Demência frontotemporal"],
+    answer: "Doença de Alzheimer",
+  },
+  {
+    unit: 12,
+    question: "Qual a importância da hidratação adequada em idosos?",
+    options: ["Aumenta o risco de infecção urinária", "Pode causar confusão mental", "Previne constipação, desidratação e infecções urinárias", "Não é tão crucial quanto em adultos jovens"],
+    answer: "Previne constipação, desidratação e infecções urinárias",
+  },
+  {
+    unit: 12,
+    question: "O que é sarcopenia?",
+    options: ["Perda de audição relacionada à idade", "Perda de massa e função muscular esquelética associada ao envelhecimento", "Diminuição da visão de perto", "Enfraquecimento dos ossos"],
+    answer: "Perda de massa e função muscular esquelética associada ao envelhecimento",
+  },
+  {
+    unit: 12,
+    question: "Qual vacina é especialmente recomendada para idosos anualmente?",
+    options: ["Tríplice viral", "BCG", "Influenza (gripe)", "Hepatite B"],
+    answer: "Influenza (gripe)",
+  },
+  {
+    unit: 12,
+    question: "Um cuidado importante para prevenir quedas em idosos em ambiente domiciliar é:",
+    options: ["Manter o ambiente pouco iluminado", "Utilizar tapetes soltos e com dobras", "Remover obstáculos, garantir boa iluminação e instalar barras de apoio", "Encerar o chão regularmente para facilitar o deslize"],
+    answer: "Remover obstáculos, garantir boa iluminação e instalar barras de apoio",
+  },
+  {
+    unit: 12,
+    question: "O que é presbiacusia?",
+    options: ["Dificuldade de enxergar de perto com a idade", "Perda auditiva progressiva associada ao envelhecimento", "Perda do olfato", "Alteração do paladar"],
+    answer: "Perda auditiva progressiva associada ao envelhecimento",
+  },
+  {
+    unit: 12,
+    question: "Qual o papel do enfermeiro na promoção do envelhecimento ativo e saudável?",
+    options: ["Apenas administrar medicamentos e realizar curativos", "Incentivar a dependência total para evitar esforços", "Educar sobre autocuidado, nutrição, exercícios, prevenção de quedas e adesão terapêutica", "Isolar o idoso para evitar riscos de contaminação"],
+    answer: "Educar sobre autocuidado, nutrição, exercícios, prevenção de quedas e adesão terapêutica",
+  },
+
+  // Unidade 13: Saúde Mental em Enfermagem (10 perguntas)
+  {
+    unit: 13,
+    question: "Qual é a principal característica da esquizofrenia?",
+    options: ["Tristeza profunda e persistente", "Oscilações extremas de humor", "Presença de delírios, alucinações e pensamento desorganizado", "Ansiedade excessiva e fobias específicas"],
+    answer: "Presença de delírios, alucinações e pensamento desorganizado",
+  },
+  {
+    unit: 13,
+    question: "O transtorno bipolar é caracterizado por:",
+    options: ["Apatia constante e falta de emoções", "Alternância entre episódios de mania/hipomania e depressão", "Medo irracional de objetos ou situações sociais", "Comportamentos obsessivo-compulsivos e rituais"],
+    answer: "Alternância entre episódios de mania/hipomania e depressão",
+  },
+  {
+    unit: 13,
+    question: "Qual a abordagem inicial mais importante ao lidar com um paciente em crise de ansiedade?",
+    options: ["Ignorar o paciente até ele se acalmar sozinho", "Confrontar o paciente sobre seus medos para que ele os supere", "Manter a calma, oferecer um ambiente seguro, escuta ativa e técnicas de respiração", "Administrar medicação sedativa imediatamente sem avaliação prévia"],
+    answer: "Manter a calma, oferecer um ambiente seguro, escuta ativa e técnicas de respiração",
+  },
+  {
+    unit: 13,
+    question: "O que é estigma em relação à saúde mental?",
+    options: ["Um sintoma específico de transtorno de personalidade", "Um tratamento inovador para depressão refratária", "Um conjunto de atitudes, crenças e comportamentos negativos que desvalorizam e discriminam pessoas com transtornos mentais", "Um tipo de terapia de grupo focada em traumas"],
+    answer: "Um conjunto de atitudes, crenças e comportamentos negativos que desvalorizam e discriminam pessoas com transtornos mentais",
+  },
+  {
+    unit: 13,
+    question: "Qual o papel da comunicação terapêutica na enfermagem psiquiátrica?",
+    options: ["Dar conselhos e resolver todos os problemas do paciente rapidamente", "Estabelecer uma relação de confiança, facilitar a expressão de sentimentos e pensamentos do paciente, e promover o insight", "Julgar as ações e decisões do paciente para orientá-lo corretamente", "Manter uma distância emocional rígida para não se envolver com o paciente"],
+    answer: "Estabelecer uma relação de confiança, facilitar a expressão de sentimentos e pensamentos do paciente, e promover o insight",
+  },
+  {
+    unit: 13,
+    question: "A depressão maior se caracteriza principalmente por:",
+    options: ["Euforia constante, agitação psicomotora e fuga de ideias", "Humor deprimido persistente e/ou perda de interesse ou prazer na maioria das atividades (anedonia)", "Alucinações visuais complexas e delírios de perseguição", "Ideias de grandeza, loquacidade excessiva e diminuição da necessidade de sono"],
+    answer: "Humor deprimido persistente e/ou perda de interesse ou prazer na maioria das atividades (anedonia)",
+  },
+  {
+    unit: 13,
+    question: "Na administração de psicofármacos, qual cuidado é crucial em relação aos efeitos colaterais extrapiramidais?",
+    options: ["Ignorá-los, pois são comuns e passageiros", "Aumentar a dose do medicamento para superá-los", "Observar, registrar e comunicar à equipe médica a ocorrência de tremores, rigidez, acatisia, etc.", "Suspender imediatamente toda a medicação por conta própria"],
+    answer: "Observar, registrar e comunicar à equipe médica a ocorrência de tremores, rigidez, acatisia, etc.",
+  },
+  {
+    unit: 13,
+    question: "O que é ideação suicida?",
+    options: ["Um plano detalhado e elaborado para cometer suicídio", "Pensamentos recorrentes sobre desejar estar morto ou sobre cometer suicídio", "Uma tentativa de suicídio anterior que não foi bem-sucedida", "Um fator de proteção contra o suicídio, pois indica que a pessoa está refletindo"],
+    answer: "Pensamentos recorrentes sobre desejar estar morto ou sobre cometer suicídio",
+  },
+  {
+    unit: 13,
+    question: "Qual a importância de avaliar o risco de suicídio em pacientes com transtornos mentais?",
+    options: ["É irrelevante, pois o suicídio é um ato imprevisível e impulsivo", "Apenas para cumprir um protocolo burocrático sem impacto real", "Fundamental para implementar medidas de segurança, planejamento terapêutico adequado e intervenções que podem salvar vidas", "Apenas se o paciente mencionar diretamente a intenção de morrer"],
+    answer: "Fundamental para implementar medidas de segurança, planejamento terapêutico adequado e intervenções que podem salvar vidas",
+  },
+  {
+    unit: 13,
+    question: "A Reforma Psiquiátrica no Brasil propõe um modelo de cuidado em saúde mental baseado em:",
+    options: ["Grandes hospitais psiquiátricos isolados da comunidade", "Uma rede de atenção psicossocial territorial, comunitária e diversificada, com foco na desinstitucionalização", "Tratamento exclusivamente medicamentoso, sem abordagem psicossocial", "Terapias de choque como primeira linha de tratamento para todos os transtornos"],
+    answer: "Uma rede de atenção psicossocial territorial, comunitária e diversificada, com foco na desinstitucionalização",
+  },
+
+  // Unidade 14: Saúde da Mulher e Obstetrícia (10 perguntas)
+  {
+    unit: 14,
+    question: "Qual o período de gestação considerado a termo (completo)?",
+    options: ["28 a 32 semanas", "33 a 36 semanas e 6 dias", "37 semanas a 41 semanas e 6 dias", "A partir de 42 semanas (pós-termo)"],
+    answer: "37 semanas a 41 semanas e 6 dias",
+  },
+  {
+    unit: 14,
+    question: "O que é o exame de Papanicolau (citologia oncótica cervical)?",
+    options: ["Exame para detectar gravidez precoce", "Exame para rastreamento de câncer de colo de útero e lesões precursoras", "Exame para avaliar a reserva ovariana e fertilidade", "Ultrassonografia transvaginal para visualizar o útero e ovários"],
+    answer: "Exame para rastreamento de câncer de colo de útero e lesões precursoras",
+  },
+  {
+    unit: 14,
+    question: "Qual o principal hormônio responsável pela manutenção da gravidez e preparo do endométrio?",
+    options: ["Estrogênio", "Testosterona", "Progesterona", "Prolactina"],
+    answer: "Progesterona",
+  },
+  {
+    unit: 14,
+    question: "A amamentação exclusiva é recomendada pela OMS e Ministério da Saúde até quantos meses de vida do bebê?",
+    options: ["Até os 3 primeiros meses de vida", "Até os 6 primeiros meses de vida", "Até os 9 primeiros meses de vida", "Até o primeiro ano de vida"],
+    answer: "Até os 6 primeiros meses de vida",
+  },
+  {
+    unit: 14,
+    question: "O que são os lóquios no período puerperal (pós-parto)?",
+    options: ["As primeiras contrações efetivas do trabalho de parto", "O primeiro leite materno, rico em anticorpos, chamado colostro", "Secreção vaginal sanguinolenta, serosa e depois esbranquiçada, eliminada após o parto", "Inchaço fisiológico das pernas e pés comum no final da gestação"],
+    answer: "Secreção vaginal sanguinolenta, serosa e depois esbranquiçada, eliminada após o parto",
+  },
+  {
+    unit: 14,
+    question: "Qual a finalidade da cardiotocografia (CTG) durante o acompanhamento pré-natal e trabalho de parto?",
+    options: ["Medir a pressão arterial sistêmica da mãe", "Avaliar os batimentos cardíacos fetais, sua variabilidade e as contrações uterinas", "Verificar o grau de dilatação cervical e a descida da apresentação fetal", "Determinar com precisão a idade gestacional e o peso fetal"],
+    answer: "Avaliar os batimentos cardíacos fetais, sua variabilidade e as contrações uterinas",
+  },
+  {
+    unit: 14,
+    question: "A pré-eclâmpsia é uma síndrome hipertensiva específica da gestação, caracterizada classicamente por:",
+    options: ["Hipoglicemia materna, convulsões e alterações visuais", "Hipertensão arterial (PA ≥ 140/90 mmHg) após 20 semanas de gestação associada à proteinúria", "Febre alta, calafrios e dor lombar intensa", "Sangramento vaginal excessivo, dor abdominal e hipotensão"],
+    answer: "Hipertensão arterial (PA ≥ 140/90 mmHg) após 20 semanas de gestação associada à proteinúria",
+  },
+  {
+    unit: 14,
+    question: "Qual a importância da suplementação de ácido fólico no período periconcepcional (antes e durante o início da gestação)?",
+    options: ["Prevenir anemia ferropriva exclusivamente na mãe", "Auxiliar no desenvolvimento do sistema nervoso do feto e prevenir defeitos do tubo neural (DTN)", "Aumentar a produção de leite materno no pós-parto", "Controlar o ganho de peso excessivo da gestante"],
+    answer: "Auxiliar no desenvolvimento do sistema nervoso do feto e prevenir defeitos do tubo neural (DTN)",
+  },
+  {
+    unit: 14,
+    question: "A manobra de Kristeller, que consiste na aplicação de pressão externa sobre o fundo uterino, é uma prática:",
+    options: ["Recomendada para acelerar o período expulsivo e reduzir lacerações", "Considerada proscrita e não recomendada devido aos riscos maternos e fetais", "Utilizada rotineiramente em todos os partos normais", "Indicada apenas em casos de sofrimento fetal agudo como medida salvadora"],
+    answer: "Considerada proscrita e não recomendada devido aos riscos maternos e fetais",
+  },
+  {
+    unit: 14,
+    question: "Qual o nome dado ao primeiro leite produzido pela mãe nos primeiros dias após o parto, de aspecto amarelado e rico em anticorpos?",
+    options: ["Leite maduro", "Leite de transição", "Colostro", "Leite posterior (hindmilk)"],
+    answer: "Colostro",
+  },
+
+  // Unidade 15: Saúde da Criança e do Adolescente (10 perguntas)
+  {
+    unit: 15,
+    question: "Qual é a principal via de transmissão da maioria das doenças infecciosas comuns na infância, como resfriados e gastroenterites?",
+    options: ["Contato exclusivo com animais domésticos", "Ingestão de alimentos industrializados contaminados", "Contato direto (mãos, secreções respiratórias) e indireto (objetos e superfícies contaminadas)", "Picada de insetos vetores específicos"],
+    answer: "Contato direto (mãos, secreções respiratórias) e indireto (objetos e superfícies contaminadas)",
+  },
+  {
+    unit: 15,
+    question: "A escala de Apgar é uma avaliação rápida da vitalidade do recém-nascido realizada em quais momentos após o nascimento?",
+    options: ["Apenas no 1º minuto de vida para decisão de reanimação", "No 1º e no 5º minuto de vida; e no 10º minuto se os anteriores foram baixos", "Apenas no 5º minuto de vida para avaliar a adaptação extrauterina", "No 10º, 15º e 20º minuto de vida para seguimento neurológico"],
+    answer: "No 1º e no 5º minuto de vida; e no 10º minuto se os anteriores foram baixos",
+  },
+  {
+    unit: 15,
+    question: "Qual o objetivo principal da puericultura, que são as consultas regulares de acompanhamento da criança?",
+    options: ["Apenas administrar as vacinas do calendário infantil", "Tratar exclusivamente doenças agudas e intercorrências pediátricas", "Promover e proteger a saúde, acompanhar o crescimento e desenvolvimento integral, e orientar a família", "Realizar exames laboratoriais complexos e de imagem em todas as consultas"],
+    answer: "Promover e proteger a saúde, acompanhar o crescimento e desenvolvimento integral, e orientar a família",
+  },
+  {
+    unit: 15,
+    question: "A icterícia neonatal fisiológica, comum em recém-nascidos, manifesta-se como uma coloração amarelada da pele e geralmente aparece:",
+    options: ["Imediatamente no primeiro dia de vida, sendo sempre preocupante", "Entre o 2º e o 3º dia de vida, com pico por volta do 5º dia", "Apenas após a primeira semana de vida, indicando problema hepático", "Exclusivamente em bebês prematuros extremos"],
+    answer: "Entre o 2º e o 3º dia de vida, com pico por volta do 5º dia",
+  },
+  {
+    unit: 15,
+    question: "Qual o cuidado mais importante com o coto umbilical do recém-nascido até sua queda?",
+    options: ["Cobrir com faixas e esparadrapos apertados para acelerar a queda", "Manter limpo e seco, utilizando álcool 70% a cada troca de fralda ou conforme orientação", "Aplicar pomadas cicatrizantes e antibióticas rotineiramente", "Mergulhar em água morna com sabão durante o banho para amolecer"],
+    answer: "Manter limpo e seco, utilizando álcool 70% a cada troca de fralda ou conforme orientação",
+  },
+  {
+    unit: 15,
+    question: "O Teste do Pezinho (triagem neonatal) é um exame fundamental realizado a partir de uma amostra de sangue do calcanhar do bebê para detectar precocemente:",
+    options: ["Apenas o tipo sanguíneo e fator Rh do recém-nascido", "Diversas doenças metabólicas, genéticas e infecciosas congênitas que podem causar sequelas graves se não tratadas cedo", "O risco de desenvolver alergias alimentares ao longo da vida", "A acuidade visual e auditiva do bebê nos primeiros dias"],
+    answer: "Diversas doenças metabólicas, genéticas e infecciosas congênitas que podem causar sequelas graves se não tratadas cedo",
+  },
+  {
+    unit: 15,
+    question: "A diarreia aguda em crianças pequenas, especialmente lactentes, pode levar rapidamente a qual complicação grave que exige atenção imediata?",
+    options: ["Obesidade infantil devido à má absorção", "Desidratação e distúrbios hidroeletrolíticos", "Hipertensão arterial sistêmica", "Diabetes mellitus tipo 1 de início precoce"],
+    answer: "Desidratação e distúrbios hidroeletrolíticos",
+  },
+  {
+    unit: 15,
+    question: "Qual a principal característica do período da puberdade, que marca a transição da infância para a adolescência?",
+    options: ["Crescimento estatural acelerado que ocorre exclusivamente na primeira infância", "Desenvolvimento de características sexuais secundárias, maturação dos órgãos reprodutivos e capacidade de reprodução", "Estabilização completa do humor e do comportamento emocional", "Aumento do interesse por brincadeiras infantis e atividades lúdicas estruturadas"],
+    answer: "Desenvolvimento de características sexuais secundárias, maturação dos órgãos reprodutivos e capacidade de reprodução",
+  },
+  {
+    unit: 15,
+    question: "Além das transformações físicas, quais são alguns dos principais desafios de saúde e psicossociais para os adolescentes atualmente?",
+    options: ["Desnutrição proteico-calórica e deficiências vitamínicas graves", "Questões de saúde mental (ansiedade, depressão), comportamento de risco (uso de substâncias, sexo desprotegido) e imagem corporal", "Poliomielite, sarampo e outras doenças imunopreveníveis da infância", "Dependência excessiva dos pais e falta de autonomia para decisões simples"],
+    answer: "Questões de saúde mental (ansiedade, depressão), comportamento de risco (uso de substâncias, sexo desprotegido) e imagem corporal",
+  },
+  {
+    unit: 15,
+    question: "Qual a importância do diálogo aberto e acolhedor sobre sexualidade, saúde reprodutiva e prevenção de ISTs/AIDS com adolescentes?",
+    options: ["Incentivar o início precoce e indiscriminado da atividade sexual", "Apenas para cumprir uma formalidade escolar ou de saúde, sem efeito prático", "Promover o conhecimento, o autocuidado, comportamentos sexuais seguros, o respeito e a prevenção de gravidez não planejada e ISTs", "É desnecessário, pois eles aprendem essas informações com amigos ou na internet de forma adequada"],
+    answer: "Promover o conhecimento, o autocuidado, comportamentos sexuais seguros, o respeito e a prevenção de gravidez não planejada e ISTs",
+  },
+
+  // Unidade 16: Urgência e Emergência (10 perguntas)
+  {
+    unit: 16,
+    question: "Qual a sigla utilizada internacionalmente para a sequência prioritária de atendimento em uma parada cardiorrespiratória (PCR) em adultos, conforme as diretrizes atuais?",
+    options: ["ABC (Airway, Breathing, Circulation)", "CAB (Compressions, Airway, Breathing)", "CBA (Circulation, Breathing, Airway)", "BAC (Breathing, Airway, Compressions)"],
+    answer: "CAB (Compressions, Airway, Breathing)",
+  },
+  {
+    unit: 16,
+    question: "Em um adulto vítima de PCR, qual a frequência e profundidade recomendadas para as compressões torácicas durante a RCP?",
+    options: ["60-80 compressões/minuto, profundidade de 2-3 cm", "80-100 compressões/minuto, profundidade de 3-4 cm", "100-120 compressões/minuto, profundidade de 5-6 cm", "120-140 compressões/minuto, profundidade de 6-7 cm"],
+    answer: "100-120 compressões/minuto, profundidade de 5-6 cm",
+  },
+  {
+    unit: 16,
+    question: "O que é o DEA (Desfibrilador Externo Automático) e qual sua função primordial?",
+    options: ["Um aparelho para monitorar continuamente a pressão arterial invasiva", "Um dispositivo portátil que analisa o ritmo cardíaco e, se indicado, administra um choque elétrico (desfibrilação) para reverter arritmias como FV/TVSP", "Um ventilador mecânico manual para auxiliar na respiração da vítima", "Um monitor de glicemia de resposta rápida para emergências diabéticas"],
+    answer: "Um dispositivo portátil que analisa o ritmo cardíaco e, se indicado, administra um choque elétrico (desfibrilação) para reverter arritmias como FV/TVSP",
+  },
+  {
+    unit: 16,
+    question: "Ao se deparar com uma possível vítima de trauma em um cenário externo (ex: acidente de trânsito), qual o primeiro e mais crucial passo a ser tomado pelo socorrista?",
+    options: ["Iniciar imediatamente as compressões torácicas na vítima", "Verificar a responsividade da vítima chamando e tocando-a", "Garantir a segurança do local (cena) para si, para a equipe e para a vítima, prevenindo novos acidentes", "Transportar a vítima para o hospital o mais rápido possível, sem avaliação prévia"],
+    answer: "Garantir a segurança do local (cena) para si, para a equipe e para a vítima, prevenindo novos acidentes",
+  },
+  {
+    unit: 16,
+    question: "Em caso de obstrução de vias aéreas por corpo estranho (OVACE) em um adulto consciente que está tossindo vigorosamente, qual a conduta inicial?",
+    options: ["Realizar a Manobra de Heimlich imediatamente", "Tentar remover o objeto com os dedos às cegas", "Incentivar a tosse e observar, sem interferir enquanto a tosse for eficaz", "Administrar golpes nas costas entre as escápulas"],
+    answer: "Incentivar a tosse e observar, sem interferir enquanto a tosse for eficaz",
+  },
+  {
+    unit: 16,
+    question: "O que significa a sigla SAMU e qual seu principal objetivo?",
+    options: ["Sistema de Atendimento Médico Universal; realizar consultas médicas em domicílio", "Serviço de Atendimento Móvel de Urgência; prestar socorro rápido a vítimas de urgências e emergências em ambiente pré-hospitalar", "Socorro Assistencial Médico Unificado; gerenciar leitos hospitalares", "Serviço Avançado de Monitoramento Urbano; vigiar áreas de risco"],
+    answer: "Serviço de Atendimento Móvel de Urgência; prestar socorro rápido a vítimas de urgências e emergências em ambiente pré-hospitalar",
+  },
+  {
+    unit: 16,
+    question: "Qual é um sintoma clássico e frequentemente relatado de infarto agudo do miocárdio (IAM)?",
+    options: ["Dor abdominal difusa tipo cólica, acompanhada de vômitos biliosos", "Dor torácica súbita, em aperto, queimação ou pressão, podendo irradiar para braço esquerdo, mandíbula ou dorso", "Febre alta persistente, tosse produtiva e dificuldade respiratória progressiva", "Perda súbita da visão unilateral associada a cefaleia intensa"],
+    answer: "Dor torácica súbita, em aperto, queimação ou pressão, podendo irradiar para braço esquerdo, mandíbula ou dorso",
+  },
+  {
+    unit: 16,
+    question: "No sistema de triagem de Manchester, utilizado em serviços de urgência, qual cor classifica um paciente que necessita de atendimento emergencial, com risco iminente de vida ou perda de membro?",
+    options: ["Verde (Não urgente)", "Amarelo (Urgente)", "Laranja (Muito urgente)", "Vermelho (Emergência)"],
+    answer: "Vermelho (Emergência)",
+  },
+  {
+    unit: 16,
+    question: "O choque hipovolêmico é uma emergência causada por:",
+    options: ["Uma reação alérgica sistêmica grave a um antígeno (anafilaxia)", "Falha da bomba cardíaca em manter um débito adequado (choque cardiogênico)", "Perda significativa de volume sanguíneo ou fluidos corporais, resultando em perfusão tecidual inadequada", "Uma infecção bacteriana generalizada com resposta inflamatória sistêmica (choque séptico)"],
+    answer: "Perda significativa de volume sanguíneo ou fluidos corporais, resultando em perfusão tecidual inadequada",
+  },
+  {
+    unit: 16,
+    question: "Durante uma crise convulsiva tônico-clônica generalizada, qual a conduta prioritária de quem está prestando os primeiros socorros?",
+    options: ["Tentar segurar os membros da pessoa com força para impedir os movimentos", "Colocar um objeto rígido entre os dentes para evitar que morda a língua", "Proteger a cabeça da pessoa de traumas, afastar objetos perigosos ao redor e, se possível, lateralizar a cabeça após a fase tônico-clônica para evitar aspiração", "Jogar água fria no rosto da pessoa para tentar interromper a crise"],
+    answer: "Proteger a cabeça da pessoa de traumas, afastar objetos perigosos ao redor e, se possível, lateralizar a cabeça após a fase tônico-clônica para evitar aspiração",
+  },
+
+  // Unidade 17: Ética e Legislação em Enfermagem (10 perguntas)
+  {
+    unit: 17,
+    question: "Qual o principal órgão normativo, deliberativo e fiscalizador do exercício da enfermagem no Brasil em âmbito federal?",
+    options: ["Ministério da Saúde (MS)", "Associação Brasileira de Enfermagem (ABEn)", "Conselho Federal de Enfermagem (COFEN)", "Sindicato dos Enfermeiros de cada estado"],
+    answer: "Conselho Federal de Enfermagem (COFEN)",
+  },
+  {
+    unit: 17,
+    question: "O Código de Ética dos Profissionais de Enfermagem (CEPE) tem como principal finalidade:",
+    options: ["Estabelecer as tabelas de honorários e salários da categoria", "Orientar a conduta ética dos profissionais de enfermagem, estabelecendo seus direitos, deveres, responsabilidades e proibições", "Definir as técnicas e procedimentos de enfermagem que podem ser realizados", "Regular o currículo mínimo para os cursos de graduação e técnicos em enfermagem"],
+    answer: "Orientar a conduta ética dos profissionais de enfermagem, estabelecendo seus direitos, deveres, responsabilidades e proibições",
+  },
+  {
+    unit: 17,
+    question: "O que significa o sigilo profissional no contexto da enfermagem?",
+    options: ["Contar apenas aos colegas de trabalho mais próximos sobre a condição do paciente", "O dever ético e legal de manter em segredo todas as informações confidenciais obtidas sobre o paciente durante o exercício profissional, salvo exceções previstas em lei", "Anotar todas as informações no prontuário, mesmo as de caráter pessoal e irrelevante para o tratamento", "Compartilhar informações sobre pacientes em redes sociais ou grupos de mensagens, desde que sem citar nomes completos"],
+    answer: "O dever ético e legal de manter em segredo todas as informações confidenciais obtidas sobre o paciente durante o exercício profissional, salvo exceções previstas em lei",
+  },
+  {
+    unit: 17,
+    question: "A Lei nº 7.498/86, conhecida como Lei do Exercício Profissional da Enfermagem, dispõe sobre:",
+    options: ["O número máximo de horas da jornada de trabalho semanal para enfermeiros", "As atribuições privativas do Enfermeiro e as atividades das demais categorias da equipe de enfermagem (Técnico e Auxiliar de Enfermagem)", "Os tipos de instituições de saúde onde a enfermagem pode atuar exclusivamente", "Os equipamentos e materiais que devem ser obrigatoriamente fornecidos pelos empregadores"],
+    answer: "As atribuições privativas do Enfermeiro e as atividades das demais categorias da equipe de enfermagem (Técnico e Auxiliar de Enfermagem)",
+  },
+  {
+    unit: 17,
+    question: "O que é iatrogenia na assistência à saúde?",
+    options: ["Um resultado excepcionalmente positivo e inesperado do tratamento instituído", "Um dano, agravo à saúde ou complicação sofrida pelo paciente, causado por uma intervenção profissional, mesmo que não intencional ou por omissão", "Uma doença congênita rara com manifestações tardias", "Um procedimento cirúrgico inovador e de alta complexidade"],
+    answer: "Um dano, agravo à saúde ou complicação sofrida pelo paciente, causado por uma intervenção profissional, mesmo que não intencional ou por omissão",
+  },
+  {
+    unit: 17,
+    question: "No âmbito da responsabilidade profissional, o que caracteriza a negligência?",
+    options: ["A falta de habilidade técnica ou conhecimento para realizar um procedimento (imperícia)", "Uma ação precipitada, sem a devida cautela ou ponderação (imprudência)", "A omissão, falta de cuidado, desatenção ou passividade no cumprimento de um dever profissional que resulta em dano ao paciente", "O excesso de zelo e preocupação com os detalhes do cuidado"],
+    answer: "A omissão, falta de cuidado, desatenção ou passividade no cumprimento de um dever profissional que resulta em dano ao paciente",
+  },
+  {
+    unit: 17,
+    question: "O consentimento livre e esclarecido do paciente (ou de seu representante legal) para a realização de procedimentos é uma expressão fundamental de qual princípio bioético?",
+    options: ["Princípio da Beneficência (fazer o bem)", "Princípio da Não Maleficência (não causar dano)", "Princípio da Autonomia (respeito à vontade e decisão do indivíduo)", "Princípio da Justiça (equidade na distribuição de recursos)"],
+    answer: "Princípio da Autonomia (respeito à vontade e decisão do indivíduo)",
+  },
+  {
+    unit: 17,
+    question: "Qual a importância dos registros de enfermagem adequados e completos no prontuário do paciente?",
+    options: ["Apenas para cumprir uma exigência burocrática e aumentar o volume de papelada", "Garantir a continuidade e a qualidade da assistência, servir como respaldo legal para o profissional e a instituição, e facilitar a comunicação interdisciplinar", "Para dificultar o acesso de outros profissionais às informações e proteger o enfermeiro", "São opcionais e de pouca relevância, desde que o cuidado seja prestado verbalmente"],
+    answer: "Garantir a continuidade e a qualidade da assistência, servir como respaldo legal para o profissional e a instituição, e facilitar a comunicação interdisciplinar",
+  },
+  {
+    unit: 17,
+    question: "Um profissional de enfermagem pode se recusar a executar uma prescrição médica ou de enfermagem quando:",
+    options: ["Achar que o procedimento é muito demorado ou trabalhoso", "Não concordar com a opinião pessoal do paciente sobre o tratamento", "Identificar que a prescrição carece de embasamento técnico-científico, pode trazer dano ao paciente, ou fere princípios éticos, legais ou seus direitos profissionais", "O paciente for considerado 'difícil' ou pouco colaborativo"],
+    answer: "Identificar que a prescrição carece de embasamento técnico-científico, pode trazer dano ao paciente, ou fere princípios éticos, legais ou seus direitos profissionais",
+  },
+  {
+    unit: 17,
+    question: "O que preconiza o princípio bioético da beneficência?",
+    options: ["Abster-se de causar qualquer tipo de dano ou agravo ao paciente", "O dever de agir sempre buscando o bem, o benefício e o melhor interesse do paciente, ponderando riscos e benefícios", "Tratar todos os pacientes com absoluta igualdade, sem distinção de qualquer natureza, na alocação de recursos", "Respeitar incondicionalmente todas as decisões do paciente, mesmo que prejudiciais a si mesmo"],
+    answer: "O dever de agir sempre buscando o bem, o benefício e o melhor interesse do paciente, ponderando riscos e benefícios",
+  },
+];
+
+export default questionsData;

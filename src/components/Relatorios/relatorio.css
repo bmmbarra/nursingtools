@@ -1,0 +1,151 @@
+/* Container principal do relatório */
+.relatorio-uc {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* Títulos */
+.relatorio-uc h3 {
+  margin-bottom: 20px;
+  color: #11744e;
+  text-align: center;
+  font-size: 1.6rem;
+}
+
+.relatorio-uc h4 {
+  margin: 30px 0 15px 0;
+  color: #11744e;
+  font-size: 1.3rem;
+}
+
+/* Labels e inputs de texto */
+.relatorio-uc label {
+  font-weight: bold;
+  display: block;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.relatorio-uc input[type="text"],
+.relatorio-uc textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+/* Tabelas de habilidades e atitudes */
+.tabela-habilidades {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Scrollbar da tabela */
+.tabela-habilidades::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tabela-habilidades::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.tabela-habilidades::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Linha de cada habilidade ou atitude */
+.linha-hab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 10px;
+}
+
+/* Nome da habilidade/atitude */
+.hab-nome {
+  flex: 1 1 300px;
+  font-weight: 500;
+  margin-right: 20px;
+  color: #333;
+}
+
+/* Grupo de opções */
+.linha-hab label {
+  margin-right: 10px;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.linha-hab input[type="radio"] {
+  margin-right: 4px;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .relatorio-uc {
+    padding: 15px;
+  }
+
+  .relatorio-uc h3 {
+    font-size: 1.4rem;
+  }
+
+  .relatorio-uc h4 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .linha-hab {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hab-nome {
+    margin-bottom: 8px;
+  }
+
+  .relatorio-uc input[type="text"],
+  .relatorio-uc textarea {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .relatorio-uc {
+    padding: 10px;
+  }
+
+  .linha-hab {
+    gap: 5px;
+  }
+
+  .hab-nome {
+    flex: 1 1 100%;
+    margin-right: 0;
+  }
+
+  .tabela-habilidades {
+    padding: 8px;
+  }
+}

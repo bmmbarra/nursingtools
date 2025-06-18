@@ -1,0 +1,536 @@
+:root {
+  /* Size variables */
+  --max-container-width: min(95vw, 1600px);
+  --card-width-mobile: 200px; /* Reduzido de 280px */
+  --card-height-mobile: 350px; /* Reduzido de 500px */
+  --card-width-desktop: 280px; /* Reduzido de 380px */
+  --card-height-desktop: 450px; /* Reduzido de 650px */
+  
+  /* Spacing variables */
+  --header-padding: 15px;
+  --header-gap: 10px;
+  --link-padding: 10px 15px;
+  
+  /* Effect variables */
+  --transition-speed: 0.3s;
+  --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  --header-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  
+  /* Color variables */
+  --header-bg: rgba(226, 226, 226, 0.726);
+  --link-bg: #ffffff;
+  --link-hover: aquamarine;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url(../../assets/Images/wallp-day.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+/* ==========================================================================
+   2. HOME BOX STYLES (MAIN CONTAINER)
+   ========================================================================== */
+.home-content-box {
+
+  position: relative;
+  width: 95vw;
+  max-width: 1600px;
+  min-width: 320px;
+  max-width: var(--max-container-width);
+  min-height: 80vh;
+  background-image: url(../../assets/Images/wall-frent-day.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 24px;
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--header-gap);
+  padding: var(--header-padding);
+  margin: 20px auto;
+  transition: all var(--transition-speed) ease-in-out;
+}
+
+.home-content-box:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  transform: scale(1.01);
+}
+
+/* ==========================================================================
+   3. HEADER STYLES (NAVIGATION BAR)
+   ========================================================================== */
+.header-background {
+  display: flex;
+  justify-content: center;
+  width: calc(100% - (2 * var(--header-padding)));
+  margin: 0 auto;
+  padding: 0;
+}
+
+.custom-header {
+  color: white;
+  background-color: var(--header-bg);
+  border-radius: 40px;
+  padding: 12px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--header-gap);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  box-shadow: var(--header-shadow);
+  flex-shrink: 1;
+  min-width: 100%;
+  transition: all var(--transition-speed) ease;
+}
+
+.bar-link {
+  color: #000;
+  text-decoration: none;
+  background-color: var(--link-bg);
+  padding: var(--link-padding);
+  border-radius: 20px;
+  min-width: 0;
+  max-width: 100%;
+  width: var(-home-content-box-width);
+  text-align: center;
+  transition: inherit;
+  font-size: clamp(12px, 2vw, 16px);
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+.bar-link:hover {
+  background-color: var(--link-hover);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.bar-link a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bar-link-home, .bar-link-about {
+  color: #000;
+  text-decoration: none;
+  background-color: var(--link-bg);
+  padding: var(--link-padding);
+  padding: 8px;
+  border-radius: 50%;
+  width: clamp(36px, 8vw, 44px);
+  height: clamp(36px, 8vw, 44px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: center;
+  transition: all var(--transition-speed) ease;
+  flex: 0 0 44px;
+}
+
+.bar-link-home {
+  background-image: url(../../assets/Images/home_icon.png);
+}
+
+.bar-link-about {
+  background-image: url(../../assets/Images/info.png);
+}
+
+.bar-link-home:hover, .bar-link-about:hover {
+  background-color: var(--link-hover);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.15);
+}
+
+.dot {
+  display: none;
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  transition: all var(--transition-speed) ease;
+}
+
+.dot:hover {
+  background-color: var(--link-hover);
+  transform: scale(1.15);
+}
+
+/* ==========================================================================
+   4. CAROUSEL STYLES - MODIFIED (SMALLER AND CENTERED)
+   ========================================================================== */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  min-height: calc(var(--card-height-mobile) + 50px); /* Reduced extra height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 20px 0; /* Only vertical padding */
+  flex: 1;
+}
+
+.carousel-container:active {
+  cursor: grabbing;
+}
+
+.carousel-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+.item {
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  border: 2px solid #ffffff;
+  width: var(--card-width-mobile); /* 200px */
+  height: var(--card-height-mobile); /* 350px */
+  border-radius: 0 !important; /* Removed rounded corners */
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: scale(0.7) translateY(-50%);
+  user-select: none;
+  top: 50%;
+  transform-origin: center center;
+}
+
+.center {
+  opacity: 1;
+  transform: scale(1) translateY(-50%);
+  z-index: 5;
+}
+
+.left-1 {
+  opacity: 0.6;
+  transform: translateX(-90px) scale(0.85) translateY(-50%); /* Adjusted position */
+  z-index: 4;
+}
+
+.right-1 {
+  opacity: 0.6;
+  transform: translateX(90px) scale(0.85) translateY(-50%); /* Adjusted position */
+  z-index: 4;
+}
+
+.left-2 {
+  opacity: 0.3;
+  transform: translateX(-160px) scale(0.7) translateY(-50%);
+  z-index: 3;
+}
+
+.right-2 {
+  opacity: 0.3;
+  transform: translateX(160px) scale(0.7) translateY(-50%);
+  z-index: 3;
+}
+
+.card-logo-header {
+  display: block;
+  max-width: 80px; /* Reduced from 120px */
+  margin: 10px auto 5px; /* Reduced margins */
+  object-fit: contain;
+}
+
+.med-info-container {
+  padding: 8px; /* Reduced from 10px */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.med-nome-topo {
+  font-size: 18px; /* Reduced from 24px */
+  color: white;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+
+.med-descricao {
+  font-size: 14px; /* Reduced from 16px */
+  color: white;
+  margin-top: 8px; /* Reduced from 10px */
+  text-align: center;
+  padding: 0 8px; /* Reduced from 10px */
+}
+
+.tarja {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px; /* Reduced from 10px */
+}
+
+.tarja-amarela {
+  background-color: #ffeb3b;
+  color: black;
+  font-size: 16px; /* Reduced from 20px */
+}
+
+.tarja-vermelha {
+  min-height: 60px; /* Reduced from 80px */
+  background-image: linear-gradient(#b71c1c, #c94a4a);
+  color: white;
+  flex-direction: column;
+}
+
+.tarja-vermelha p {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: white;
+  margin: 2px 0;
+  font-size: 10px; /* Reduced from 12px */
+}
+
+.tarja-vermelha p strong {
+  color: white !important;
+}
+
+.card-logo {
+  width: 100%;
+  height: 40px; /* Reduced from 60px */
+  object-fit: contain;
+  margin-top: 5px;
+}
+
+.paracetamol { background: linear-gradient(135deg, #044dad, #008cff); }
+.dipirona { background: linear-gradient(135deg, #ce0000, #ff5f5f); }
+.ibuprofeno { background: linear-gradient(135deg, #4b0675, #ac6bd4); }
+.amoxicilina { background: linear-gradient(135deg, #00695c, #26a69a); }
+.metformina { background: linear-gradient(135deg, #5d106d, #ff00ea); }
+.omeprazol { background: linear-gradient(135deg, #ffb74d, #ff0000); }
+
+/* ==========================================================================
+   5. MEDIA QUERIES
+   ========================================================================== */
+@media (min-width: 1440px) {
+  .home-content-box {
+    width: 85vw;
+    min-height: 80vh;
+    max-height: 90vh;
+  }
+
+  .bar-link{
+    min-width: 220px;
+    padding: 12px 22px;
+  }
+  
+  .dot {
+    display: block;
+  }
+  
+  .carousel-container {
+    min-height: calc(var(--card-height-desktop) + 80px); /* Reduced from 150px */
+    padding: 0 60px; /* Reduced from 100px */
+  }
+  
+  .item {
+    width: var(--card-width-desktop); /* 280px */
+    height: var(--card-height-desktop); /* 450px */
+  }
+  
+  .left-1 { transform: translateX(-200px) scale(0.85) translateY(-50%); } /* Reduced from 300px */
+  .right-1 { transform: translateX(200px) scale(0.85) translateY(-50%); } /* Reduced from 300px */
+  .left-2 { transform: translateX(-350px) scale(0.7) translateY(-50%); } /* Reduced from 550px */
+  .right-2 { transform: translateX(350px) scale(0.7) translateY(-50%); } /* Reduced from 550px */
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  :root {
+    --max-container-width: min(90vw, 1600px);
+    --header-padding: 25px;
+    --header-gap: 15px;
+    --link-padding: 12px 20px;
+  }
+
+  body {
+    padding: 20px;
+    align-items: center;
+  }
+
+  .home-content-box {
+    min-height: 85vh;
+    width: 90vw;
+  }
+
+  .custom-header {
+    padding: 16px 25px;
+  }
+  
+  .bar-link {
+    min-width: 200px;
+    font-size: 16px;
+  }
+  
+  .dot {
+    display: block;
+  }
+  
+  .carousel-container {
+    min-height: calc(var(--card-height-desktop) + 80px); /* Reduced from 120px */
+    padding: 0 50px; /* Reduced from 80px */
+    max-width: 1400px;
+  }
+
+  .item {
+    width: var(--card-width-desktop);
+    height: var(--card-height-desktop);
+  }
+
+  .left-1 { transform: translateX(-180px) scale(0.85) translateY(-50%); } /* Reduced from 280px */
+  .right-1 { transform: translateX(180px) scale(0.85) translateY(-50%); } /* Reduced from 280px */
+  .left-2 { transform: translateX(-320px) scale(0.7) translateY(-50%); } /* Reduced from 500px */
+  .right-2 { transform: translateX(320px) scale(0.7) translateY(-50%); } /* Reduced from 500px */
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --header-padding: 20px;
+    --header-gap: 12px;
+    --link-padding: 10px 18px;
+  }
+
+  .home-content-box {
+    width: 94vw;
+    padding: 10px;
+  }
+
+  .custom-header {
+    padding: 8px 10px;
+    flex-wrap: nowrap;
+    border-radius: 30px;
+  }
+  
+  .bar-link {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .dot {
+    display: block;
+  }
+
+  .carousel-container {
+    min-height: calc(var(--card-height-desktop) + 60px); /* Reduced from 100px */
+    padding: 0 30px; /* Reduced from 40px */
+  }
+
+  .item {
+    width: var(--card-width-desktop);
+    height: var(--card-height-desktop);
+  }
+
+  .left-1 { transform: translateX(-140px) scale(0.85) translateY(-50%); } /* Reduced from 200px */
+  .right-1 { transform: translateX(140px) scale(0.85) translateY(-50%); } /* Reduced from 200px */
+  .left-2 { transform: translateX(-240px) scale(0.7) translateY(-50%); } /* Reduced from 350px */
+  .right-2 { transform: translateX(240px) scale(0.7) translateY(-50%); } /* Reduced from 350px */
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .home-content-box {
+    width: 96vw;
+  }
+  
+  .dot {
+    display: none;
+  }
+
+  .carousel-container {
+    min-height: calc(var(--card-height-mobile) + 60px); /* Reduced from 100px */
+  }
+
+  .left-1 { transform: translateX(-90px) scale(0.85) translateY(-50%); } /* Reduced from 120px */
+  .right-1 { transform: translateX(90px) scale(0.85) translateY(-50%); } /* Reduced from 120px */
+  .left-2 { transform: translateX(-140px) scale(0.7) translateY(-50%); } /* Reduced from 200px */
+  .right-2 { transform: translateX(140px) scale(0.7) translateY(-50%); } /* Reduced from 200px */
+}
+
+@media (max-width: 480px) {
+  .home-content-box {
+    width: 98vw;
+    padding: 8px;
+  }
+  
+  .custom-header {
+    padding: 8px;
+    gap: 6px;
+  }
+  
+  .bar-link {
+    flex-basis: calc(33.333% - 8px);
+    min-width: 80px;
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  
+  .bar-link-home, 
+  .bar-link-about {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .dot {
+    display: none;
+  }
+
+  .carousel-container {
+    min-height: calc(var(--card-height-mobile) + 50px); /* Reduced from 80px */
+    padding: 20px 0;
+  }
+
+  .left-1 { transform: translateX(-70px) scale(0.85) translateY(-50%); } /* Reduced from 90px */
+  .right-1 { transform: translateX(70px) scale(0.85) translateY(-50%); } /* Reduced from 90px */
+  .left-2 { transform: translateX(-110px) scale(0.7) translateY(-50%); } /* Reduced from 150px */
+  .right-2 { transform: translateX(110px) scale(0.7) translateY(-50%); } /* Reduced from 150px */
+}
+
+@media (max-width: 320px) {
+  .home-content-box {
+    width: 100vw;
+    border-radius: 0;
+    margin: 0;
+  }
+}
