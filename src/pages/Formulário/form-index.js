@@ -22,6 +22,14 @@ import ChecklistUC from "../../components/Checklist/checklistuc"; // O "modelo" 
 import gerarPDF from "../../assets/utils/pdfgenerator"; // A "máquina de impressão" que gera o PDF no final.
 import "../Formulário/form-index.css"; // O "manual de estilo" que define a aparência do formulário.
 
+import { habilidadesUC4, atitudesUC4 } from "../../components/Relatorios/relatoriouc4";
+import { habilidadesUC7, atitudesUC7 } from "../../components/Relatorios/relatoriouc7";
+import { habilidadesUC10, atitudesUC10 } from "../../components/Relatorios/relatoriouc10";
+import { habilidadesUC17, atitudesUC17 } from "../../components/Relatorios/relatoriouc17";
+
+import { validarChecklist } from "../../assets/utils/validarChecklist";
+
+import { validarRelatorio } from "../../assets/utils/validarRelatorio";
 
 // --- PASSO 2: Definindo as Opções Fixas ---
 // Para manter o código organizado, criamos listas com as opções que aparecerão
@@ -58,25 +66,54 @@ export default function FormularioEstagio() {
 
   // Esta função é o comando do botão "Salvar PDF".
   const handleGerarPDF = () => {
-    /* O trecho comentado abaixo representa uma validação futura.
-       A ideia era verificar se todos os campos obrigatórios foram preenchidos
-       antes de permitir a geração do PDF, mostrando um alerta em caso de erro.
-       const erro = validarCamposParaPDF({ ... });
-       if (erro) {
-         alert(`⚠️ ${erro}`);
-         return;
-       }
-    */
+  let habilidades = [];
+  let atitudes = [];
 
-    // A função reúne todas as informações das nossas "pastas" de memória...
-    gerarPDF({
-      uc: ucSelecionada,
-      empresa: { nome: empresaSelecionada, ...dadosEmpresa },
-      relatorio: dadosRelatorio,
-      checklist: dadosChecklist,
-      tipo: abaAtiva,
-    }); // ...e as entrega para a nossa "máquina de impressão" (`gerarPDF`) criar o documento.
-  };
+  if (abaAtiva === "Checklist") {
+  const erros = validarChecklist(dadosChecklist);
+  if (erros.length > 0) {
+    alert("⚠️ Corrija os seguintes erros antes de gerar o PDF:\n\n" + erros.join("\n\n"));
+    return;
+  }
+}
+
+  if (abaAtiva === "Relatório") {
+    switch (ucSelecionada) {
+      case "UC4":
+        habilidades = habilidadesUC4;
+        atitudes = atitudesUC4;
+        break;
+      case "UC7":
+        habilidades = habilidadesUC7;
+        atitudes = atitudesUC7;
+        break;
+      case "UC10":
+        habilidades = habilidadesUC10;
+        atitudes = atitudesUC10;
+        break;
+      case "UC17":
+        habilidades = habilidadesUC17;
+        atitudes = atitudesUC17;
+        break;
+      default:
+        break;
+    }
+
+    const erros = validarRelatorio(dadosRelatorio, habilidades, atitudes);
+    if (erros.length > 0) {
+      alert("⚠️ Corrija os seguintes erros antes de gerar o PDF:\n\n" + erros.join("\n\n"));
+      return;
+    }
+  }
+
+  gerarPDF({
+    uc: ucSelecionada,
+    empresa: { nome: empresaSelecionada, ...dadosEmpresa },
+    relatorio: dadosRelatorio,
+    checklist: dadosChecklist,
+    tipo: abaAtiva,
+  });
+};
 
   // Esta função é um "seletor inteligente de formulários".
   // Ela decide qual modelo de relatório deve ser mostrado na tela.

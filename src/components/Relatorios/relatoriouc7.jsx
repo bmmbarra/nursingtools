@@ -188,3 +188,6 @@ export default function RelatorioUC7({ uc, dados, setDados }) {
   );
   
 }
+
+export const habilidadesUC7 = habilidades;
+export const atitudesUC7 = atitudes;

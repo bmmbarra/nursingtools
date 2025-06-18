@@ -190,3 +190,7 @@ export default function ChecklistUC({ uc, dados, setDados }) {
     </div>
   );
 }
+
+export const estruturaChecklist = itensChecklist;
+export const opcoesChecklist = opcoes;
+export const statusChecklist = status;

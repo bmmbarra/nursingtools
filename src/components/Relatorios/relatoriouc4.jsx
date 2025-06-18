@@ -232,3 +232,7 @@ export default function RelatorioUC4({ uc, dados, setDados }) {
   );
   
 }
+
+
+export const habilidadesUC4 = habilidades;
+export const atitudesUC4 = atitudes;

@@ -192,3 +192,5 @@ export default function RelatorioUC10({ uc, dados, setDados }) {
   );
   
 }
+export const habilidadesUC10 = habilidades;
+export const atitudesUC10 = atitudes;
