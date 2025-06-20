@@ -131,24 +131,25 @@ export default function Glossário() {
                 <Link to="/" className="bar-link-home" />
               </div>
               <div className="dot" />
-              <div className="dot" />
-              <Link to="/glossario" className="bar-link">Glossário</Link>
-              <div className="dot" />
-              <div className="dot" />
-              <div className="dot" />
-              <Link to="/calculo" className="bar-link">Calculadora</Link>
-              <div className="dot" />
-              <div className="dot" />
-              <Link to="/formulario" className="bar-link">Formulário</Link>
-              <div className="dot" />
-              <div className="dot" />
-              <div className="dot" />
-              <Link to="/quiz" className="bar-link">Quiz</Link>
-              <div className="dot" />
-              <div className="dot" />
-              <div className="dot-about">
-                <Link to="/sobre" className="bar-link-about" />
-              </div>
+                  <div className="dot" />
+                  <Link to="/formulario" className="bar-link">Relatório de Estágio</Link>
+                  <div className="dot" />
+                  <div className="dot" />
+                  <div className="dot" />
+                  <Link to="/calculo" className="bar-link">Calculadora</Link>
+                  <div className="dot" />
+                  <div className="dot" />
+                  <Link to="/glossario" className="bar-link">Glossário</Link>
+                  <div className="dot" />
+                  <div className="dot" />
+                  <div className="dot" />
+                  <Link to="/quiz" className="bar-link">Quiz</Link>
+                  <div className="dot" />
+                  <div className="dot" />
+                  <div className="dot-about">
+                    <Link to="/sobre" className="bar-link-about" />
+                  </div>
+
             </header>
           </div>
     

@@ -35,9 +35,10 @@ const SobrePage = () => {
             </div>
             
             {/* Links para outras páginas */}
+
+             <div className="dot" />
             <div className="dot" />
-            <div className="dot" />
-            <Link to="/glossario" className="bar-link">Glossário</Link>
+            <Link to="/formulario" className="bar-link">Relatório de Estágio</Link>           
             
             <div className="dot" />
             <div className="dot" />
@@ -46,8 +47,8 @@ const SobrePage = () => {
             
             <div className="dot" />
             <div className="dot" />
-            <Link to="/formulario" className="bar-link">Formulário</Link>
-            
+            <Link to="/glossario" className="bar-link">Glossário</Link>
+
             <div className="dot" />
             <div className="dot" />
             <div className="dot" />

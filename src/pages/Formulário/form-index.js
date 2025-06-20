@@ -152,17 +152,17 @@ export default function FormularioEstagio() {
             <div className="dot_home">
               <Link to="/" className="bar-link-home" />
             </div>
-            <div className="dot" /><div className="dot" />
-            <Link to="/glossario" className="bar-link">Glossário</Link>
-            <div className="dot" /><div className="dot" />
-            <Link to="/calculo" className="bar-link">Calculadora</Link>
-            <div className="dot" /><div className="dot" />
-            <Link to="/formulario" className="bar-link">Formulário</Link>
-            <div className="dot" /><div className="dot" />
-            <Link to="/quiz" className="bar-link">Quiz</Link>
-            <div className="dot" /><div className="dot" />
-            <div className="dot-about">
-              <Link to="/sobre" className="bar-link-about" />
+                <div className="dot" /><div className="dot" />
+                  <Link to="/formulario" className="bar-link">Relatório de Estágio</Link>
+                  <div className="dot" /><div className="dot" />
+                  <Link to="/calculo" className="bar-link">Calculadora</Link>
+                  <div className="dot" /><div className="dot" />
+                  <Link to="/glossario" className="bar-link">Glossário</Link>
+                  <div className="dot" /><div className="dot" />
+                  <Link to="/quiz" className="bar-link">Quiz</Link>
+                  <div className="dot" /><div className="dot" />
+                  <div className="dot-about">
+                    <Link to="/sobre" className="bar-link-about" />
             </div>
           </header>
         </div>
@@ -177,7 +177,7 @@ export default function FormularioEstagio() {
           <div className="form-grid">
             {/* Coluna da Esquerda: Seleção e dados da empresa. */}
             <div className="col-esquerda">
-              <label><strong>Empresa afiliada:</strong></label>
+              <label><strong>Unidade Consedente:</strong></label>
               {/* Caixa de seleção que aciona o "assistente de autopreenchimento". */}
               <select onChange={(e) => preencherEmpresa(e.target.value)}>
                 <option value="">Selecione uma empresa</option>

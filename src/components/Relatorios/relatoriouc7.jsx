@@ -105,13 +105,7 @@ export default function RelatorioUC7({ uc, dados, setDados }) {
         onChange={(e) => handleChange("dataEntrega", e.target.value)}
       />
 
-      <label>Unidade concedente:</label>
-      <input
-        type="text"
-        value={dados.empresa || ""}
-        onChange={(e) => handleChange("empresa", e.target.value)}
-        placeholder="Digite o nome da unidade concedente"
-      />
+     
 
       <label>Nome do(s) instrutor(es):</label>
       <input

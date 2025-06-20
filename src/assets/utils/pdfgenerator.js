@@ -45,72 +45,51 @@ function marcarOpcoes(valor, opcoes) {
 }
 
 // NOVO: PASSO 2.5 - O "Fiscal de Qualidade"
-// ===================================================================================
-// Esta função funciona como um fiscal, verificando se os campos mais importantes
-// foram preenchidos antes de enviar o trabalho para a "impressão" (geração do PDF).
-// Ela retorna 'true' se tudo estiver OK, ou 'false' se algo estiver faltando.
-// ===================================================================================
 function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) {
   const camposFaltantes = [];
 
-  // Verificação para o tipo "Relatório"
   if (tipo === "Relatório") {
     if (!relatorio.nome) camposFaltantes.push("Nome do(a) aluno(a)");
     if (!relatorio.cpf) camposFaltantes.push("CPF do(a) aluno(a)");
     if (!relatorio.turma) camposFaltantes.push("Turma");
     if (!empresa.nome && !relatorio.empresa) camposFaltantes.push("Unidade concedente (Empresa)");
     if (!relatorio.instrutores) camposFaltantes.push("Nome do(s) instrutor(es)");
-    // Verifica se o objeto de habilidades existe e tem pelo menos uma entrada
     if (!relatorio.habilidades || Object.keys(relatorio.habilidades).length === 0) {
       camposFaltantes.push("Avaliação de Habilidades e Atitudes");
     }
     if (!relatorio.conclusao) camposFaltantes.push("Conclusão do aluno");
-  }
-  // Verificação para o tipo "Checklist"
-  else if (tipo === "Checklist") {
+  } else if (tipo === "Checklist") {
     if (!checklist.turma) camposFaltantes.push("Turma");
     if (!checklist.aluno) camposFaltantes.push("Nome do Aluno");
-    // Verifica se os itens do checklist existem e não estão vazios
     if (!checklist.itens || Object.keys(checklist.itens).length === 0) {
       camposFaltantes.push("Itens do Checklist");
     }
     if (!checklist.resultado) camposFaltantes.push("Resultado Final");
   }
 
-  // Se a lista de campos faltantes não estiver vazia...
   if (camposFaltantes.length > 0) {
-    // ...monta uma mensagem de erro amigável.
     const mensagem = "Por favor, preencha os seguintes campos obrigatórios antes de gerar o PDF:\n\n- " + camposFaltantes.join("\n- ");
-    // Exibe o alerta para o usuário.
     alert(mensagem);
-    // Retorna 'false' para indicar que a validação falhou.
     return false;
   }
 
-  // Se tudo estiver preenchido, retorna 'true'.
   return true;
 }
-
 
 // --- PASSO 3: A Função Principal (O "Gerente da Gráfica") ---
 export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo }) {
 
-  // NOVO: PASSO 3.5 - Chamando o Fiscal de Qualidade
-  // Antes de qualquer outra coisa, validamos os dados.
   const dadosParaValidar = { uc, empresa, relatorio, checklist, tipo };
   if (!validarCamposObrigatorios(dadosParaValidar)) {
-    return; // Interrompe a função se a validação falhar. O PDF não será gerado.
+    return;
   }
 
-  // 1. Pega uma "folha de PDF" em branco para começar a trabalhar.
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
-  // 2. Prepara a imagem do logo para ser usada no documento.
+
   const logoImg = new Image();
   logoImg.src = logo;
   await new Promise((resolve) => (logoImg.onload = resolve));
-
-  // --- Funções Auxiliares Internas ---
 
   const inserirCabecalho = () => {
     const centerX = pageWidth / 2;
@@ -119,11 +98,41 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     doc.setFont("times", "bold");
     doc.setFontSize(11);
     doc.setTextColor(0, 0, 0);
+
     doc.text("SERVIÇO NACIONAL DE APRENDIZAGEM COMERCIAL – SENAC EM MINAS", centerX, posY, { align: "center" });
     doc.text("Estágio Profissional Supervisionado", centerX, (posY += 6), { align: "center" });
     doc.setFont("times", "normal");
-    doc.text(`Unidade Curricular ${uc} – Cuidado Integral de Enfermagem`, centerX, (posY += 6), { align: "center" });
-    doc.text(`Carga horária: ${empresa.cargaHoraria || checklist?.cargaHoraria || "120 horas"}`, centerX, (posY += 6), { align: "center" });
+
+   
+
+    let tituloUC = "";
+    let carga = "";
+
+    switch (uc) {
+      case 'UC4':
+        tituloUC = "Promoção à Saúde";
+        carga = "80 horas";
+        break;
+      case 'UC7':
+        tituloUC = "Cuidado Integral de Enfermagem";
+        carga = "120 horas";
+        break;
+      case 'UC10':
+        tituloUC = "Cuidado Especializado de Enfermagem";
+        carga = "100 horas";
+        break;
+      case 'UC17':
+        tituloUC = "Cuidado Crítico, Urgência e Emergência de Enfermagem";
+        carga = "100 horas";
+        break;
+      default:
+        tituloUC = "Título não definido";
+        carga = "Carga não definida";
+    }
+
+    doc.text(`Unidade Curricular ${uc} – ${tituloUC}`, centerX, (posY += 6), { align: "center" });
+    doc.text(`Carga horária: ${empresa.cargaHoraria || checklist?.cargaHoraria || carga}`, centerX, (posY += 6), { align: "center" });
+
     posY += 6;
     doc.text("Unidade de Ensino Técnico do CEP de Poços de Caldas", centerX, (posY += 6), { align: "center" });
     doc.setFontSize(11);
@@ -138,7 +147,6 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     return [0, 0, 0];
   };
 
-  // --- PASSO 4: Decidindo o Tipo de Documento a Ser Impresso ---
   if (tipo === "Checklist") {
     const gerarTabelaChecklist = () => {
       inserirCabecalho();
@@ -146,8 +154,12 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
       const dadosTopo = [
         ["Turma:", checklist.turma || "", "Matriz Curricular:", checklist.matrizCurricular || ""],
         ["Aluno:", checklist.aluno || "", "", ""],
+<<<<<<< HEAD
         ["Unidade Curricular:", `${uc}`, "Carga Horária:", checklist.cargaHoraria || ""]
 
+=======
+        ["Unidade Curricular:", `${uc} - Estágio Profissional Supervisionado – Promovendo a saúde`, "Carga Horária:", checklist.cargaHoraria || ""]
+>>>>>>> 9857abd (Alterações cabeçalho do site e ajustes no relatório)
       ];
       autoTable(doc, {
         startY: 35,
@@ -196,7 +208,6 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     return;
   }
 
-  // --- PASSO 5: Montando o Documento de Relatório ---
   const gerarCapa = () => {
     inserirCabecalho();
     const centerX = pageWidth / 2;
