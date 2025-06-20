@@ -44,7 +44,6 @@ function marcarOpcoes(valor, opcoes) {
   return opcoes.map(op => (valor?.toLowerCase() === op.toLowerCase() ? `(X) ${op}` : `( ) ${op}`)).join("   ");
 }
 
-// NOVO: PASSO 2.5 - O "Fiscal de Qualidade"
 function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) {
   const camposFaltantes = [];
 
@@ -76,9 +75,7 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) 
   return true;
 }
 
-// --- PASSO 3: A Função Principal (O "Gerente da Gráfica") ---
 export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo }) {
-
   const dadosParaValidar = { uc, empresa, relatorio, checklist, tipo };
   if (!validarCamposObrigatorios(dadosParaValidar)) {
     return;
@@ -102,8 +99,6 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     doc.text("SERVIÇO NACIONAL DE APRENDIZAGEM COMERCIAL – SENAC EM MINAS", centerX, posY, { align: "center" });
     doc.text("Estágio Profissional Supervisionado", centerX, (posY += 6), { align: "center" });
     doc.setFont("times", "normal");
-
-   
 
     let tituloUC = "";
     let carga = "";
@@ -154,12 +149,7 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
       const dadosTopo = [
         ["Turma:", checklist.turma || "", "Matriz Curricular:", checklist.matrizCurricular || ""],
         ["Aluno:", checklist.aluno || "", "", ""],
-<<<<<<< HEAD
         ["Unidade Curricular:", `${uc}`, "Carga Horária:", checklist.cargaHoraria || ""]
-
-=======
-        ["Unidade Curricular:", `${uc} - Estágio Profissional Supervisionado – Promovendo a saúde`, "Carga Horária:", checklist.cargaHoraria || ""]
->>>>>>> 9857abd (Alterações cabeçalho do site e ajustes no relatório)
       ];
       autoTable(doc, {
         startY: 35,
