@@ -51,7 +51,7 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) 
     if (!relatorio.nome) camposFaltantes.push("Nome do(a) aluno(a)");
     if (!relatorio.cpf) camposFaltantes.push("CPF do(a) aluno(a)");
     if (!relatorio.turma) camposFaltantes.push("Turma");
-    if (!empresa.nome && !relatorio.empresa) camposFaltantes.push("Unidade concedente (Empresa)");
+   // if (!empresa.nome && !relatorio.empresa) camposFaltantes.push("Unidade concedente (Empresa)");
     if (!relatorio.instrutores) camposFaltantes.push("Nome do(s) instrutor(es)");
     if (!relatorio.habilidades || Object.keys(relatorio.habilidades).length === 0) {
       camposFaltantes.push("Avaliação de Habilidades e Atitudes");
@@ -76,6 +76,7 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) 
 }
 
 export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo }) {
+  empresa = Array.isArray(empresa) ? empresa : [empresa];
   const dadosParaValidar = { uc, empresa, relatorio, checklist, tipo };
   if (!validarCamposObrigatorios(dadosParaValidar)) {
     return;
@@ -206,42 +207,83 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     doc.text("Relatório de Estágio Obrigatório", centerX, 160, { align: "center" });
     doc.text("Técnico em Enfermagem", centerX, 167, { align: "center" });
   };
+const gerarIdentificacao = () => {
+  doc.addPage();
+  inserirCabecalho();
+  doc.setFont("times", "bold");
+  doc.setFontSize(14);
+  doc.text("IDENTIFICAÇÃO", 15, 65);
 
-  const gerarIdentificacao = () => {
-    doc.addPage();
-    inserirCabecalho();
-    doc.setFont("times", "bold");
-    doc.setFontSize(14);
-    doc.text("IDENTIFICAÇÃO", 15, 65);
+  const nomesUnidades = empresa.map((e) => e.nome).join(", ");
 
-    const info = [
-      [`Nome do(a) aluno(a): ${relatorio.nome || ""}`],
-      [`CPF do(a) aluno(a): ${relatorio.cpf || ""}`],
-      [`Turma: ${relatorio.turma || ""}`],
-      [`Data da entrega: ${relatorio.dataEntrega || ""}`],
-      [`Unidade concedente: ${empresa.nome || relatorio.empresa || ""}`],
-      [`Nome do(s) instrutor(es): ${relatorio.instrutores || ""}`],
-    ];
+  const info = [
+    [`Nome do(a) aluno(a): ${relatorio.nome || ""}`],
+    [`CPF do(a) aluno(a): ${relatorio.cpf || ""}`],
+    [`Turma: ${relatorio.turma || ""}`],
+    [`Data da entrega: ${relatorio.dataEntrega || ""}`],
+    [`Unidade concedente: ${nomesUnidades}`],
+    [`Nome do(s) instrutor(es): ${relatorio.instrutores || ""}`],
+  ];
 
-    autoTable(doc, {
-      startY: 75,
-      body: info.map(i => [i]),
-      styles: { font: "times", fontSize: 11, cellPadding: 3, halign: "left" },
-    });
-  };
+  autoTable(doc, {
+    startY: 75,
+    body: info.map(i => [i]),
+    styles: { font: "times", fontSize: 11, cellPadding: 3, halign: "left" },
+  });
+};
 
   const gerarIntroducao = () => {
-    doc.addPage();
-    inserirCabecalho();
-    doc.setFont("times", "bold");
-    doc.setFontSize(14);
-    doc.text("INTRODUÇÃO", 15, 65);
+doc.addPage(); // Começa uma nova página
+  inserirCabecalho();
+
+  doc.setFont("times", "bold");
+  doc.setFontSize(14);
+  doc.text("INTRODUÇÃO", 15, 65);
+
+  doc.setFont("times", "normal");
+  doc.setFontSize(11);
+
+  let y = 75; // posição inicial após o título
+
+  // Lista os nomes das empresas
+  const nomesEmpresas = empresa.map(e => e.nome).filter(Boolean);
+  const nomesJuntos = nomesEmpresas.join(" e ");
+
+  // Assume o período da primeira empresa (se todas forem iguais)
+  const periodo = empresa[0]?.periodoEstagio || empresa[0]?.periodo || "";
+
+  // Frase introdutória única
+  const textoInicial = `Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${nomesJuntos} no período de ${periodo}.`;
+
+  const linhasIntro = doc.splitTextToSize(textoInicial, 180);
+  doc.text(linhasIntro, 15, y);
+  y += linhasIntro.length * 6 + 5;
+
+  // Agora, adiciona os blocos individuais de cada empresa (sem repetir a frase inicial)
+  empresa.forEach((emp, index) => {
+    const texto = [emp.info, emp.plano, emp.descricao].filter(Boolean).join("\n\n");
+    const linhas = doc.splitTextToSize(texto, 180);
+    const alturaEstimativa = linhas.length * 6 + 5;
+
+    if (y + alturaEstimativa > 280) {
+      doc.addPage();
+      inserirCabecalho();
+      doc.setFont("times", "bold");
+      doc.setFontSize(14);
+      doc.text("INTRODUÇÃO", 15, 65);
+      doc.setFont("times", "normal");
+      doc.setFontSize(11);
+      y = 75;
+    }
+
+
+    // Bloco textual da empresa
     doc.setFont("times", "normal");
     doc.setFontSize(11);
-    const texto = gerarTextoIntroducao(empresa);
-    const linhas = doc.splitTextToSize(texto, 180);
-    doc.text(linhas, 15, 75);
-  };
+    doc.text(linhas, 15, y);
+    y += linhas.length * 5 ;
+  });
+};
 
   const gerarHabilidades = () => {
     const habilidades = Object.entries(relatorio.habilidades || {}).filter(

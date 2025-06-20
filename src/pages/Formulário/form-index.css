@@ -170,4 +170,44 @@
   .btn-enviar {
     font-size: 1rem;
   }
+
+}
+
+/* Caixa com lista de checkboxes */
+.formulario-container .lista-empresas {
+   background-color: rgba(255, 255, 255, 0.05);
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Cada checkbox com nome da empresa */
+.formulario-container .empresa-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-weight: 500;
+  color: #000000;
+  line-height: 1.4;
+
+}
+
+/* Efeito hover */
+.formulario-container .empresa-checkbox:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Estilo da caixinha do checkbox */
+.formulario-container .empresa-checkbox input[type="checkbox"] {
+  accent-color: #1e90ff;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }

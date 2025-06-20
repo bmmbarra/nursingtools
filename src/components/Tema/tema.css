@@ -493,3 +493,17 @@ body.dark .tabela-habilidades::-webkit-scrollbar-thumb:hover {
     margin-bottom: 8px;
   }
 }
+
+body.dark .formulario-container .empresa-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.4;
+
+}
