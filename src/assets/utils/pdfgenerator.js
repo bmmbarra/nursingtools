@@ -41,7 +41,7 @@ function gerarTextoIntroducao(empresa) {
 }
 
 function marcarOpcoes(valor, opcoes) {
-  return opcoes.map(op => (valor?.toLowerCase() === op.toLowerCase() ? `(X) ${op}` : `( ) ${op}`)).join("   ");
+  return opcoes.map(op => (valor?.toLowerCase() === op.toLowerCase() ? `(X) ${op}` : `( ) ${op}`)).join("   ");
 }
 
 function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) {
@@ -51,7 +51,7 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) 
     if (!relatorio.nome) camposFaltantes.push("Nome do(a) aluno(a)");
     if (!relatorio.cpf) camposFaltantes.push("CPF do(a) aluno(a)");
     if (!relatorio.turma) camposFaltantes.push("Turma");
-   // if (!empresa.nome && !relatorio.empresa) camposFaltantes.push("Unidade concedente (Empresa)");
+    // if (!empresa.nome && !relatorio.empresa) camposFaltantes.push("Unidade concedente (Empresa)");
     if (!relatorio.instrutores) camposFaltantes.push("Nome do(s) instrutor(es)");
     if (!relatorio.habilidades || Object.keys(relatorio.habilidades).length === 0) {
       camposFaltantes.push("Avaliação de Habilidades e Atitudes");
@@ -73,6 +73,66 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) 
   }
 
   return true;
+}
+
+// --- PASSO 2.1: Ferramenta de Justificação de Texto ---
+/**
+ * Adiciona texto justificado a um documento jsPDF.
+ * @param {jsPDF} doc O objeto jsPDF.
+ * @param {string} text O texto a ser justificado.
+ * @param {number} x A coordenada X inicial.
+ * @param {number} y A coordenada Y inicial.
+ * @param {number} maxWidth A largura máxima da linha.
+ * @param {number} lineHeight A altura de cada linha de texto.
+ * @returns {number} A nova coordenada Y após adicionar o texto.
+ */
+function addJustifiedText(doc, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+    let lines = [];
+
+    // Quebra o texto em linhas que cabem na largura máxima
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + ' ';
+        // Calcula a largura real da linha de teste
+        const testWidth = doc.getStringUnitWidth(testLine) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+
+        if (testWidth > maxWidth && line !== '') {
+            lines.push(line);
+            line = words[i] + ' ';
+        } else {
+            line = testLine;
+        }
+    }
+    lines.push(line); // Adiciona a última linha
+
+    // Itera sobre as linhas para justificar e adicionar ao documento
+    lines.forEach((currentLine, index) => {
+        if (index === lines.length - 1) { // Última linha de um parágrafo, alinha à esquerda
+            doc.text(currentLine.trim(), x, y);
+        } else {
+            const wordsInLine = currentLine.trim().split(' ');
+            if (wordsInLine.length === 1) { // Linha com apenas uma palavra, alinha à esquerda
+                doc.text(wordsInLine[0], x, y);
+            } else {
+                // Calcula a largura atual da linha e o espaço necessário para justificar
+                const lineWidth = doc.getStringUnitWidth(currentLine.trim()) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                const spaceToAdd = maxWidth - lineWidth;
+                const numSpaces = wordsInLine.length - 1;
+                const spaceWidth = doc.getStringUnitWidth(' ') * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                const additionalSpace = spaceToAdd / numSpaces;
+
+                let justifiedLine = wordsInLine[0];
+                for (let i = 1; i < wordsInLine.length; i++) {
+                    // Adiciona espaços extras para justificar
+                    justifiedLine += ' '.repeat(Math.floor(additionalSpace / spaceWidth) + 1) + wordsInLine[i];
+                }
+                doc.text(justifiedLine, x, y);
+            }
+        }
+        y += lineHeight; // Avança para a próxima linha
+    });
+    return y; // Retorna a nova posição Y para continuar adicionando texto
 }
 
 export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo }) {
@@ -194,6 +254,7 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
       doc.text(`Carga Horária realizada: ______________________`, 120, finalY);
     };
 
+    // CORREÇÃO: Nome da função 'gerarTabelaChecklist' corrigido
     gerarTabelaChecklist();
     doc.save(`Checklist_Estagio_${uc}.pdf`);
     return;
@@ -207,83 +268,89 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     doc.text("Relatório de Estágio Obrigatório", centerX, 160, { align: "center" });
     doc.text("Técnico em Enfermagem", centerX, 167, { align: "center" });
   };
-const gerarIdentificacao = () => {
-  doc.addPage();
-  inserirCabecalho();
-  doc.setFont("times", "bold");
-  doc.setFontSize(14);
-  doc.text("IDENTIFICAÇÃO", 15, 65);
 
-  const nomesUnidades = empresa.map((e) => e.nome).join(", ");
+  const gerarIdentificacao = () => {
+    doc.addPage();
+    inserirCabecalho();
+    doc.setFont("times", "bold");
+    doc.setFontSize(14);
+    doc.text("IDENTIFICAÇÃO", 15, 65);
 
-  const info = [
-    [`Nome do(a) aluno(a): ${relatorio.nome || ""}`],
-    [`CPF do(a) aluno(a): ${relatorio.cpf || ""}`],
-    [`Turma: ${relatorio.turma || ""}`],
-    [`Data da entrega: ${relatorio.dataEntrega || ""}`],
-    [`Unidade concedente: ${nomesUnidades}`],
-    [`Nome do(s) instrutor(es): ${relatorio.instrutores || ""}`],
-  ];
+    const nomesUnidades = empresa.map((e) => e.nome).join(", ");
 
-  autoTable(doc, {
-    startY: 75,
-    body: info.map(i => [i]),
-    styles: { font: "times", fontSize: 11, cellPadding: 3, halign: "left" },
-  });
-};
+    const info = [
+      [`Nome do(a) aluno(a): ${relatorio.nome || ""}`],
+      [`CPF do(a) aluno(a): ${relatorio.cpf || ""}`],
+      [`Turma: ${relatorio.turma || ""}`],
+      [`Data da entrega: ${relatorio.dataEntrega || ""}`],
+      [`Unidade concedente: ${nomesUnidades}`],
+      [`Nome do(s) instrutor(es): ${relatorio.instrutores || ""}`],
+    ];
+
+    autoTable(doc, {
+      startY: 75,
+      body: info.map(i => [i]),
+      styles: { font: "times", fontSize: 11, cellPadding: 3, halign: "left" },
+    });
+  };
 
   const gerarIntroducao = () => {
-doc.addPage(); // Começa uma nova página
-  inserirCabecalho();
+    doc.addPage();
+    inserirCabecalho();
 
-  doc.setFont("times", "bold");
-  doc.setFontSize(14);
-  doc.text("INTRODUÇÃO", 15, 65);
+    doc.setFont("times", "bold");
+    doc.setFontSize(14);
+    doc.text("INTRODUÇÃO", 15, 65);
 
-  doc.setFont("times", "normal");
-  doc.setFontSize(11);
-
-  let y = 75; // posição inicial após o título
-
-  // Lista os nomes das empresas
-  const nomesEmpresas = empresa.map(e => e.nome).filter(Boolean);
-  const nomesJuntos = nomesEmpresas.join(" e ");
-
-  // Assume o período da primeira empresa (se todas forem iguais)
-  const periodo = empresa[0]?.periodoEstagio || empresa[0]?.periodo || "";
-
-  // Frase introdutória única
-  const textoInicial = `Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${nomesJuntos} no período de ${periodo}.`;
-
-  const linhasIntro = doc.splitTextToSize(textoInicial, 180);
-  doc.text(linhasIntro, 15, y);
-  y += linhasIntro.length * 6 + 5;
-
-  // Agora, adiciona os blocos individuais de cada empresa (sem repetir a frase inicial)
-  empresa.forEach((emp, index) => {
-    const texto = [emp.info, emp.plano, emp.descricao].filter(Boolean).join("\n\n");
-    const linhas = doc.splitTextToSize(texto, 180);
-    const alturaEstimativa = linhas.length * 6 + 5;
-
-    if (y + alturaEstimativa > 280) {
-      doc.addPage();
-      inserirCabecalho();
-      doc.setFont("times", "bold");
-      doc.setFontSize(14);
-      doc.text("INTRODUÇÃO", 15, 65);
-      doc.setFont("times", "normal");
-      doc.setFontSize(11);
-      y = 75;
-    }
-
-
-    // Bloco textual da empresa
     doc.setFont("times", "normal");
     doc.setFontSize(11);
-    doc.text(linhas, 15, y);
-    y += linhas.length * 5 ;
-  });
-};
+
+    let y = 75; // posição inicial após o título
+    const marginX = 15; // Margem esquerda
+    const contentWidth = pageWidth - (marginX * 2); // Largura disponível para o texto
+    const lineHeight = 6; // Altura da linha para fontSize 11
+
+    // Lista os nomes das empresas
+    const nomesEmpresas = empresa.map(e => e.nome).filter(Boolean);
+    const nomesJuntos = nomesEmpresas.join(" e ");
+
+    // Assume o período da primeira empresa (se todas forem iguais)
+    const periodo = empresa[0]?.periodoEstagio || empresa[0]?.periodo || "";
+
+    // Frase introdutória única
+    const textoInicial = `Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${nomesJuntos} no período de ${periodo}.`;
+
+    // Usa a nova função para justificar o texto
+    y = addJustifiedText(doc, textoInicial, marginX, y, contentWidth, lineHeight);
+    y += 5; // Espaçamento extra após o parágrafo inicial
+
+    // Agora, adiciona os blocos individuais de cada empresa (sem repetir a frase inicial)
+    empresa.forEach((emp, index) => {
+        const texto = [emp.info, emp.plano, emp.descricao].filter(Boolean).join("\n\n");
+
+        // Quebra o texto em parágrafos para tratar cada um separadamente com a justificação
+        const paragrafos = texto.split('\n\n').filter(Boolean);
+
+        paragrafos.forEach(paragrafo => {
+            // Estima a altura do parágrafo para verificar se cabe na página atual
+            const alturaEstimativaParagrafo = (doc.splitTextToSize(paragrafo, contentWidth).length) * lineHeight + 5;
+
+            if (y + alturaEstimativaParagrafo > 280) { // Se não couber, adiciona nova página
+                doc.addPage();
+                inserirCabecalho();
+                doc.setFont("times", "bold");
+                doc.setFontSize(14);
+                doc.text("INTRODUÇÃO", 15, 65);
+                doc.setFont("times", "normal");
+                doc.setFontSize(11);
+                y = 75; // Reseta Y para o início da nova página
+            }
+
+            y = addJustifiedText(doc, paragrafo, marginX, y, contentWidth, lineHeight);
+            y += 5; // Espaçamento entre parágrafos
+        });
+    });
+  };
 
   const gerarHabilidades = () => {
     const habilidades = Object.entries(relatorio.habilidades || {}).filter(
@@ -342,8 +409,18 @@ doc.addPage(); // Começa uma nova página
     doc.setFont("times", "normal");
     doc.setFontSize(11);
     const texto = relatorio.conclusao || "";
-    const linhas = doc.splitTextToSize(texto, 180);
-    doc.text(linhas, 15, 75);
+    const marginX = 15;
+    const contentWidth = pageWidth - (marginX * 2);
+    const lineHeight = 6; // Mesma altura de linha da introdução
+
+    // Quebra o texto em parágrafos para justificar cada um
+    const paragrafos = texto.split('\n\n').filter(Boolean);
+    let y = 75;
+
+    paragrafos.forEach(paragrafo => {
+        y = addJustifiedText(doc, paragrafo, marginX, y, contentWidth, lineHeight);
+        y += 5; // Espaçamento entre parágrafos
+    });
   };
 
   gerarCapa();
