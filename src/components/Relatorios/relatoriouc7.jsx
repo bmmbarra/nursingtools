@@ -84,7 +84,7 @@ export default function RelatorioUC7({ uc, dados, setDados }) {
 
       <label>CPF do(a) aluno(a):</label>
       <input
-        type="text"
+        type="number"
         value={dados.cpf || ""}
         onChange={(e) => handleChange("cpf", e.target.value)}
         placeholder="Digite seu CPF"
@@ -98,12 +98,16 @@ export default function RelatorioUC7({ uc, dados, setDados }) {
         placeholder="Digite sua turma"
       />
 
-      <label>Data da entrega:</label>
-      <input
-        type="date"
-        value={dados.dataEntrega || ""}
-        onChange={(e) => handleChange("dataEntrega", e.target.value)}
-      />
+            {/* 
+            <label>Data da entrega:</label>
+            <input
+              type="date"
+              value={dados.dataEntrega || ""}
+              onChange={(e) => handleChange("dataEntrega", e.target.value)}
+            /> 
+            */}
+
+
 
      
 

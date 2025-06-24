@@ -1,434 +1,408 @@
 // ===================================================================================
-// ARQUIVO: pdfgenerator.js
+// ARQUIVO: pdfgenerator.js (VERSÃO FINAL UNIFICADA E CORRIGIDA)
 //
 // PROPÓSITO GERAL:
-// Este arquivo é a nossa "Gráfica Digital". Sua única função é receber um
-// conjunto de informações (os dados do estágio) e usar essas informações para
-// construir e formatar um documento PDF profissional, pronto para ser salvo ou impresso.
-// Ele sabe criar dois tipos de documentos: um "Checklist" e um "Relatório".
+// Gera um PDF (Checklist ou Relatório) com base no tipo selecionado,
+// preservando a formatação original de cada um e com lógica ABNT avançada.
 // ===================================================================================
 
-// --- PASSO 1: Importando as Ferramentas da Gráfica ---
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import logo from "../../assets/Images/senac-logo.png";
 
-// --- PASSO 2: Listas e Assistentes de Formatação ---
-
-const atitudesList = [
-  "Comprometimento com o atendimento humanizado",
-  "Responsabilidade no uso dos recursos organizacionais",
-  "Colaboração, flexibilidade e iniciativa no desenvolvimento do trabalho em equipe",
-  "Proatividade na resolução de problemas",
-  "Respeito à diversidade e aos valores morais, culturais e religiosos do cliente e da família",
-  "Respeito ao limite da atuação profissional",
-  "Responsabilidade no descarte de resíduos",
-  "Sigilo no tratamento de dados e informações",
-  "Zelo na apresentação pessoal e postura profissional",
-  "Responsabilidade no cumprimento das normas de segurança",
-  "Respeito às normas técnicas e legislações vigentes",
-  "Escuta Ativa",
-  "Registro das Ações de Enfermagem conforme a rotina e protocolo da Instituição"
-];
-
-function gerarTextoIntroducao(empresa) {
-  return [
-    `Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${empresa.nome} no período de ${empresa.periodoEstagio || empresa.periodo}.`,
-    empresa.info,
-    empresa.plano,
-    empresa.descricao
-  ].filter(Boolean).join("\n\n");
-}
+// --- Funções Auxiliares Globais ---
 
 function marcarOpcoes(valor, opcoes) {
-  return opcoes.map(op => (valor?.toLowerCase() === op.toLowerCase() ? `(X) ${op}` : `( ) ${op}`)).join("   ");
+  return opcoes.map((op) => (valor?.toLowerCase() === op.toLowerCase() ? `(X) ${op}` : `( ) ${op}`)).join("   ");
 }
 
 function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo }) {
-  const camposFaltantes = [];
-
-  if (tipo === "Relatório") {
-    if (!relatorio.nome) camposFaltantes.push("Nome do(a) aluno(a)");
-    if (!relatorio.cpf) camposFaltantes.push("CPF do(a) aluno(a)");
-    if (!relatorio.turma) camposFaltantes.push("Turma");
-    // if (!empresa.nome && !relatorio.empresa) camposFaltantes.push("Unidade concedente (Empresa)");
-    if (!relatorio.instrutores) camposFaltantes.push("Nome do(s) instrutor(es)");
-    if (!relatorio.habilidades || Object.keys(relatorio.habilidades).length === 0) {
-      camposFaltantes.push("Avaliação de Habilidades e Atitudes");
-    }
-    if (!relatorio.conclusao) camposFaltantes.push("Conclusão do aluno");
-  } else if (tipo === "Checklist") {
-    if (!checklist.turma) camposFaltantes.push("Turma");
-    if (!checklist.aluno) camposFaltantes.push("Nome do Aluno");
-    if (!checklist.itens || Object.keys(checklist.itens).length === 0) {
-      camposFaltantes.push("Itens do Checklist");
-    }
-    if (!checklist.resultado) camposFaltantes.push("Resultado Final");
-  }
-
-  if (camposFaltantes.length > 0) {
-    const mensagem = "Por favor, preencha os seguintes campos obrigatórios antes de gerar o PDF:\n\n- " + camposFaltantes.join("\n- ");
-    alert(mensagem);
-    return false;
-  }
-
-  return true;
+  const camposFaltantes = [];
+  if (tipo === "Relatório") {
+    if (!relatorio.nome) camposFaltantes.push("Nome do(a) aluno(a)");
+    if (!relatorio.cpf) camposFaltantes.push("CPF do(a) aluno(a)");
+    if (!relatorio.turma) camposFaltantes.push("Turma");
+    if (!relatorio.instrutores) camposFaltantes.push("Nome do(s) instrutor(es)");
+    if (!relatorio.habilidades || Object.keys(relatorio.habilidades).length === 0)
+      camposFaltantes.push("Avaliação de Habilidades e Atitudes");
+    if (!relatorio.conclusao) camposFaltantes.push("Conclusão do aluno");
+  } else if (tipo === "Checklist") {
+    if (!checklist.turma) camposFaltantes.push("Turma");
+    if (!checklist.aluno) camposFaltantes.push("Nome do Aluno");
+    if (!checklist.itens || Object.keys(checklist.itens).length === 0) camposFaltantes.push("Itens do Checklist");
+    if (!checklist.resultado) camposFaltantes.push("Resultado Final");
+  }
+  if (camposFaltantes.length > 0) {
+    alert(
+      "Por favor, preencha os seguintes campos obrigatórios antes de gerar o PDF:\n\n- " +
+        camposFaltantes.join("\n- ")
+    );
+    return false;
+  }
+  return true;
 }
 
-// --- PASSO 2.1: Ferramenta de Justificação de Texto ---
-/**
- * Adiciona texto justificado a um documento jsPDF.
- * @param {jsPDF} doc O objeto jsPDF.
- * @param {string} text O texto a ser justificado.
- * @param {number} x A coordenada X inicial.
- * @param {number} y A coordenada Y inicial.
- * @param {number} maxWidth A largura máxima da linha.
- * @param {number} lineHeight A altura de cada linha de texto.
- * @returns {number} A nova coordenada Y após adicionar o texto.
- */
-function addJustifiedText(doc, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' ');
-    let line = '';
-    let lines = [];
-
-    // Quebra o texto em linhas que cabem na largura máxima
-    for (let i = 0; i < words.length; i++) {
-        const testLine = line + words[i] + ' ';
-        // Calcula a largura real da linha de teste
-        const testWidth = doc.getStringUnitWidth(testLine) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-
-        if (testWidth > maxWidth && line !== '') {
-            lines.push(line);
-            line = words[i] + ' ';
-        } else {
-            line = testLine;
-        }
-    }
-    lines.push(line); // Adiciona a última linha
-
-    // Itera sobre as linhas para justificar e adicionar ao documento
-    lines.forEach((currentLine, index) => {
-        if (index === lines.length - 1) { // Última linha de um parágrafo, alinha à esquerda
-            doc.text(currentLine.trim(), x, y);
-        } else {
-            const wordsInLine = currentLine.trim().split(' ');
-            if (wordsInLine.length === 1) { // Linha com apenas uma palavra, alinha à esquerda
-                doc.text(wordsInLine[0], x, y);
-            } else {
-                // Calcula a largura atual da linha e o espaço necessário para justificar
-                const lineWidth = doc.getStringUnitWidth(currentLine.trim()) * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                const spaceToAdd = maxWidth - lineWidth;
-                const numSpaces = wordsInLine.length - 1;
-                const spaceWidth = doc.getStringUnitWidth(' ') * doc.internal.getFontSize() / doc.internal.scaleFactor;
-                const additionalSpace = spaceToAdd / numSpaces;
-
-                let justifiedLine = wordsInLine[0];
-                for (let i = 1; i < wordsInLine.length; i++) {
-                    // Adiciona espaços extras para justificar
-                    justifiedLine += ' '.repeat(Math.floor(additionalSpace / spaceWidth) + 1) + wordsInLine[i];
-                }
-                doc.text(justifiedLine, x, y);
-            }
-        }
-        y += lineHeight; // Avança para a próxima linha
-    });
-    return y; // Retorna a nova posição Y para continuar adicionando texto
-}
+// --- Função Principal de Geração de PDF ---
 
 export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo }) {
-  empresa = Array.isArray(empresa) ? empresa : [empresa];
-  const dadosParaValidar = { uc, empresa, relatorio, checklist, tipo };
-  if (!validarCamposObrigatorios(dadosParaValidar)) {
-    return;
-  }
+  empresa = Array.isArray(empresa) ? empresa : [empresa];
+  if (!validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo })) {
+    return;
+  }
 
-  const doc = new jsPDF();
-  const pageWidth = doc.internal.pageSize.getWidth();
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
 
-  const logoImg = new Image();
-  logoImg.src = logo;
-  await new Promise((resolve) => (logoImg.onload = resolve));
+  const logoImg = new Image();
+  logoImg.src = logo;
+  await new Promise((resolve) => (logoImg.onload = resolve));
+  
+  // << CORREÇÃO >>: Lista movida para dentro da função para garantir o escopo correto.
+  const atitudesList = [
+    "Comprometimento com o atendimento humanizado",
+    "Responsabilidade no uso dos recursos organizacionais",
+    "Colaboração, flexibilidade e iniciativa no desenvolvimento do trabalho em equipe",
+    "Proatividade na resolução de problemas",
+    "Respeito à diversidade e aos valores morais, culturais e religiosos do cliente e da família",
+    "Respeito ao limite da atuação profissional",
+    "Responsabilidade no descarte de resíduos",
+    "Sigilo no tratamento de dados e informações",
+    "Zelo na apresentação pessoal e postura profissional",
+    "Responsabilidade no cumprimento das normas de segurança",
+    "Respeito às normas técnicas e legislações vigentes",
+    "Escuta Ativa",
+    "Registro das Ações de Enfermagem conforme a rotina e protocolo da Instituição",
+  ];
 
-  const inserirCabecalho = () => {
-    const centerX = pageWidth / 2;
-    let posY = 15;
-    doc.addImage(logoImg, "PNG", 8, 9, 22, 22);
-    doc.setFont("times", "bold");
-    doc.setFontSize(11);
-    doc.setTextColor(0, 0, 0);
 
-    doc.text("SERVIÇO NACIONAL DE APRENDIZAGEM COMERCIAL – SENAC EM MINAS", centerX, posY, { align: "center" });
-    doc.text("Estágio Profissional Supervisionado", centerX, (posY += 6), { align: "center" });
-    doc.setFont("times", "normal");
+  // ===================================================================================
+  // --- LÓGICA PARA O CHECKLIST (CÓDIGO ORIGINAL PRESERVADO) ---
+  // ===================================================================================
+  if (tipo === "Checklist") {
 
-    let tituloUC = "";
-    let carga = "";
+    const inserirCabecalhoChecklist = () => {
+        const centerX = pageWidth / 2;
+        let posY = 15;
+        doc.addImage(logoImg, "PNG", 8, 9, 22, 22);
+        doc.setFont("times", "bold");
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
 
-    switch (uc) {
-      case 'UC4':
-        tituloUC = "Promoção à Saúde";
-        carga = "80 horas";
-        break;
-      case 'UC7':
-        tituloUC = "Cuidado Integral de Enfermagem";
-        carga = "120 horas";
-        break;
-      case 'UC10':
-        tituloUC = "Cuidado Especializado de Enfermagem";
-        carga = "100 horas";
-        break;
-      case 'UC17':
-        tituloUC = "Cuidado Crítico, Urgência e Emergência de Enfermagem";
-        carga = "100 horas";
-        break;
-      default:
-        tituloUC = "Título não definido";
-        carga = "Carga não definida";
-    }
+        doc.text("SERVIÇO NACIONAL DE APRENDIZAGEM COMERCIAL – SENAC EM MINAS", centerX, posY, { align: "center" });
+        doc.text("Estágio Profissional Supervisionado", centerX, (posY += 6), { align: "center" });
+        doc.setFont("times", "normal");
 
-    doc.text(`Unidade Curricular ${uc} – ${tituloUC}`, centerX, (posY += 6), { align: "center" });
-    doc.text(`Carga horária: ${empresa.cargaHoraria || checklist?.cargaHoraria || carga}`, centerX, (posY += 6), { align: "center" });
+        let tituloUC = "";
+        let carga = "";
 
-    posY += 6;
-    doc.text("Unidade de Ensino Técnico do CEP de Poços de Caldas", centerX, (posY += 6), { align: "center" });
-    doc.setFontSize(11);
-  };
+        switch (uc) {
+            case 'UC4': tituloUC = "Promoção à Saúde"; carga = "80 horas"; break;
+            case 'UC7': tituloUC = "Cuidado Integral de Enfermagem"; carga = "120 horas"; break;
+            case 'UC10': tituloUC = "Cuidado Especializado de Enfermagem"; carga = "100 horas"; break;
+            case 'UC17': tituloUC = "Cuidado Crítico, Urgência e Emergência de Enfermagem"; carga = "100 horas"; break;
+            default: tituloUC = "Título não definido"; carga = "Carga não definida";
+        }
 
-  const corTexto = (valor) => {
-    if (!valor) return [0, 0, 0];
-    const v = valor.toLowerCase();
-    if (v === "sim") return [0, 128, 0];
-    if (v === "não") return [255, 0, 0];
-    if (v === "parcialmente") return [255, 165, 0];
-    return [0, 0, 0];
-  };
+        doc.text(`Unidade Curricular ${uc} – ${tituloUC}`, centerX, (posY += 6), { align: "center" });
+        doc.text(`Carga horária: ${empresa?.[0]?.cargaHoraria || checklist?.cargaHoraria || carga}`, centerX, (posY += 6), { align: "center" });
+        posY += 6;
+        doc.text("Unidade de Ensino Técnico do CEP de Poços de Caldas", centerX, (posY += 6), { align: "center" });
+        doc.setFontSize(11);
+    };
 
-  if (tipo === "Checklist") {
-    const gerarTabelaChecklist = () => {
-      inserirCabecalho();
+    inserirCabecalhoChecklist();
 
-      const dadosTopo = [
+    const dadosTopo = [
         ["Turma:", checklist.turma || "", "Matriz Curricular:", checklist.matrizCurricular || ""],
         ["Aluno:", checklist.aluno || "", "", ""],
-        ["Unidade Curricular:", `${uc}`, "Carga Horária:", checklist.cargaHoraria || ""]
-      ];
-      autoTable(doc, {
-        startY: 35,
+        ["Unidade Curricular:", `${uc}`, "Carga Horária:", checklist.cargaHoraria || ""],
+    ];
+    autoTable(doc, {
+        startY: 55,
         body: dadosTopo,
         styles: { font: "times", fontSize: 10, cellPadding: 1 },
         theme: "grid",
-        columnStyles: { 0: { cellWidth: 40 }, 2: { cellWidth: 40 } }
-      });
+        columnStyles: { 0: { cellWidth: 40 }, 2: { cellWidth: 40 } },
+    });
 
-      const corpoTabela = [];
-      for (const [titulo, perguntas] of Object.entries(checklist.itens || {})) {
+    const corpoTabela = [];
+    for (const [titulo, perguntas] of Object.entries(checklist.itens || {})) {
         corpoTabela.push([{ content: titulo, colSpan: 3, styles: { halign: "left", fontStyle: "bold" } }]);
         for (const [pergunta, respostas] of Object.entries(perguntas)) {
-          corpoTabela.push([
-            { content: pergunta },
-            { content: marcarOpcoes(respostas.acesso, ["Sim", "Não"]), styles: { halign: "center" } },
-            { content: marcarOpcoes(respostas.status, ["Regular", "Irregular", "Pendente"]), styles: { halign: "center", cellWidth: 60 } }
-          ]);
+            corpoTabela.push([
+                { content: pergunta },
+                { content: marcarOpcoes(respostas.acesso, ["Sim", "Não"]), styles: { halign: "center" } },
+                { content: marcarOpcoes(respostas.status, ["Regular", "Irregular", "Pendente"]), styles: { halign: "center", cellWidth: 60 } },
+            ]);
         }
-      }
+    }
 
-      autoTable(doc, {
+    autoTable(doc, {
         startY: doc.lastAutoTable.finalY + 5,
         head: [["Registro/Formulário", "Análise do Registro/Formulário", "Status"]],
         body: corpoTabela,
         styles: { font: "times", fontSize: 9, textColor: [0, 0, 0], cellPadding: 2 },
         headStyles: { fillColor: [230, 230, 230], halign: 'center', fontStyle: 'bold', fontSize: 8, valign: 'middle' },
         theme: "grid",
-        columnStyles: {
-          0: { cellWidth: 100 },
-          1: { cellWidth: 30 },
-          2: { cellWidth: 40 }
-        }
-      });
+        columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 30 }, 2: { cellWidth: 40 } },
+    });
 
-      const finalY = doc.lastAutoTable.finalY + 10;
-      doc.setFont("times", "normal");
-      doc.setFontSize(10);
-      const resultadoFinal = marcarOpcoes(checklist.resultado, ["Desenvolvida", "Não Desenvolvida"]);
-      doc.text(`Resultado Final: ${resultadoFinal}`, 15, finalY);
-      doc.text(`Carga Horária realizada: ______________________`, 120, finalY);
-    };
+    const finalY = doc.lastAutoTable.finalY + 10;
+    doc.setFont("times", "normal");
+    doc.setFontSize(10);
+    const resultadoFinal = marcarOpcoes(checklist.resultado, ["Desenvolvida", "Não Desenvolvida"]);
+    doc.text(`Resultado Final: ${resultadoFinal}`, 15, finalY);
+    doc.text(`Carga Horária realizada: ______________________`, 120, finalY);
 
-    // CORREÇÃO: Nome da função 'gerarTabelaChecklist' corrigido
-    gerarTabelaChecklist();
     doc.save(`Checklist_Estagio_${uc}.pdf`);
     return;
-  }
+  } 
+  // ===================================================================================
+  // --- LÓGICA PARA O RELATÓRIO (CÓDIGO ABNT AVANÇADO) ---
+  // ===================================================================================
+  else if (tipo === "Relatório") {
+    
+    const marginInferior = 20;
+    const marginEsquerda = 30;
+    const marginDireita = 20;
+    const contentStartY = 70;
 
-  const gerarCapa = () => {
-    inserirCabecalho();
-    const centerX = pageWidth / 2;
-    doc.setFont("times", "bold");
-    doc.setFontSize(12);
-    doc.text("Relatório de Estágio Obrigatório", centerX, 160, { align: "center" });
-    doc.text("Técnico em Enfermagem", centerX, 167, { align: "center" });
-  };
+    function inserirCabecalho(titulo = "") {
+        doc.setFont("arial", "normal");
+        doc.setFontSize(12);
+        doc.addImage(logoImg, "PNG", 8, 9, 22, 22);
 
-  const gerarIdentificacao = () => {
-    doc.addPage();
-    inserirCabecalho();
-    doc.setFont("times", "bold");
-    doc.setFontSize(14);
-    doc.text("IDENTIFICAÇÃO", 15, 65);
+        doc.setFont("arial", "bold");
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
 
-    const nomesUnidades = empresa.map((e) => e.nome).join(", ");
+        let currentY = 18;
+        doc.text("SERVIÇO NACIONAL DE APRENDIZAGEM COMERCIAL – SENAC EM MINAS", pageWidth / 2 + 10, currentY, { align: "center" });
+        currentY += 8;
+        doc.text("Estágio Profissional Supervisionado", pageWidth / 2 + 10, currentY, { align: "center" });
 
-    const info = [
-      [`Nome do(a) aluno(a): ${relatorio.nome || ""}`],
-      [`CPF do(a) aluno(a): ${relatorio.cpf || ""}`],
-      [`Turma: ${relatorio.turma || ""}`],
-      [`Data da entrega: ${relatorio.dataEntrega || ""}`],
-      [`Unidade concedente: ${nomesUnidades}`],
-      [`Nome do(s) instrutor(es): ${relatorio.instrutores || ""}`],
-    ];
+        doc.setFont("arial", "normal");
+        doc.setFontSize(12);
 
-    autoTable(doc, {
-      startY: 75,
-      body: info.map(i => [i]),
-      styles: { font: "times", fontSize: 11, cellPadding: 3, halign: "left" },
-    });
-  };
+        let tituloUC = "";
+        let carga = "";
+        switch (uc) {
+            case 'UC4': tituloUC = "Promoção à Saúde"; carga = "80 horas"; break;
+            case 'UC7': tituloUC = "Cuidado Integral de Enfermagem"; carga = "120 horas"; break;
+            case 'UC10': tituloUC = "Cuidado Especializado de Enfermagem"; carga = "100 horas"; break;
+            case 'UC17': tituloUC = "Cuidado Crítico, Urgência e Emergência de Enfermagem"; carga = "100 horas"; break;
+            default: tituloUC = "Título não definido"; carga = "Carga não definida";
+        }
+        currentY += 8;
+        doc.text(`Unidade Curricular ${uc} – ${tituloUC}`, pageWidth / 2, currentY, { align: "center" });
+        currentY += 6;
+        doc.text(`Carga horária: ${empresa?.[0]?.cargaHoraria || relatorio?.cargaHoraria || carga}`, pageWidth / 2, currentY, { align: "center" });
+        currentY += 6;
+        doc.text("Unidade de Ensino Técnico do CEP de Poços de Caldas", pageWidth / 2, currentY, { align: "center" });
+        
+        if (titulo) {
+            doc.setFont("arial", "bold");
+            doc.setFontSize(12);
+            doc.text(titulo.toUpperCase(), marginEsquerda, currentY + 14); 
+            doc.setFont("arial", "normal");
+            doc.setFontSize(12);
+        }
+    }
 
-  const gerarIntroducao = () => {
-    doc.addPage();
-    inserirCabecalho();
+    function iniciarNovaPagina(titulo) {
+        doc.addPage();
+        inserirCabecalho(titulo);
+    }
 
-    doc.setFont("times", "bold");
-    doc.setFontSize(14);
-    doc.text("INTRODUÇÃO", 15, 65);
+    function corTexto(valor) {
+        const v = valor?.toLowerCase();
+        if (v === "sim") return [0, 128, 0];
+        if (v === "não") return [255, 0, 0];
+        if (v === "parcialmente") return [255, 165, 0];
+        return [0, 0, 0];
+    }
 
-    doc.setFont("times", "normal");
-    doc.setFontSize(11);
+    function renderJustifiedText(doc, text, x, y, maxWidth, lineHeight) {
+        const paragraphs = text.split('\n\n');
+        let currentY = y;
 
-    let y = 75; // posição inicial após o título
-    const marginX = 15; // Margem esquerda
-    const contentWidth = pageWidth - (marginX * 2); // Largura disponível para o texto
-    const lineHeight = 6; // Altura da linha para fontSize 11
+        doc.setFont("arial", "normal");
+        doc.setFontSize(12);
 
-    // Lista os nomes das empresas
-    const nomesEmpresas = empresa.map(e => e.nome).filter(Boolean);
-    const nomesJuntos = nomesEmpresas.join(" e ");
-
-    // Assume o período da primeira empresa (se todas forem iguais)
-    const periodo = empresa[0]?.periodoEstagio || empresa[0]?.periodo || "";
-
-    // Frase introdutória única
-    const textoInicial = `Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${nomesJuntos} no período de ${periodo}.`;
-
-    // Usa a nova função para justificar o texto
-    y = addJustifiedText(doc, textoInicial, marginX, y, contentWidth, lineHeight);
-    y += 5; // Espaçamento extra após o parágrafo inicial
-
-    // Agora, adiciona os blocos individuais de cada empresa (sem repetir a frase inicial)
-    empresa.forEach((emp, index) => {
-        const texto = [emp.info, emp.plano, emp.descricao].filter(Boolean).join("\n\n");
-
-        // Quebra o texto em parágrafos para tratar cada um separadamente com a justificação
-        const paragrafos = texto.split('\n\n').filter(Boolean);
-
-        paragrafos.forEach(paragrafo => {
-            // Estima a altura do parágrafo para verificar se cabe na página atual
-            const alturaEstimativaParagrafo = (doc.splitTextToSize(paragrafo, contentWidth).length) * lineHeight + 5;
-
-            if (y + alturaEstimativaParagrafo > 280) { // Se não couber, adiciona nova página
+        paragraphs.forEach((paragraph, pIndex) => {
+            if (currentY > pageHeight - marginInferior - lineHeight) {
                 doc.addPage();
                 inserirCabecalho();
-                doc.setFont("times", "bold");
-                doc.setFontSize(14);
-                doc.text("INTRODUÇÃO", 15, 65);
-                doc.setFont("times", "normal");
-                doc.setFontSize(11);
-                y = 75; // Reseta Y para o início da nova página
+                currentY = contentStartY;
             }
+            
+            const words = paragraph.split(' ');
+            let line = '';
+            const lines = [];
 
-            y = addJustifiedText(doc, paragrafo, marginX, y, contentWidth, lineHeight);
-            y += 5; // Espaçamento entre parágrafos
+            for (const word of words) {
+                const testLine = line + word + ' ';
+                const testWidth = doc.getStringUnitWidth(testLine) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                
+                if (testWidth > maxWidth && line.length > 0) {
+                    lines.push(line.trim());
+                    line = word + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line.trim());
+
+            lines.forEach((lineText, lIndex) => {
+                if (currentY > pageHeight - marginInferior - lineHeight) {
+                    doc.addPage();
+                    inserirCabecalho();
+                    currentY = contentStartY;
+                }
+
+                const isLastLineOfParagraph = (lIndex === lines.length - 1);
+                const lineWords = lineText.split(' ');
+                
+                if (isLastLineOfParagraph || lineWords.length === 1) {
+                    doc.text(lineText, x, currentY);
+                } else {
+                    const totalWidth = lineWords.reduce((sum, w) => sum + doc.getStringUnitWidth(w) * doc.internal.getFontSize() / doc.internal.scaleFactor, 0);
+                    const totalSpaces = lineWords.length - 1;
+                    const spaceWidth = (maxWidth - totalWidth) / totalSpaces;
+                    let currentX = x;
+
+                    for (const word of lineWords) {
+                        doc.text(word, currentX, currentY);
+                        currentX += doc.getStringUnitWidth(word) * doc.internal.getFontSize() / doc.internal.scaleFactor + spaceWidth;
+                    }
+                }
+                currentY += lineHeight;
+            });
+            if (pIndex < paragraphs.length - 1) {
+                currentY += lineHeight / 2;
+            }
         });
-    });
-  };
+        return currentY;
+    }
 
-  const gerarHabilidades = () => {
-    const habilidades = Object.entries(relatorio.habilidades || {}).filter(
-      ([h]) => !atitudesList.includes(h)
-    );
-    if (habilidades.length === 0) return;
+    function gerarCapa() {
+        inserirCabecalho();
+        const centerX = pageWidth / 2;
+        doc.setFont("arial", "bold");
+        doc.setFontSize(12);
+        doc.text("Relatório de Estágio Obrigatório", centerX, 160, { align: "center" });
+        doc.text("Técnico em Enfermagem", centerX, 167, { align: "center" });
+    }
 
-    doc.addPage();
-    inserirCabecalho();
-    doc.text("HABILIDADES", 15, 65);
-    const linhas = habilidades.map(([titulo, val]) => [titulo, val]);
-    autoTable(doc, {
-      startY: 75,
-      head: [["Habilidade", "Avaliação"]],
-      body: linhas,
-      styles: { font: "times", fontSize: 10, textColor: [0, 0, 0] },
-      headStyles: { fillColor: [230, 230, 230] },
-      columnStyles: {
-        1: {
-          halign: "center",
-          textColor: (data) => corTexto(data.cell.raw)
-        }
-      }
-    });
-  };
+    function gerarIdentificacao() {
+        iniciarNovaPagina("IDENTIFICAÇÃO");
+        const nomesUnidades = Array.isArray(empresa) ? empresa.map((e) => e.nome).join(", ") : "";
+        const dataEntregaFormatada = "";
+        const greyFill = [200, 200, 200];
+        const whiteFill = [255, 255, 255];
+        const tableBody = [
+            [{ content: "Nome do(a) aluno(a):", colSpan: 3, styles: { fillColor: greyFill, fontStyle: "bold" } }],
+            [{ content: relatorio.nome || "", colSpan: 3, styles: { fillColor: whiteFill } }],
+            [{ content: "CPF do(a) aluno(a):", styles: { fillColor: greyFill, fontStyle: "bold" } }, { content: "Turma:", styles: { fillColor: greyFill, fontStyle: "bold" } }, { content: "Data da entrega:", styles: { fillColor: greyFill, fontStyle: "bold" } } ],
+            [{ content: relatorio.cpf || "" }, { content: relatorio.turma || "" }, { content: dataEntregaFormatada }],
+            [{ content: "Unidade concedente:", colSpan: 3, styles: { fillColor: greyFill, fontStyle: "bold" } }],
+            [{ content: nomesUnidades, colSpan: 3, styles: { fillColor: whiteFill } }],
+            [{ content: "Nome do(s) instrutor(es) de estágio em enfermagem:", colSpan: 3, styles: { fillColor: greyFill, fontStyle: "bold" } }],
+            [{ content: relatorio.instrutores || "", colSpan: 3, styles: { fillColor: whiteFill } }],
+        ];
 
-  const gerarAtitudes = () => {
-    if (!relatorio.habilidades) return;
-    const atitudesLinhas = atitudesList.map(a => [a, relatorio.habilidades[a] || "Não informado"]);
-    if (atitudesLinhas.length === 0) return;
+        autoTable(doc, {
+            body: tableBody,
+            styles: { font: "arial", fontSize: 12, cellPadding: 2, lineColor: greyFill, lineWidth: 0.1, valign: "middle", textColor: [0,0,0] },
+            theme: "grid",
+            margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
+            didDrawPage: (data) => {
+                inserirCabecalho("IDENTIFICAÇÃO");
+            },
+        });
+    }
 
-    doc.addPage();
-    inserirCabecalho();
-    doc.text("ATITUDES / VALORES", 15, 65);
-    autoTable(doc, {
-      startY: 75,
-      head: [["Atitude / Valor", "Avaliação"]],
-      body: atitudesLinhas,
-      styles: { font: "times", fontSize: 10, textColor: [0, 0, 0] },
-      headStyles: { fillColor: [230, 230, 230] },
-      columnStyles: {
-        1: {
-          halign: "center",
-          textColor: (data) => corTexto(data.cell.raw)
-        }
-      }
-    });
-  };
+    function gerarIntroducao() {
+        iniciarNovaPagina("INTRODUÇÃO");
+        const nomesEmpresas = empresa.map((e) => e.nome).filter(Boolean).join(" e ");
+        let textoIntroducao = [`Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${nomesEmpresas}.`];
+        empresa.forEach((emp) => {
+            const partesTextoEmpresa = [emp.info, emp.plano, emp.descricao].filter(Boolean);
+            let periodoEstagioEmpresaTexto = "";
+            if (emp.dataInicio && emp.dataFim) {
+                try {
+                    const inicio = new Date(emp.dataInicio + "T00:00:00");
+                    const fim = new Date(emp.dataFim + "T00:00:00");
+                    if (!isNaN(inicio.getTime()) && !isNaN(fim.getTime())) {
+                        const dataInicioFormatada = inicio.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+                        const dataFimFormatada = fim.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+                        periodoEstagioEmpresaTexto = `O estágio nesta unidade foi realizado de ${dataInicioFormatada} a ${dataFimFormatada}.`;
+                    }
+                } catch (error) { console.error("Erro ao formatar datas do estágio:", error); }
+            }
+            if (periodoEstagioEmpresaTexto) partesTextoEmpresa.push(periodoEstagioEmpresaTexto);
+            textoIntroducao.push(partesTextoEmpresa.join("\n\n"));
+        });
+        const textoCompleto = textoIntroducao.join("\n\n");
+        const lineHeight = 12 * 0.352778 * 1.5;
+        const maxWidth = pageWidth - marginEsquerda - marginDireita;
+        renderJustifiedText(doc, textoCompleto, marginEsquerda, contentStartY, maxWidth, lineHeight);
+    }
 
-  const gerarConclusao = () => {
-    doc.addPage();
-    inserirCabecalho();
-    doc.setFont("times", "bold");
-    doc.setFontSize(14);
-    doc.text("CONCLUSÃO", 15, 65);
-    doc.setFont("times", "normal");
-    doc.setFontSize(11);
-    const texto = relatorio.conclusao || "";
-    const marginX = 15;
-    const contentWidth = pageWidth - (marginX * 2);
-    const lineHeight = 6; // Mesma altura de linha da introdução
+    function gerarHabilidades() {
+        iniciarNovaPagina("HABILIDADES");
+        const body = Object.entries(relatorio.habilidades || {})
+            .filter(([h]) => !atitudesList.includes(h))
+            .map(([titulo, val]) => [titulo, val]);
+        autoTable(doc, {
+            head: [["Habilidade", "Avaliação"]],
+            body: body,
+            styles: { font: "arial", fontSize: 12, lineHeightFactor: 1.5, textColor: [0, 0, 0] },
+            headStyles: { fillColor: [230, 230, 230], fontStyle: "bold", textColor: [0,0,0], fontSize: 12, font: "arial" },
+            columnStyles: { 1: { halign: "center", didParseCell: (data) => { data.cell.styles.textColor = corTexto(data.cell.raw); } } },
+            theme: "grid",
+            margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
+            didDrawPage: (data) => {
+                inserirCabecalho("HABILIDADES");
+            },
+        });
+    }
 
-    // Quebra o texto em parágrafos para justificar cada um
-    const paragrafos = texto.split('\n\n').filter(Boolean);
-    let y = 75;
+    function gerarAtitudes() {
+        if (!relatorio.habilidades) return;
+        const atitudesLinhas = atitudesList.map((a) => [a, relatorio.habilidades[a] || "Não informado"]);
+        if (atitudesLinhas.length === 0) return;
+        iniciarNovaPagina("ATITUDES / VALORES");
+        autoTable(doc, {
+            head: [["Atitude / Valor", "Avaliação"]],
+            body: atitudesLinhas,
+            styles: { font: "arial", fontSize: 12, lineHeightFactor: 1.5, textColor: [0, 0, 0] },
+            headStyles: { fillColor: [230, 230, 230], fontStyle: "bold", textColor: [0,0,0], fontSize: 12, font: "arial" },
+            columnStyles: { 1: { halign: "center", didParseCell: (data) => { data.cell.styles.textColor = corTexto(data.cell.raw); } } },
+            theme: "grid",
+            margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
+            didDrawPage: (data) => {
+                inserirCabecalho("ATITUDES / VALORES");
+            },
+        });
+    }
 
-    paragrafos.forEach(paragrafo => {
-        y = addJustifiedText(doc, paragrafo, marginX, y, contentWidth, lineHeight);
-        y += 5; // Espaçamento entre parágrafos
-    });
-  };
-
-  gerarCapa();
-  gerarIdentificacao();
-  gerarIntroducao();
-  gerarHabilidades();
-  gerarAtitudes();
-  gerarConclusao();
-
-  doc.save(`${tipo}_Estagio_${uc}.pdf`);
+    function gerarConclusao() {
+        iniciarNovaPagina("CONCLUSÃO");
+        const texto = relatorio.conclusao || "";
+        const textoFormatado = texto.replace(/\n/g, '\n\n');
+        const lineHeight = 12 * 0.352778 * 1.5;
+        const maxWidth = pageWidth - marginEsquerda - marginDireita;
+        renderJustifiedText(doc, textoFormatado, marginEsquerda, contentStartY, maxWidth, lineHeight);
+    }
+    
+    gerarCapa();
+    gerarIdentificacao();
+    gerarIntroducao();
+    gerarHabilidades();
+    gerarAtitudes();
+    gerarConclusao();
+    doc.save(`${tipo}_Estagio_${uc}.pdf`);
+  }
 }

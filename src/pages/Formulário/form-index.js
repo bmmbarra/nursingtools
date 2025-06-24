@@ -1,4 +1,3 @@
-
 // ===================================================================================
 // ARQUIVO: FormularioEstagio.js
 // ===================================================================================
@@ -6,7 +5,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Theme from "../../components/Tema/tema";
-import empresas from "../../components/Const/empresas";
+import empresasData from "../../components/Const/empresas";
 import RelatorioUC4 from "../../components/Relatorios/relatoriouc4";
 import RelatorioUC7 from "../../components/Relatorios/relatoriouc7";
 import RelatorioUC10 from "../../components/Relatorios/relatoriouc10";
@@ -29,7 +28,7 @@ const abas = ["Relatório", "Checklist"];
 export default function FormularioEstagio() {
   const [ucSelecionada, setUcSelecionada] = useState("UC4");
   const [abaAtiva, setAbaAtiva] = useState("Relatório");
-  const [empresasSelecionadas, setEmpresasSelecionadas] = useState([]);
+  const [empresasSelecionadas, setEmpresasSelecionadas] = useState([]); 
   const [dadosRelatorio, setDadosRelatorio] = useState({});
   const [dadosChecklist, setDadosChecklist] = useState({});
 
@@ -39,7 +38,15 @@ export default function FormularioEstagio() {
     if (existe) {
       atualizadas = empresasSelecionadas.filter((e) => e.nome !== nome);
     } else {
-      atualizadas = [...empresasSelecionadas, { nome, ...empresas[nome], periodoEstagio: "" }];
+      atualizadas = [
+        ...empresasSelecionadas,
+        {
+          nome,
+          ...empresasData[nome],
+          dataInicio: "",
+          dataFim: "",
+        },
+      ];
     }
     setEmpresasSelecionadas(atualizadas);
 
@@ -47,9 +54,47 @@ export default function FormularioEstagio() {
     setDadosRelatorio((prev) => ({ ...prev, unidadeConcedente: nomesUnidades }));
   };
 
+  const handleEmpresaDateChange = (nomeEmpresa, tipoData, valor) => {
+    setEmpresasSelecionadas((prevEmpresas) =>
+      prevEmpresas.map((empresa) => {
+        if (empresa.nome === nomeEmpresa) {
+          const updatedEmpresa = { ...empresa, [tipoData]: valor };
+          // Se a data de início for alterada e for maior que a data final atual,
+          // ajusta a data final para ser igual à data de início para evitar inconsistência visual.
+          if (tipoData === 'dataInicio' && updatedEmpresa.dataFim && new Date(valor) > new Date(updatedEmpresa.dataFim)) {
+              updatedEmpresa.dataFim = valor; // Ajusta a data final para a nova data de início
+          }
+          return updatedEmpresa;
+        }
+        return empresa;
+      })
+    );
+  };
+
   const handleGerarPDF = () => {
     let habilidades = [];
     let atitudes = [];
+
+    // A validação de ordem de datas (fim < inicio) se torna redundante no momento da seleção com o 'min'
+    // mas ainda é bom ter como uma checagem final, caso o usuário manipule o HTML ou utilize um navegador antigo.
+    const errosDeDataOrdem = [];
+    empresasSelecionadas.forEach(emp => {
+      if (emp.dataInicio && emp.dataFim) {
+        const inicio = new Date(emp.dataInicio);
+        const fim = new Date(emp.dataFim);
+        // Remove 'T00:00:00' para comparação de data apenas, ignorando fusos horários que podem causar 1 dia de diferença.
+        // Ou, para ser mais preciso, compare as strings 'YYYY-MM-DD' diretamente se o formato for garantido.
+        if (fim.getTime() < inicio.getTime()) { 
+          errosDeDataOrdem.push(`A data final do estágio para "${emp.nome}" (${emp.dataFim}) não pode ser anterior à data de início (${emp.dataInicio}).`);
+        }
+      }
+    });
+
+    if (errosDeDataOrdem.length > 0) {
+      alert("⚠️ Erro nas datas de estágio:\n\n" + errosDeDataOrdem.join("\n\n"));
+      return;
+    }
+
 
     if (abaAtiva === "Checklist") {
       const erros = validarChecklist(dadosChecklist);
@@ -59,29 +104,35 @@ export default function FormularioEstagio() {
       }
     }
 
-  if (abaAtiva === "Relatório") {
-    switch (ucSelecionada) {
-      case "UC4":
-        habilidades = habilidadesUC4;
-        atitudes = atitudesUC4;
-        break;
-      case "UC7":
-        habilidades = habilidadesUC7;
-        atitudes = atitudesUC7;
-        break;
-      case "UC10":
-        habilidades = habilidadesUC10;
-        atitudes = atitudesUC10;
-        break;
-      case "UC17":
-        habilidades = habilidadesUC17;
-        atitudes = atitudesUC17;
-        break;
-      default:
-        break;
-    }
+    if (abaAtiva === "Relatório") {
+      switch (ucSelecionada) {
+        case "UC4":
+          habilidades = habilidadesUC4;
+          atitudes = atitudesUC4;
+          break;
+        case "UC7":
+          habilidades = habilidadesUC7;
+          atitudes = atitudesUC7;
+          break;
+        case "UC10":
+          habilidades = habilidadesUC10;
+          atitudes = atitudesUC10;
+          break;
+        case "UC17":
+          habilidades = habilidadesUC17;
+          atitudes = atitudesUC17;
+          break;
+        default:
+          break;
+      }
 
-    const erros = validarRelatorio(dadosRelatorio, habilidades, atitudes);
+      const errosDeDataVazio = empresasSelecionadas.some(emp => !emp.dataInicio || !emp.dataFim);
+      if (errosDeDataVazio) {
+          alert("⚠️ Por favor, preencha as datas de início e fim para TODAS as empresas selecionadas.");
+          return;
+      }
+
+      const erros = validarRelatorio(dadosRelatorio, habilidades, atitudes);
       if (erros.length > 0) {
         alert("⚠️ Corrija os seguintes erros antes de gerar o PDF:\n\n" + erros.join("\n\n"));
         return;
@@ -144,10 +195,9 @@ export default function FormularioEstagio() {
               <label><strong>Empresa afiliada:</strong></label>
               <div className="lista-empresas">
 
-                {Object.keys(empresas).map((nome, i) => (
+                {Object.keys(empresasData).map((nome, i) => (
                   <label key={i} className="empresa-checkbox">
                     
-    
                     <input
                       type="checkbox"
                       checked={empresasSelecionadas.some((e) => e.nome === nome)}
@@ -161,26 +211,49 @@ export default function FormularioEstagio() {
             
 
               {empresasSelecionadas.map((empresa, index) => (
-                <div key={index} className="info-empresa">
-                  <p><strong>{empresa.nome}</strong></p>
+                <div key={empresa.nome} className="info-empresa">
+                  <h3>{empresa.nome}</h3>
                   <p><strong>RA:</strong> {empresa.ra}</p>
                   <p><strong>Polo:</strong> {empresa.polo}</p>
-                  <p><strong>Período:</strong> {empresa.periodo}</p>
+                  <p><strong>Período Padrão (se houver):</strong> {empresa.periodo}</p>
                   <p><strong>Ano Letivo:</strong> {empresa.anoLetivo}</p>
                   <p><strong>Setor:</strong> {empresa.setor}</p>
                   <p><strong>Info:</strong> {empresa.info}</p>
                   <p><strong>Plano:</strong> {empresa.plano}</p>
-                  <label><strong>Período do Estágio:</strong></label>
-                  <input
-                    type="text"
-                    placeholder="Ex: 05/08/2024 a 06/09/2024"
-                    value={empresa.periodoEstagio || ""}
-                    onChange={(e) => {
-                      const novasEmpresas = [...empresasSelecionadas];
-                      novasEmpresas[index].periodoEstagio = e.target.value;
-                      setEmpresasSelecionadas(novasEmpresas);
-                    }}
-                  />
+                  <p><strong>Descrição:</strong> {empresa.descricao}</p>
+
+                  <div className="periodo-estagio-empresa">
+                    <label>
+                      <strong>Início do Estágio em {empresa.nome}:</strong>
+                    </label>
+                    <input
+                      type="date"
+                      value={empresa.dataInicio || ""}
+                      onChange={(e) =>
+                        handleEmpresaDateChange(
+                          empresa.nome,
+                          "dataInicio",
+                          e.target.value
+                        )
+                      }
+                    />
+                    <label>
+                      <strong>Fim do Estágio em {empresa.nome}:</strong>
+                    </label>
+                    <input
+                      type="date"
+                      value={empresa.dataFim || ""}
+                      onChange={(e) =>
+                        handleEmpresaDateChange(
+                          empresa.nome,
+                          "dataFim",
+                          e.target.value
+                        )
+                      }
+                      min={empresa.dataInicio || ""} // NOVO: Restringe a data final
+                    />
+                  </div>
+                  <hr style={{ margin: '15px 0' }}/>
                 </div>
               ))}
             </div>

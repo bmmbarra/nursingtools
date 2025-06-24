@@ -1,10 +1,19 @@
+/* ===================================================================================
+// ARQUIVO: theme.css (Nome sugerido para este arquivo, se ainda não tiver um)
+//
+// PROPÓSITO GERAL:
+// Este arquivo contém os estilos para o seletor de tema (dark/light) e as
+// regras globais para aplicar o tema em diversos elementos da aplicação.
+// =================================================================================== */
+
+/* Toggle de Tema (Botão para alternar entre temas) */
 .theme-toggle {
   position: absolute;
   bottom: 20px;
   right: 20px;
   width: 60px;
   height: 30px;
-  background-color: #ffffff;
+  background-color: #ffffff; /* Fundo do toggle no modo claro */
   border-radius: 20px;
   border: none;
   cursor: pointer;
@@ -17,51 +26,63 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Ajuste do fundo do toggle no modo escuro */
+body.dark .theme-toggle {
+  background-color: #444444; /* Fundo do toggle no modo escuro */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
 
+/* Ícones de Sol e Lua dentro do Toggle */
 .icon {
-z-index: 1;
+  z-index: 1;
   width: 20px;
   height: 20px;
   text-align: center;
-  pointer-events: none;
+  pointer-events: none; /* Permite clicar no botão por trás do ícone */
 }
 
 .moon {
-  
-    margin-left: 8px;
+  margin-left: 8px;
 }
 
 .sun {
   margin-right: 8px;
 }
 
+/* Slider (bolinha) dentro do Toggle */
 .slider {
-    left: 2px;
+  left: 2px;
   position: absolute;
   top: 2px;
   width: 25px;
   height: 25px;
-  background-color: black;
+  background-color: black; /* Cor da bolinha no modo claro (para indicar que está no claro) */
   border-radius: 50%;
   transition: transform 0.3s ease;
   z-index: 0;
 }
 
+/* Ajuste da cor da bolinha no modo escuro (para indicar que está no escuro) */
+body.dark .slider {
+  background-color: #ffffff; /* Bolinha branca no modo escuro */
+}
+
+/* Posição do slider quando o tema for light */
 .left {
   transform: translateX(0.5px);
 }
 
+/* Posição do slider quando o tema for dark */
 .right {
   transform: translateX(30px);
 }
 
-
-
-/* Optional body theme styles */
-
+/* ==================================================================== */
+/* Estilos Globais do Body e Temas */
+/* ==================================================================== */
 body {
-  color: #1e1e1e;
-  background-color: white;
+  color: #1e1e1e; /* Cor do texto padrão no modo claro */
+  background-color: white; /* Cor de fundo padrão no modo claro */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -69,81 +90,77 @@ body {
   font-family: 'Segoe UI', 'Roboto', sans-serif;
 }
 
+/* Estilos para o Body no Tema Claro */
 body.light {
-   background-image: url(../../assets/Images/wallp-day.jpg);
-
-
+  background-image: url(../../assets/Images/wallp-day.jpg);
 }
 
-body.dark .home-content-box{
-    background-image: url(../../assets/Images/walp-frent-night.png);
-    transition: all 0.3s ease;
-
-    
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #1e1e1e;
-    color: white;
-}
-
+/* Estilos para o Body no Tema Escuro */
 body.dark {
-background-image: url(../../assets/Images/wallp-dark.jpg);
-  color: #ffffff;
-  background-color: #1e1e1e;
-  background-image: url(../../assets/Images/wallp-dark.jpg)
+  background-image: url(../../assets/Images/wallp-dark.jpg); /* Imagem de fundo principal para o modo escuro */
+  color: #ffffff; /* Cor do texto principal no modo escuro */
+  background-color: #121212; /* Cor de fundo mais escura para o body */
 }
 
-body.light .custom-header{
-    background-color: rgba(226, 226, 226, 0.726);
-    transition: all 0.3s ease;
-    color: white;
-}
-
-body.dark .custom-header{
-    background-color: rgba(64, 65, 64, 0.726);
-    transition: all 0.3s ease;
-    color: white;
-}
-
-/* ================== */
-/* Headers */
-/* ================== */
-.custom-header {
-  background-color: rgba(226, 226, 226, 0.726);
+/* Fundo da home-content-box no modo escuro */
+/* Se esta é uma seção que deve ter uma imagem de fundo diferente, mantenha */
+/* Caso contrário, a imagem do body.dark principal já seria suficiente */
+body.dark .home-content-box {
+  background-image: url(../../assets/Images/walp-frent-night.png); /* Imagem para a home-content-box no tema escuro */
   transition: all 0.3s ease;
-}
-
-body.dark .custom-header {
-  background-color: rgba(64, 65, 64, 0.726);
-}
-
-.custom-header .bar-link {
-  color: #000;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.custom-header .bar-link:hover {
-  background-color: #00bfa6;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* background-color e color já podem ser herdados do body.dark, ou ajustados se precisar de algo específico */
+  background-color: #1e1e1e;
   color: white;
 }
 
+/* ==================================================================== */
+/* Header (Cabeçalho) */
+/* ==================================================================== */
+.custom-header {
+  background-color: rgba(226, 226, 226, 0.726); /* Fundo do cabeçalho no modo claro */
+  transition: all 0.3s ease;
+  color: #1e1e1e; /* Cor do texto do cabeçalho no modo claro (se houver texto direto) */
+}
+
+/* Ajuste do cabeçalho no modo escuro */
+body.dark .custom-header {
+  background-color: rgba(30, 30, 30, 0.8); /* Fundo do cabeçalho mais escuro e opaco */
+  color: #ffffff; /* Cor do texto do cabeçalho no modo escuro */
+}
+
+/* Links do cabeçalho no modo claro */
+.custom-header .bar-link {
+  color: #000; /* Cor do link no modo claro */
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Links do cabeçalho no hover (modo claro) */
+.custom-header .bar-link:hover {
+  background-color: #00bfa6; /* Verde teal no hover */
+  color: white;
+}
+
+/* Links do cabeçalho no modo escuro */
 body.dark .custom-header .bar-link {
-  color: rgb(0, 0, 0);
+  color: #a5d6a7; /* Verde claro para os links no modo escuro */
 }
 
+/* Links do cabeçalho no hover (modo escuro) */
 body.dark .custom-header .bar-link:hover {
-  background-color: #00bfa6;
-  color: #ffffff;
+  background-color: #00bfa6; /* Mantém o verde teal no hover */
+  color: #ffffff; /* Texto branco no hover */
 }
 
-/* ================== */
+/* ==================================================================== */
 /* Calculadora */
-/* ================== */
+/* ==================================================================== */
 .calculo {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.6); /* Fundo da calculadora no modo claro */
   padding: 20px;
   border-radius: 16px;
   max-width: 500px;
@@ -151,17 +168,17 @@ body.dark .custom-header .bar-link:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Ajuste da calculadora no modo escuro */
 body.dark .calculo {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo da calculadora mais escuro e opaco */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
 }
 
-/* ================== */
-/* Textos */
-/* ================== */
-h1, h2, h3, h4, h5, h6, p, label, span, strong, a {
-  color: #1e1e1e;
-}
-
+/* ==================================================================== */
+/* Textos Genéricos (H, P, Label, Span, Strong, A) */
+/* ==================================================================== */
+/* No modo claro, a cor padrão já está definida no body. */
+/* Essas regras garantem que elementos textuais tenham a cor apropriada no modo escuro */
 body.dark h1,
 body.dark h2,
 body.dark h3,
@@ -173,44 +190,49 @@ body.dark label,
 body.dark span,
 body.dark strong,
 body.dark a {
-  color: #ffffff;
+  color: #ffffff; /* Cor branca para todo o texto no modo escuro */
 }
 
-/* ================== */
-/* Inputs e Selects */
-/* ================== */
-input, select, textarea {
-  background-color: #fff;
-  color: #000;
+/* ==================================================================== */
+/* Inputs, Selects e Textareas */
+/* ==================================================================== */
+input,
+select,
+textarea {
+  background-color: #fff; /* Fundo no modo claro */
+  color: #000; /* Texto no modo claro */
   padding: 6px;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin: 5px 0;
 }
 
+/* Ajuste de inputs, selects e textareas no modo escuro */
 body.dark input,
 body.dark select,
 body.dark textarea {
-  background-color: #222;
-  color: #fff;
-  border: 1px solid #444;
+  background-color: #333333; /* Fundo escuro */
+  color: #ffffff; /* Texto branco */
+  border: 1px solid #555555; /* Borda cinza mais clara */
 }
 
+/* Placeholder de Inputs e Textareas no modo claro */
 input::placeholder,
 textarea::placeholder {
   color: #666;
 }
 
+/* Placeholder de Inputs e Textareas no modo escuro */
 body.dark input::placeholder,
 body.dark textarea::placeholder {
-  color: #aaa;
+  color: #aaaaaa; /* Cor mais clara para o placeholder */
 }
 
-/* ================== */
+/* ==================================================================== */
 /* Botões */
-/* ================== */
+/* ==================================================================== */
 button {
-  background-color: #2be9f0;
+  background-color: #2be9f0; /* Azul claro no modo claro */
   color: white;
   padding: 8px 16px;
   border: none;
@@ -220,51 +242,56 @@ button {
 }
 
 button:hover {
-  background-color: #0000002d;
+  background-color: #0000002d; /* Transparente escuro no hover (modo claro) */
 }
 
+/* Ajuste de botões no modo escuro */
 body.dark button {
-  background-color: #133630;
+  background-color: #133630; /* Verde escuro no modo escuro */
   color: white;
 }
 
+/* Hover de botões no modo escuro */
 body.dark button:hover {
-  background-color: #0000002d;
+  background-color: #1b4740; /* Um tom um pouco mais claro de verde no hover */
 }
 
-/* ================== */
-/* Resultado */
-/* ================== */
+/* ==================================================================== */
+/* Resultado (de cálculos, etc.) */
+/* ==================================================================== */
 .resultado {
   margin-top: 20px;
   padding: 12px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8); /* Fundo no modo claro */
   border-radius: 12px;
+  color: #1e1e1e; /* Garante que o texto seja escuro no modo claro */
 }
 
+/* Ajuste do resultado no modo escuro */
 body.dark .resultado {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(30, 30, 30, 0.7); /* Fundo mais escuro */
+  color: #ffffff; /* Texto branco */
 }
 
-/* ================== */
+/* ==================================================================== */
 /* Chat e Glossário */
-/* ================== */
+/* ==================================================================== */
 body.dark .glossario-link {
-  color: #66b2ff;
+  color: #66b2ff; /* Azul claro para link no modo escuro */
 }
 
 body.dark .glossario-chat {
-  background-color: #00000079;
+  background-color: #050505a9; /* Fundo mais escuro */
   color: #ffffff;
 }
 
 body.dark .message.user {
-  background-color: #254a6693;
+  background-color: #254a6693; /* Azul escuro semi-transparente para mensagem do usuário */
   align-self: flex-end;
 }
 
 body.dark .message.bot {
-  background-color: #050505a9;
+  background-color: #050505a9; /* Quase preto semi-transparente para mensagem do bot */
   align-self: flex-start;
 }
 
@@ -274,152 +301,169 @@ body.dark .messages {
   margin-bottom: 1rem;
   max-height: 420px;
   padding: 1rem;
-  background-color: #050505a9;
+  background-color: #050505a9; /* Fundo das mensagens */
   border-radius: 12px;
 }
 
-body.dark .resultado-container{
-  background-color: #1e1e1e;
+body.dark .resultado-container {
+  background-color: #1e1e1e; /* Fundo do container de resultado (talvez de busca ou similar) */
+  color: #ffffff; /* Garante que o texto dentro dele seja branco */
 }
 
-body.dark .historico-item{
-  background-color: #1e1e1e;
+body.dark .historico-item {
+  background-color: #1e1e1e; /* Fundo do item do histórico */
+  color: #ffffff; /* Garante que o texto dentro dele seja branco */
 }
 
 body.dark .historico-sidebar {
-  background-color:  #050505a9;
+  background-color: #050505a9; /* Fundo da barra lateral do histórico */
   color: #ffffff;
 }
 
+/* ==================================================================== */
+/* Formulários (Checklist/Relatório) - Estilos que você já tinha no outro arquivo, mas foram repetidos aqui */
+/* ==================================================================== */
+
+/* Ajuste do container geral do formulário no modo escuro */
+/* Já definido no outro arquivo, mas se sobrescrever aqui, esta prevalece */
 body.dark .formulario-container {
-  background-color: #050505a9;
-  color: #ffffff;
+  background-color: #1e1e1e; /* Fundo do container do formulário */
+  color: #ffffff; /* Texto padrão do formulário */
   border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
 }
 
-body.dark .formulario-container .pergunta{
-  background-color: #1e1e1e;
-  color: #000000;
+body.dark .formulario-container .pergunta {
+  background-color: #2a2a2a; /* Fundo de um bloco de pergunta específico */
+  color: #ffffff; /* Corrigido para branco para visibilidade */
   border-radius: 12px;
 }
 
-body.dark .tech-list{
-  color: #ffffff;
+body.dark .tech-list {
+  color: #ffffff; /* Cor do texto em listas de tecnologia */
 }
 
+/* Título de seções dentro do formulário */
 body.dark .titulo {
-  color: rgb(35, 180, 156);
+  color: rgb(35, 180, 156); /* Verde vibrante para títulos */
 }
 
-body.dark .formulario-container {
-  background-color: #1e1e1e;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-}
-
+/* Coluna esquerda do formulário no modo escuro */
 body.dark .col-esquerda {
-  background-color: #2a2a2a;
+  background-color: #2a2a2a; /* Fundo da coluna esquerda */
+  color: #ffffff; /* Texto na coluna esquerda */
 }
 
 body.dark .col-esquerda label {
-  color: #ffffff;
+  color: #a5d6a7; /* Verde claro para labels da coluna esquerda */
 }
 
 body.dark .col-esquerda select {
-  background-color: #333;
-  color: #ffffff;
-  border: 1px solid #555;
+  background-color: #333333; /* Fundo do select */
+  color: #ffffff; /* Texto do select */
+  border: 1px solid #555555;
 }
 
 body.dark .info-empresa p {
-  color: #ccc;
+  color: #cccccc; /* Texto dos parágrafos de informação da empresa */
+}
+
+body.dark .info-empresa p strong {
+  color: #a5d6a7; /* Títulos em negrito dentro da info-empresa */
 }
 
 body.dark .col-direita {
-  color: #ffffff;
+  color: #ffffff; /* Texto da coluna direita */
 }
 
+/* Botões de abas (UC e Tipo) no modo escuro */
 body.dark .uc-tabs button,
 body.dark .aba-tabs button {
-  background-color: #333;
-  color: #ccc;
+  background-color: #333333; /* Fundo dos botões de aba */
+  color: #cccccc; /* Texto dos botões de aba */
+  border-color: #81c784; /* Borda verde clara */
 }
 
 body.dark .uc-tabs button.ativo,
 body.dark .aba-tabs button.ativo {
-  background-color: #3a866d;
-  color: #fff;
+  background-color: #66bb6a; /* Verde mais brilhante quando ativo */
+  color: #ffffff; /* Texto branco */
+  border-color: #66bb6a; /* Borda da mesma cor do fundo ativo */
 }
 
+/* Conteúdo da aba no modo escuro */
 body.dark .aba-conteudo {
-  background-color: #2a2a2a;
-  border-color: #444;
-  color: #fff;
+  background-color: #2a2a2a; /* Fundo do conteúdo da aba */
+  border-color: #444444; /* Borda do conteúdo da aba */
+  color: #ffffff; /* Texto do conteúdo da aba */
 }
 
+/* Scrollbars dentro da aba no modo escuro */
 body.dark .aba-conteudo::-webkit-scrollbar-thumb {
-  background-color: #555;
+  background-color: #555555;
 }
 
 body.dark .aba-conteudo::-webkit-scrollbar-thumb:hover {
-  background: #777;
+  background: #777777;
 }
 
+/* Botão de enviar/gerar PDF no modo escuro */
 body.dark .btn-enviar {
-  background-color: #28a745;
+  background-color: #28a745; /* Verde padrão */
   color: #ffffff;
 }
 
 body.dark .btn-enviar:hover {
-  background-color: #218838;
+  background-color: #218838; /* Verde mais escuro no hover */
 }
 
+/* Checklists e Relatórios - Seções Específicas */
 body.dark .checklist-uc {
-  background-color: #1e1e1e;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+  background-color: #1e1e1e; /* Fundo da seção de UC do checklist */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
 }
 
 body.dark .checklist-uc h3 {
-  color: rgb(35, 180, 156);
+  color: rgb(35, 180, 156); /* Título h3 verde */
 }
 
 body.dark .identificacao {
-  background-color: #2a2a2a;
-  border: 1px solid #444;
+  background-color: #2a2a2a; /* Fundo do bloco de identificação */
+  border: 1px solid #444444;
 }
 
 body.dark .ident-field label {
-  color: #ffffff;
+  color: #ffffff; /* Label do campo de identificação */
 }
 
 body.dark .ident-field input {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
+  background-color: #333333; /* Input do campo de identificação */
+  color: #ffffff;
+  border: 1px solid #555555;
 }
 
 body.dark .checklist-item {
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #444444; /* Borda inferior do item do checklist */
 }
 
 body.dark .checklist-item h4 {
-  color: rgb(35, 180, 156);
+  color: rgb(35, 180, 156); /* Título h4 verde */
 }
 
 body.dark .pergunta-bloco {
-  background-color: #2a2a2a;
-  border: 1px solid #444;
+  background-color: #2a2a2a; /* Fundo do bloco de perguntas */
+  border: 1px solid #444444;
 }
 
 body.dark .radio-group span,
 body.dark .radio-group label {
-  color: #ffffff;
+  color: #ffffff; /* Texto dos grupos de rádio */
 }
 
 body.dark textarea {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
+  background-color: #333333; /* Fundo do textarea */
+  color: #ffffff;
+  border: 1px solid #555555;
 }
 
 body.dark .checklist-extra label {
@@ -427,23 +471,23 @@ body.dark .checklist-extra label {
 }
 
 body.dark .checklist-extra select {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #555555;
 }
 
 body.dark .checklist-uc::-webkit-scrollbar-thumb {
-  background-color: #666;
+  background-color: #666666;
 }
 
 body.dark .relatorio-uc {
   background-color: #1e1e1e;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 body.dark .relatorio-uc h3,
 body.dark .relatorio-uc h4 {
-  color: #66ffc4;
+  color: #66ffc4; /* Verde claro para títulos de relatório */
 }
 
 body.dark .relatorio-uc label {
@@ -452,18 +496,18 @@ body.dark .relatorio-uc label {
 
 body.dark .relatorio-uc input[type="text"],
 body.dark .relatorio-uc textarea {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #555555;
 }
 
 body.dark .tabela-habilidades {
   background-color: #2a2a2a;
-  border: 1px solid #444;
+  border: 1px solid #444444;
 }
 
 body.dark .linha-hab {
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #444444;
 }
 
 body.dark .hab-nome {
@@ -475,14 +519,14 @@ body.dark .linha-hab label {
 }
 
 body.dark .tabela-habilidades::-webkit-scrollbar-thumb {
-  background-color: #666;
+  background-color: #666666;
 }
 
 body.dark .tabela-habilidades::-webkit-scrollbar-thumb:hover {
-  background-color: #888;
+  background-color: #888888;
 }
 
-/* Responsividade */
+/* Responsividade (Mantido como estava) */
 @media (max-width: 768px) {
   .linha-hab {
     flex-direction: column;
@@ -494,6 +538,7 @@ body.dark .tabela-habilidades::-webkit-scrollbar-thumb:hover {
   }
 }
 
+/* Checkbox de empresas no modo escuro (repetido do outro arquivo, mantendo aqui para sobrescrever se necessário) */
 body.dark .formulario-container .empresa-checkbox {
   display: flex;
   align-items: center;
@@ -503,7 +548,13 @@ body.dark .formulario-container .empresa-checkbox {
   transition: background-color 0.2s ease;
   cursor: pointer;
   font-weight: 500;
-  color: #ffffff;
+  color: #ffffff; /* Texto branco para o checkbox da empresa */
   line-height: 1.4;
+}
 
+/* Período de estágio global no modo escuro (repetido do outro arquivo, mantendo aqui para sobrescrever se necessário) */
+body.dark .periodo-estagio-global {
+  background-color: #333333; /* Fundo escuro para o bloco de datas */
+  border-color: #606060; /* Borda mais clara */
+  color: #e0e0e0; /* Cor do texto dentro do bloco de datas */
 }

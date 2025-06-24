@@ -9,7 +9,6 @@ const empresas = {
     plano: "Atendimento em saúde da família, curativos, administração de medicamentos, coletas, visitas domiciliares, grupos de apoio e ações preventivas.",
     descricao: "Unidade de Estratégia Saúde da Família situada em Poços de Caldas, com equipe multidisciplinar voltada ao atendimento da comunidade, composta por médica, enfermeira, técnicas de enfermagem, agentes de saúde e profissionais do NASF."
   },
-
   "Asilo - Associação das Damas de Caridade": {
     ra: "2025005",
     polo: "Poços de Caldas",
@@ -20,7 +19,6 @@ const empresas = {
     plano: "Oferece um plano de cuidado integral e multidisciplinar, contando com equipe de médica, enfermeira padrão, técnicas de enfermagem, psicóloga, nutricionista, assistente social, fisioterapeuta e cuidadoras. As atividades incluem acompanhamento de saúde completo, fisioterapia, terapia ocupacional com oficinas de artesanato, atividades religiosas em capela própria e alimentação com suporte de horta local. O processo de acolhimento envolve triagem social e assinatura de contrato de prestação de serviços.",
     descricao: "Instituição de Longa Permanência para Idosos (ILPI) fundada em 1914, mantida pela Associação das Damas de Caridade. Localizada em Poços de Caldas, acolhe mulheres idosas em situação de vulnerabilidade, oferecendo cuidado multidisciplinar completo, incluindo moradia, saúde e atividades sociais."
   },
-
   "ESF Dom Bosco I": {
     ra: "2025006",
     polo: "Poços de Caldas",
@@ -31,8 +29,7 @@ const empresas = {
     plano: "Atendimento médico e de enfermagem, coleta de exames, administração de medicamentos, vacinação, curativos, visitas domiciliares, ações educativas em saúde, acompanhamento por agentes comunitárias e suporte multidisciplinar do NASF.",
     descricao: "Unidade da Estratégia Saúde da Família localizada no bairro Dom Bosco em Poços de Caldas. Atua desde 1988 na atenção primária à saúde, com equipe multidisciplinar e suporte do NASF, promovendo ações de prevenção, promoção e assistência à saúde da comunidade."
   },
-
-    "ESF São José": {
+  "ESF São José": {
     ra: "2025007",
     polo: "Poços de Caldas",
     periodo: "",
@@ -42,8 +39,7 @@ const empresas = {
     plano: "Atendimento médico, de enfermagem e odontológico, vacinação, administração de medicamentos, curativos, visitas domiciliares, ações de promoção e prevenção em saúde, além da dispensação de medicamentos e atividades com os agentes comunitários de saúde.",
     descricao: "Unidade de Estratégia Saúde da Família situada no bairro Jardim Centenário, em Poços de Caldas. Criada em 1999, oferece atendimento integral em atenção primária com equipe multiprofissional, estrutura completa e ações focadas na promoção, prevenção e recuperação da saúde da população local."
   },
-
-    "Hospital Municipal Margarita Morales": {
+  "Hospital Municipal Margarita Morales": {
     ra: "2025008",
     polo: "Poços de Caldas",
     periodo: "",
@@ -63,8 +59,7 @@ const empresas = {
     plano: "Atendimento hospitalar em diversas especialidades médicas, internações clínicas e cirúrgicas, pronto socorro, cuidados intensivos adulto e neonatal, oncologia, obstetrícia, pediatria, realização de exames laboratoriais e de imagem, e suporte em serviços de esterilização e nutrição hospitalar.",
     descricao: "Hospital filantrópico localizado em Poços de Caldas, com mais de um século de história. Oferece assistência médica em diferentes níveis de complexidade, com foco em qualidade, segurança, humanização e responsabilidade social, atendendo pacientes da cidade e região."
   },
-
-    "UBS Regional Sul": {
+  "UBS Regional Sul": {
     ra: "2025010",
     polo: "Poços de Caldas",
     periodo: "",
@@ -74,8 +69,7 @@ const empresas = {
     plano: "Realização de consultas com equipe multidisciplinar, aferição de sinais vitais, controle de glicemia, antropometria, curativos, retirada de pontos, administração de medicamentos, vacinação, dispensação de medicamentos, exames preventivos, testes rápidos de ISTs, grupos de apoio e visitas domiciliares.",
     descricao: "Unidade Básica de Saúde localizada na zona sul de Poços de Caldas, com estrutura completa e equipe multidisciplinar. Atua na atenção primária à saúde com foco na prevenção, promoção e recuperação da saúde, atendendo moradores dos bairros COHAB I, COHAB II e São Sebastião."
   },
-
-    "UPA - Unidade de Pronto Atendimento": {
+  "UPA - Unidade de Pronto Atendimento": {
     ra: "2025011",
     polo: "Poços de Caldas",
     periodo: "",
@@ -85,7 +79,6 @@ const empresas = {
     plano: "Atendimento de urgência e emergência, triagem com classificação de risco, consultas médicas, atendimento ortopédico, suturas, administração de medicamentos, exames laboratoriais e de imagem, eletrocardiograma, ultrassonografia, suporte em saúde pública (epidemiologia), e encaminhamentos para a rede hospitalar quando necessário.",
     descricao: "Unidade de Pronto Atendimento localizada em Poços de Caldas, com capacidade para resolver até 85% dos casos de urgência da população. Atua como referência intermediária entre as UBS/ESF e os hospitais, oferecendo atendimento médico ininterrupto e estrutura completa para diagnóstico e estabilização de pacientes."
   },
-
   "Hospital Municipal Vereador Gilberto de Mattos": {
     ra: "2025012",
     polo: "Poços de Caldas",
@@ -96,8 +89,6 @@ const empresas = {
     plano: "Atendimento ambulatorial especializado, consultas médicas em múltiplas especialidades, realização de pequenas cirurgias, procedimentos ginecológicos, planejamento familiar, testes laboratoriais e de imagem, fisioterapia, fonoaudiologia e pré-natal de alto risco.",
     descricao: "Hospital público localizado na zona leste de Poços de Caldas, com foco em atendimento ambulatorial especializado. Atua na atenção secundária, oferecendo consultas médicas, procedimentos cirúrgicos de pequeno porte, exames e acompanhamento pré-natal, atendendo tanto a população local quanto municípios vizinhos."
   }
-
-}
-
+};
 
 export default empresas;

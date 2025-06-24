@@ -142,12 +142,7 @@ export default function RelatorioUC4({ uc, dados, setDados }) {
         placeholder="Digite sua turma"
       />
 
-      <label>Data da entrega:</label>
-      <input
-        type="date"
-        value={dados.dataEntrega || ""}
-        onChange={(e) => handleChange("dataEntrega", e.target.value)}
-      />
+     
 
      
 

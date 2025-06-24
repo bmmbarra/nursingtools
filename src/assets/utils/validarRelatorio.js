@@ -6,7 +6,7 @@ export function validarRelatorio(dados, habilidades, atitudes) {
   if (!dados.nome) erros.push("Nome do(a) aluno(a) está vazio.");
   if (!dados.cpf) erros.push("CPF do(a) aluno(a) está vazio.");
   if (!dados.turma) erros.push("Turma está vazia.");
-  if (!dados.dataEntrega) erros.push("Data de entrega está vazia.");
+  //if (!dados.dataEntrega) erros.push("Data de entrega está vazia.");
  // if (!dados.empresa) erros.push("Unidade concedente está vazia.");
   if (!dados.instrutores) erros.push("Nome dos instrutores está vazio.");
   if (!dados.conclusao) erros.push("Campo de conclusão está vazio.");

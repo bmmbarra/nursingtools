@@ -2,7 +2,7 @@
 .titulo {
   margin-bottom: 20px;
   text-align: center;
-  color: #1b5e20; /* verde escuro */
+  color: #1b5e20;
   font-size: 1.8rem;
 }
 
@@ -26,12 +26,15 @@
 
 /* Coluna esquerda */
 .col-esquerda {
-  overflow-y: scroll;
+  overflow-y: auto;
   background-color: #f0f4f8;
   padding: 20px;
   border-radius: 8px;
   font-size: 15px;
-  height: 530px
+  height: 530px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .col-esquerda label {
@@ -39,7 +42,6 @@
   margin-bottom: 10px;
   font-weight: bold;
   color: #1b5e20;
-  
 }
 
 .col-esquerda select {
@@ -50,18 +52,24 @@
   margin-bottom: 20px;
 }
 
+.info-empresa {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fefefe;
+}
+
 .info-empresa p {
   margin: 5px 0;
 }
 
-/* Coluna direita */
 .col-direita {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Abas UC */
+/* Abas */
 .uc-tabs,
 .aba-tabs {
   display: flex;
@@ -89,7 +97,6 @@
   color: white;
 }
 
-/* Conteúdo da aba */
 .aba-conteudo {
   background-color: #fafafa;
   padding: 20px;
@@ -99,21 +106,18 @@
   overflow-y: auto;
 }
 
-/* Scroll dentro da aba */
 .aba-conteudo::-webkit-scrollbar {
   width: 8px;
 }
-
 .aba-conteudo::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 4px;
 }
-
 .aba-conteudo::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
-/* Botão de gerar PDF */
+/* Botão */
 .btn-enviar {
   padding: 15px;
   border: none;
@@ -125,9 +129,9 @@
   transition: background-color 0.3s;
   width: 100%;
   max-width: 300px;
-  margin-left: 20px auto;
+  margin: 0 auto;
+  display: block;
 }
-
 .btn-enviar:hover {
   background-color: #145a1e;
 }
@@ -137,54 +141,50 @@
   .form-grid {
     grid-template-columns: 1fr;
   }
+  .col-esquerda {
+    height: auto;
+    max-height: 400px;
+  }
 }
 
 @media (max-width: 768px) {
   .formulario-container {
     padding: 15px;
   }
-
   .form-grid {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-
   .uc-tabs,
   .aba-tabs {
     justify-content: center;
     flex-direction: column;
     align-items: center;
   }
-
   .uc-tabs button,
   .aba-tabs button {
     width: 100%;
     max-width: 300px;
   }
-
   .aba-conteudo {
     max-height: none;
     overflow: visible;
   }
-
   .btn-enviar {
     font-size: 1rem;
   }
-
 }
 
-/* Caixa com lista de checkboxes */
+/* Lista de empresas */
 .formulario-container .lista-empresas {
-   background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
   padding: 14px 16px;
   border-radius: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
-/* Cada checkbox com nome da empresa */
 .formulario-container .empresa-checkbox {
   display: flex;
   align-items: center;
@@ -196,18 +196,119 @@
   font-weight: 500;
   color: #000000;
   line-height: 1.4;
-
 }
-
-/* Efeito hover */
 .formulario-container .empresa-checkbox:hover {
   background-color: rgba(255, 255, 255, 0.08);
 }
-
-/* Estilo da caixinha do checkbox */
 .formulario-container .empresa-checkbox input[type="checkbox"] {
   accent-color: #1e90ff;
   width: 16px;
   height: 16px;
   cursor: pointer;
+}
+
+/* Período de estágio */
+.periodo-estagio-global {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f0f4f8;
+}
+.periodo-estagio-global label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #1b5e20;
+}
+.periodo-estagio-global input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+.periodo-estagio-global input[type="date"]:last-of-type {
+  margin-bottom: 0;
+}
+
+/* === DARK MODE (padronizado com .dark) === */
+body.dark .formulario-container {
+  background-color: #2b2b2b;
+  color: #e0e0e0;
+}
+body.dark .titulo {
+  color: #81c784;
+}
+body.dark .col-esquerda {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+}
+body.dark .col-esquerda label {
+  color: #a5d6a7;
+}
+body.dark .formulario-container .lista-empresas {
+  background-color: #444444;
+}
+body.dark .formulario-container .empresa-checkbox {
+  color: #e0e0e0;
+}
+body.dark .formulario-container .empresa-checkbox:hover {
+  background-color: #505050;
+}
+body.dark .info-empresa {
+  background-color: #444444;
+  border-color: #555555;
+}
+body.dark .info-empresa p {
+  color: #e0e0e0;
+}
+body.dark .info-empresa p strong {
+  color: #a5d6a7;
+}
+body.dark .periodo-estagio-global {
+  background-color: #444444;
+  border-color: #555555;
+  color: #e0e0e0;
+}
+body.dark .periodo-estagio-global label {
+  color: #a5d6a7;
+}
+body.dark .periodo-estagio-global input[type="date"] {
+  background-color: #444444;
+  border-color: #666666;
+  color: #ffffff;
+}
+body.dark .aba-conteudo {
+  background-color: #444444;
+  border-color: #555555;
+  color: #e0e0e0;
+}
+body.dark .uc-tabs button,
+body.dark .aba-tabs button {
+  border-color: #81c784;
+  background-color: #3a3a3a;
+  color: #81c784;
+}
+body.dark .uc-tabs button.ativo,
+body.dark .aba-tabs button.ativo {
+  background-color: #66bb6a;
+  color: #ffffff;
+  border-color: #66bb6a;
+}
+body.dark .btn-enviar {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+body.dark .btn-enviar:hover {
+  background-color: #388e3c;
+}
+body.dark ::-webkit-scrollbar-thumb {
+  background-color: #616161;
+}
+body.dark ::-webkit-scrollbar-thumb:hover {
+  background: #757575;
 }
