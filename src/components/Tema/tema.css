@@ -147,7 +147,7 @@ body.dark .custom-header {
 
 /* Links do cabeçalho no modo escuro */
 body.dark .custom-header .bar-link {
-  color: #a5d6a7; /* Verde claro para os links no modo escuro */
+  color: #000; /* Verde claro para os links no modo escuro */
 }
 
 /* Links do cabeçalho no hover (modo escuro) */
