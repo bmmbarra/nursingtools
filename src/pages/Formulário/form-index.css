@@ -13,7 +13,9 @@
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  overflow: hidden;
+  /* Remover overflow: hidden; se não for estritamente necessário e estiver causando cortes */
+  /* Se o objetivo é que o conteúdo interno tenha sua própria rolagem, este 'hidden' pode atrapalhar o pai */
+  overflow: visible; /* Alterado para visible para permitir que o conteúdo "saia" se precisar de espaço */
   box-sizing: border-box;
 }
 
@@ -22,17 +24,24 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
+  /* Adicionar min-height ou permitir que cresça */
+  align-items: start; /* Alinha os itens no topo, importante para grids com conteúdo variável */
 }
 
 /* Coluna esquerda */
 .col-esquerda {
-  overflow-y: auto;
+  overflow-y: auto; /* Manter para rolagem interna se o conteúdo for grande */
   background-color: #f0f4f8;
   padding: 20px;
   border-radius: 8px;
   font-size: 15px;
-  height: 530px;
-  display: flex;
+  /* REMOVIDO: height: 530px; */ /* <--- REMOVER ESTA LINHA */
+  /* REMOVIDO: display: flex; flex-direction: column; gap: 20px; (se não for para o layout interno da coluna) */
+  /* Se a coluna esquerda deve ser apenas um contêiner de rolagem sem um height fixo, remova essas propriedades ou ajuste-as */
+  /* Se você precisa que ela tenha um scroll e não se expanda infinitamente, use max-height com overflow-y: auto */
+  min-height: 300px; /* Sugestão: Defina uma altura mínima para ela não sumir com pouco conteúdo */
+  max-height: 80vh; /* Sugestão: Use max-height com vh para permitir que ela ocupe uma parte da tela, mas com scroll */
+  display: flex; /* Mantido para organizar o conteúdo interno */
   flex-direction: column;
   gap: 20px;
 }
@@ -67,6 +76,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  /* Permitir que a coluna direita se expanda. Se o conteúdo for maior que a tela, ela deve empurrar o pai para gerar rolagem. */
 }
 
 /* Abas */
@@ -102,8 +112,10 @@
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  max-height: 350px;
-  overflow-y: auto;
+  /* ALTERADO: Aumentei o max-height para dar mais espaço. */
+  /* Se você quiser que ela se expanda infinitamente e o scroll seja no body, remova o max-height. */
+  max-height: 60vh; /* OU REMOVA TOTALMENTE SE O SCROLL FOR NA PÁGINA */
+  overflow-y: auto; /* Manter para rolagem interna */
 }
 
 .aba-conteudo::-webkit-scrollbar {
@@ -142,8 +154,12 @@
     grid-template-columns: 1fr;
   }
   .col-esquerda {
-    height: auto;
-    max-height: 400px;
+    height: auto; /* IMPORTANTE: Remover a altura fixa */
+    max-height: 50vh; /* Ajustado para permitir mais espaço, mas com scroll */
+  }
+  .aba-conteudo {
+    max-height: none; /* Em telas menores, permitir que se expanda totalmente */
+    overflow: visible; /* E que o overflow seja visível, o scroll será da página */
   }
 }
 
@@ -167,8 +183,8 @@
     max-width: 300px;
   }
   .aba-conteudo {
-    max-height: none;
-    overflow: visible;
+    max-height: none; /* Em telas menores, permitir que se expanda totalmente */
+    overflow: visible; /* E que o overflow seja visível, o scroll será da página */
   }
   .btn-enviar {
     font-size: 1rem;
@@ -376,4 +392,8 @@ body.dark ::-webkit-scrollbar-thumb:hover {
 .campo-erro {
   border: 1px solid #c51244 !important;
   background-color: #f8d7da;
+}
+body.dark .campo-erro {
+    border: 1px solid #e96d7e !important;
+    background-color: #5b1c22;
 }

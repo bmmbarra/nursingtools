@@ -1,73 +1,76 @@
 // ===================================================================================
-// ARQUIVO: RelatorioUC17.js (VERSÃO CORRIGIDA)
+// ARQUIVO: RelatorioUC17.js (VERSÃO CORRIGIDA - HABILIDADES/ATITUDES VIA PROPS E LAYOUT RESTAURADO)
 // ===================================================================================
 
 import React from "react";
 import "../../components/Relatorios/relatorio.css";
 
-const habilidades = [
-  "Zelar pela apresentação pessoal e postura profissional",
-  "Higienizar as mãos conforme a OMS",
-  "Utilizar equipamentos de proteção",
-  "Comunicar-se de maneira assertiva",
-  "Selecionar materiais, equipamentos e instrumental",
-  "Utilizar técnicas assépticas",
-  "Auxiliar no processo de acolhimento e classificação de risco",
-  "Identificar reações, sinais e sintomas do cliente",
-  "Monitorar parâmetros vitais em situações de urgência e emergência",
-  "Auxiliar em procedimentos invasivos",
-  "Organizar carro de emergência",
-  "Identificar parada cardiorrespiratória",
-  "Atender PCR conforme suporte básico e avançado",
-  "Auxiliar no transporte do cliente crítico",
-  "Acomodar cliente crítico em ambiente de alta complexidade",
-  "Mensurar balanço hídrico",
-  "Identificar sinais de agravo clínico",
-  "Aspirar vias aéreas superiores ou cânula orotraqueal",
-  "Adotar medidas de precaução e isolamento",
-  "Identificar medidas de prevenção de doenças",
-  "Adotar boas práticas na promoção e recuperação da saúde",
-  "Preparar o ambiente para cuidados paliativos",
-  "Atender necessidades do cliente conforme Política Nacional de Cuidados Paliativos",
-  "Realizar medidas de conforto e bem-estar",
-  "Monitorar estado clínico com base no cuidado humanizado",
-  "Prestar cuidados ao cliente no pós-morte",
-  "Organizar o ambiente e processos de trabalho",
-  "Operar recursos tecnológicos aplicados à saúde",
-  "Interpretar documentos técnicos",
-  "Utilizar termos técnicos na rotina de trabalho",
-  "Identificar interferências do próprio trabalho no serviço",
-  "Mediar conflitos nas situações de trabalho"
+// 1. Defina e exporte as habilidades e atitudes ESPECÍFICAS desta UC.
+//    Estas listas SÃO APENAS DEFINIDAS AQUI e exportadas para serem importadas
+//    e passadas como props pelo componente pai (FormularioEstagio.jsx).
+export const habilidadesUC17 = [
+    "Zelar pela apresentação pessoal e postura profissional",
+    "Higienizar as mãos conforme a OMS",
+    "Utilizar equipamentos de proteção",
+    "Comunicar-se de maneira assertiva",
+    "Selecionar materiais, equipamentos e instrumental",
+    "Utilizar técnicas assépticas",
+    "Auxiliar no processo de acolhimento e classificação de risco",
+    "Identificar reações, sinais e sintomas do cliente",
+    "Monitorar parâmetros vitais em situações de urgência e emergência",
+    "Auxiliar em procedimentos invasivos",
+    "Organizar carro de emergência",
+    "Identificar parada cardiorrespiratória",
+    "Atender PCR conforme suporte básico e avançado",
+    "Auxiliar no transporte do cliente crítico",
+    "Acomodar cliente crítico em ambiente de alta complexidade",
+    "Mensurar balanço hídrico",
+    "Identificar sinais de agravo clínico",
+    "Aspirar vias aéreas superiores ou cânula orotraqueal",
+    "Adotar medidas de precaução e isolamento",
+    "Identificar medidas de prevenção de doenças",
+    "Adotar boas práticas na promoção e recuperação da saúde",
+    "Preparar o ambiente para cuidados paliativos",
+    "Atender necessidades do cliente conforme Política Nacional de Cuidados Paliativos",
+    "Realizar medidas de conforto e bem-estar",
+    "Monitorar estado clínico com base no cuidado humanizado",
+    "Prestar cuidados ao cliente no pós-morte",
+    "Organizar o ambiente e processos de trabalho",
+    "Operar recursos tecnológicos aplicados à saúde",
+    "Interpretar documentos técnicos",
+    "Utilizar termos técnicos na rotina de trabalho",
+    "Identificar interferências do próprio trabalho no serviço",
+    "Mediar conflitos nas situações de trabalho"
 ];
 
-const atitudes = [
-  "Comprometimento com o atendimento humanizado",
-  "Comprometimento com o cuidado prestado",
-  "Escuta ativa",
-  "Responsabilidade no uso dos recursos organizacionais",
-  "Colaboração, flexibilidade e iniciativa no trabalho em equipe",
-  "Proatividade na resolução de problemas",
-  "Respeito à diversidade e valores culturais e religiosos",
-  "Respeito ao limite da atuação profissional",
-  "Responsabilidade no descarte de resíduos",
-  "Sigilo no tratamento de dados e informações",
-  "Registro das ações conforme rotina da instituição",
-  "Responsabilidade no cumprimento das normas de segurança",
-  "Respeito às normas técnicas e legislações vigentes"
+export const atitudesUC17 = [
+    "Comprometimento com o atendimento humanizado",
+    "Comprometimento com o cuidado prestado",
+    "Escuta ativa",
+    "Responsabilidade no uso dos recursos organizacionais",
+    "Colaboração, flexibilidade e iniciativa no trabalho em equipe",
+    "Proatividade na resolução de problemas",
+    "Respeito à diversidade e valores culturais e religiosos",
+    "Respeito ao limite da atuação profissional",
+    "Responsabilidade no descarte de resíduos",
+    "Sigilo no tratamento de dados e informações",
+    "Registro das ações conforme rotina da instituição",
+    "Responsabilidade no cumprimento das normas de segurança",
+    "Respeito às normas técnicas e legislações vigentes"
 ];
 
-const opcoes = ["Sim", "Não", "Parcialmente", "N/A"];
+const opcoesDeAvaliacao = ["Sim", "Não", "Parcialmente", "N/A"]; // Mantido 'N/A' conforme seu código original
 
-// Componente atualizado para receber as props do pai
-export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange, handleCPFChange }) {
+// 2. O COMPONENTE AGORA RECEBE 'habilidades' e 'atitudes' COMO PROPS.
+export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange, handleCPFChange, habilidades, atitudes }) {
 
-  // A função handleOpcao para os botões de rádio permanece, pois está correta.
-  const handleOpcao = (habilidade, opcao) => {
+  // A função handleOpcao para os botões de rádio permanece.
+  const handleOpcao = (item, opcao) => { // 'item' agora pode ser tanto habilidade quanto atitude
     setDados({
       ...dados,
-      habilidades: {
+      habilidades: { // A propriedade 'habilidades' em 'dados' armazena tanto habilidades quanto atitudes
         ...(dados.habilidades || {}),
-        [habilidade]: opcao,
+        [item]: opcao,
       },
     });
   };
@@ -88,6 +91,7 @@ export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange
       />
       {erros?.nome && <p className="texto-erro">{erros.nome}</p>}
 
+
       <label>CPF do(a) aluno(a):</label>
       <input
         type="text"
@@ -100,6 +104,7 @@ export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange
       />
       {erros?.cpf && <p className="texto-erro">{erros.cpf}</p>}
 
+
       <label>Turma:</label>
       <input
         type="text"
@@ -110,6 +115,7 @@ export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange
         className={erros?.turma ? 'campo-erro' : ''}
       />
       {erros?.turma && <p className="texto-erro">{erros.turma}</p>}
+
 
       <label>Nome do(s) instrutor(es):</label>
       <input
@@ -122,6 +128,7 @@ export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange
       />
       {erros?.instrutores && <p className="texto-erro">{erros.instrutores}</p>}
 
+
       <label>Conclusão:</label>
       <textarea
         rows={4}
@@ -133,17 +140,21 @@ export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange
       />
       {erros?.conclusao && <p className="texto-erro">{erros.conclusao}</p>}
 
-      {/* Seções de Habilidades e Atitudes permanecem inalteradas */}
+      {/* SEÇÕES DE HABILIDADES E ATITUDES:
+           3. AGORA, MAPAMOS SOBRE AS PROPS 'habilidades' e 'atitudes'
+           4. REVERTIDO: O 'name' dos radio buttons volta a ser o nome da habilidade/atitude,
+              para manter o layout que você já tinha funcionando.
+      */}
       <h4>Habilidades Desenvolvidas</h4>
       <div className="tabela-habilidades">
-        {habilidades.map((hab, idx) => (
-          <div key={idx} className="linha-hab">
+        {habilidades.map((hab) => ( // Usa a prop 'habilidades'
+          <div key={hab} className="linha-hab"> {/* Usar 'hab' como key é mais estável */}
             <span className="hab-nome">{hab}</span>
-            {opcoes.map((opcao) => (
+            {opcoesDeAvaliacao.map((opcao) => (
               <label key={opcao}>
                 <input
                   type="radio"
-                  name={`hab-${idx}`}
+                  name={hab} // REVERTIDO: Usa o nome da habilidade diretamente como 'name' do grupo de rádio
                   value={opcao}
                   checked={(dados.habilidades?.[hab] || "") === opcao}
                   onChange={() => handleOpcao(hab, opcao)}
@@ -151,20 +162,21 @@ export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange
                 {opcao}
               </label>
             ))}
+            {erros?.[hab] && <p className="texto-erro">{erros[hab]}</p>}
           </div>
         ))}
       </div>
 
       <h4>Atitudes e Valores</h4>
       <div className="tabela-habilidades">
-        {atitudes.map((att, idx) => (
-          <div key={`att-${idx}`} className="linha-hab">
+        {atitudes.map((att) => ( // Usa a prop 'atitudes'
+          <div key={att} className="linha-hab"> {/* Usar 'att' como key é mais estável */}
             <span className="hab-nome">{att}</span>
-            {opcoes.map((opcao) => (
+            {opcoesDeAvaliacao.map((opcao) => (
               <label key={opcao}>
                 <input
                   type="radio"
-                  name={`att-${idx}`}
+                  name={att} // REVERTIDO: Usa o nome da atitude diretamente como 'name' do grupo de rádio
                   value={opcao}
                   checked={(dados.habilidades?.[att] || "") === opcao}
                   onChange={() => handleOpcao(att, opcao)}
@@ -172,12 +184,10 @@ export default function RelatorioUC17({ uc, dados, setDados, erros, handleChange
                 {opcao}
               </label>
             ))}
+            {erros?.[att] && <p className="texto-erro">{erros[att]}</p>}
           </div>
         ))}
       </div>
     </div>
   );
 }
-
-export const habilidadesUC17 = habilidades;
-export const atitudesUC17 = atitudes;

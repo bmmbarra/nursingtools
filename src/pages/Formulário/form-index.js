@@ -7,10 +7,11 @@ import RelatorioUC7 from "../../components/Relatorios/relatoriouc7";
 import RelatorioUC10 from "../../components/Relatorios/relatoriouc10";
 import RelatorioUC17 from "../../components/Relatorios/relatoriouc17";
 import ChecklistUC from "../../components/Checklist/checklistuc";
-import gerarPDF from "../../assets/utils/pdfgenerator";
+import gerarPDF from "../../assets/utils/pdfgenerator"; // Certifique-se de que este caminho está correto
 import "../Formulário/form-index.css";
 
 // Importa as listas de habilidades de cada UC
+// **MANTENHA ESTAS IMPORTAÇÕES**
 import { habilidadesUC4, atitudesUC4 } from "../../components/Relatorios/relatoriouc4";
 import { habilidadesUC7, atitudesUC7 } from "../../components/Relatorios/relatoriouc7";
 import { habilidadesUC10, atitudesUC10 } from "../../components/Relatorios/relatoriouc10";
@@ -128,13 +129,29 @@ export default function FormularioEstagio() {
 
     setTimeout(async () => {
       try {
-        let habilidadesExigidas = [];
+        // **INÍCIO DA ALTERAÇÃO IMPORTANTE AQUI**
+        // Coletar habilidades e atitudes separadamente
+        let habilidadesRelatorio = [];
+        let atitudesRelatorio = [];
+
         if (abaAtiva === "Relatório") {
           switch (ucSelecionada) {
-            case "UC4": habilidadesExigidas = [...habilidadesUC4, ...atitudesUC4]; break;
-            case "UC7": habilidadesExigidas = [...habilidadesUC7, ...atitudesUC7]; break;
-            case "UC10": habilidadesExigidas = [...habilidadesUC10, ...atitudesUC10]; break;
-            case "UC17": habilidadesExigidas = [...habilidadesUC17, ...atitudesUC17]; break;
+            case "UC4": 
+                habilidadesRelatorio = habilidadesUC4; 
+                atitudesRelatorio = atitudesUC4; 
+                break;
+            case "UC7": 
+                habilidadesRelatorio = habilidadesUC7; 
+                atitudesRelatorio = atitudesUC7; 
+                break;
+            case "UC10": 
+                habilidadesRelatorio = habilidadesUC10; 
+                atitudesRelatorio = atitudesUC10; 
+                break;
+            case "UC17": 
+                habilidadesRelatorio = habilidadesUC17; 
+                atitudesRelatorio = atitudesUC17; 
+                break;
             default: break;
           }
         }
@@ -145,9 +162,12 @@ export default function FormularioEstagio() {
           relatorio: dadosRelatorio,
           checklist: dadosChecklist,
           tipo: abaAtiva,
-          habilidadesExigidas: habilidadesExigidas,
+          // **PASSAR AS LISTAS SEPARADAMENTE PARA pdfgenerator.js**
+          habilidadesRelatorio: habilidadesRelatorio,
+          atitudesRelatorio: atitudesRelatorio,
           checklistEstrutura: estruturaChecklist,
         };
+        // **FIM DA ALTERAÇÃO IMPORTANTE AQUI**
 
         await gerarPDF(dadosParaPDF);
 
@@ -172,7 +192,7 @@ export default function FormularioEstagio() {
   };
 
   const renderRelatorioUC = () => {
-    const props = {
+    const commonProps = {
       uc: ucSelecionada,
       dados: dadosRelatorio,
       setDados: setDadosRelatorio,
@@ -181,10 +201,13 @@ export default function FormularioEstagio() {
       handleCPFChange: handleCPFChange,
     };
     switch (ucSelecionada) {
-      case "UC4": return <RelatorioUC4 {...props} />;
-      case "UC7": return <RelatorioUC7 {...props} />;
-      case "UC10": return <RelatorioUC10 {...props} />;
-      case "UC17": return <RelatorioUC17 {...props} />;
+      // **INÍCIO DA ALTERAÇÃO IMPORTANTE AQUI**
+      // Passar as props 'habilidades' e 'atitudes' para cada componente de relatório
+      case "UC4": return <RelatorioUC4 {...commonProps} habilidades={habilidadesUC4} atitudes={atitudesUC4} />;
+      case "UC7": return <RelatorioUC7 {...commonProps} habilidades={habilidadesUC7} atitudes={atitudesUC7} />;
+      case "UC10": return <RelatorioUC10 {...commonProps} habilidades={habilidadesUC10} atitudes={atitudesUC10} />;
+      case "UC17": return <RelatorioUC17 {...commonProps} habilidades={habilidadesUC17} atitudes={atitudesUC17} />;
+      // **FIM DA ALTERAÇÃO IMPORTANTE AQUI**
       default: return null;
     }
   };

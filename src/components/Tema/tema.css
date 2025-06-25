@@ -1,10 +1,4 @@
-/* ===================================================================================
-// ARQUIVO: theme.css (Nome sugerido para este arquivo, se ainda não tiver um)
-//
-// PROPÓSITO GERAL:
-// Este arquivo contém os estilos para o seletor de tema (dark/light) e as
-// regras globais para aplicar o tema em diversos elementos da aplicação.
-// =================================================================================== */
+
 
 /* Toggle de Tema (Botão para alternar entre temas) */
 .theme-toggle {
@@ -80,15 +74,29 @@ body.dark .slider {
 /* ==================================================================== */
 /* Estilos Globais do Body e Temas */
 /* ==================================================================== */
+
+/* **INÍCIO DA ALTERAÇÃO CRÍTICA AQUI para o fundo global** */
+html {
+  height: 100%; /* Garante que o HTML ocupe pelo menos 100% da altura da viewport */
+  /* Isso é crucial para que 'body' com height: 100% ou min-height: 100% se baseie na viewport */
+}
+
 body {
+  margin: 0; /* Certifica-se de que não há margens padrão que impeçam o ajuste */
+  min-height: 100vh; /* Garante que o body ocupe pelo menos 100% da altura da viewport */
+  /* IMPORTANTE: Se o conteúdo exceder 100vh, o body vai se expandir */
+  
   color: #1e1e1e; /* Cor do texto padrão no modo claro */
   background-color: white; /* Cor de fundo padrão no modo claro */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed; /* <--- NOVO/CONFIRMADO: Fixa a imagem de fundo ao viewport */
   transition: all 0.3s ease;
   font-family: 'Segoe UI', 'Roboto', sans-serif;
 }
+/* **FIM DA ALTERAÇÃO CRÍTICA AQUI** */
+
 
 /* Estilos para o Body no Tema Claro */
 body.light {
@@ -103,14 +111,12 @@ body.dark {
 }
 
 /* Fundo da home-content-box no modo escuro */
-/* Se esta é uma seção que deve ter uma imagem de fundo diferente, mantenha */
-/* Caso contrário, a imagem do body.dark principal já seria suficiente */
 body.dark .home-content-box {
   background-image: url(../../assets/Images/walp-frent-night.png); /* Imagem para a home-content-box no tema escuro */
   transition: all 0.3s ease;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-color e color já podem ser herdados do body.dark, ou ajustados se precisar de algo específico */
+  background-size: cover; /* <--- NOVO: Garante que esta imagem cubra a caixa interna */
   background-color: #1e1e1e;
   color: white;
 }
@@ -327,8 +333,8 @@ body.dark .historico-sidebar {
 /* Ajuste do container geral do formulário no modo escuro */
 /* Já definido no outro arquivo, mas se sobrescrever aqui, esta prevalece */
 body.dark .formulario-container {
-  background-color: #1e1e1e; /* Fundo do container do formulário */
-  color: #ffffff; /* Texto padrão do formulário */
+  background-color: #2b2b2b; /* Mantido do seu último ajuste */
+  color: #e0e0e0; /* Mantido do seu último ajuste */
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
 }
@@ -350,8 +356,8 @@ body.dark .titulo {
 
 /* Coluna esquerda do formulário no modo escuro */
 body.dark .col-esquerda {
-  background-color: #2a2a2a; /* Fundo da coluna esquerda */
-  color: #ffffff; /* Texto na coluna esquerda */
+  background-color: #3a3a3a; /* Fundo da coluna esquerda */
+  color: #e0e0e0; /* Texto na coluna esquerda */
 }
 
 body.dark .col-esquerda label {
@@ -379,23 +385,23 @@ body.dark .col-direita {
 /* Botões de abas (UC e Tipo) no modo escuro */
 body.dark .uc-tabs button,
 body.dark .aba-tabs button {
-  background-color: #333333; /* Fundo dos botões de aba */
-  color: #cccccc; /* Texto dos botões de aba */
-  border-color: #81c784; /* Borda verde clara */
+  border-color: #81c784;
+  background-color: #3a3a3a;
+  color: #81c784;
 }
 
 body.dark .uc-tabs button.ativo,
 body.dark .aba-tabs button.ativo {
-  background-color: #66bb6a; /* Verde mais brilhante quando ativo */
-  color: #ffffff; /* Texto branco */
-  border-color: #66bb6a; /* Borda da mesma cor do fundo ativo */
+  background-color: #66bb6a;
+  color: #ffffff;
+  border-color: #66bb6a;
 }
 
 /* Conteúdo da aba no modo escuro */
 body.dark .aba-conteudo {
-  background-color: #2a2a2a; /* Fundo do conteúdo da aba */
-  border-color: #444444; /* Borda do conteúdo da aba */
-  color: #ffffff; /* Texto do conteúdo da aba */
+  background-color: #444444;
+  border-color: #555555;
+  color: #e0e0e0;
 }
 
 /* Scrollbars dentro da aba no modo escuro */
@@ -409,12 +415,12 @@ body.dark .aba-conteudo::-webkit-scrollbar-thumb:hover {
 
 /* Botão de enviar/gerar PDF no modo escuro */
 body.dark .btn-enviar {
-  background-color: #28a745; /* Verde padrão */
+  background-color: #4caf50;
   color: #ffffff;
 }
 
 body.dark .btn-enviar:hover {
-  background-color: #218838; /* Verde mais escuro no hover */
+  background-color: #388e3c;
 }
 
 /* Checklists e Relatórios - Seções Específicas */
@@ -567,9 +573,9 @@ body.dark .periodo-estagio-global {
 /* Container para o botão e o spinner ficarem alinhados */
 .acoes {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column; /* Coloca os itens em coluna */
+  align-items: center; /* Centraliza horizontalmente */
+  gap: 15px; /* Espaço entre os elementos */
   margin-top: 20px;
 }
 
@@ -619,21 +625,21 @@ body.dark .spinner {
 
 /* Estilos para as mensagens de feedback (Modo Escuro) */
 body.dark .mensagem-sucesso {
-    color: #d4edda;
-    background-color: #1c4426;
-    border: 1px solid #2f6339;
+  color: #d4edda;
+  background-color: #1c4426;
+  border: 1px solid #2f6339;
 }
 
 body.dark .mensagem-erro {
-    color: #f8d7da;
-    background-color: #5b1c22;
-    border: 1px solid #8a2a34;
+  color: #f8d7da;
+  background-color: #5b1c22;
+  border: 1px solid #8a2a34;
 }
 
 .mensagem-erro ul {
   margin: 10px 0 0;
-  padding-left: 20px;
-  text-align: left;
+  padding-left: 20px; /* Adiciona um recuo para a lista */
+  text-align: left; /* Alinha o texto da lista à esquerda */
   list-style-position: inside;
 }
 
@@ -641,12 +647,12 @@ body.dark .mensagem-erro {
     margin-bottom: 5px;
 }
 
-/* Estilo para destacar campos com erro de validação */
+/* Estilo para destacar campos com erro de validação (caso não funcione bem) */
+/* Usamos !important para garantir que este estilo sobreponha outros de borda */
 .campo-erro {
-  border: 1px solid #c51244 !important; /* !important para garantir que sobreponha outros estilos */
+  border: 1px solid #c51244 !important;
   background-color: #f8d7da;
 }
-
 body.dark .campo-erro {
     border: 1px solid #e96d7e !important;
     background-color: #5b1c22;
