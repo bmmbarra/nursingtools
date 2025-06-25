@@ -351,7 +351,7 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     }
 
 function gerarHabilidades() {
-    // Adiciona o novo título no cabeçalho da página
+    // Mantém o título principal no cabeçalho da página
     iniciarNovaPagina("RELATÓRIO DE ATIVIDADES REALIZADAS NO CAMPO DE ESTÁGIO");
 
     const greyFill = [200, 200, 200]; 
@@ -367,19 +367,18 @@ function gerarHabilidades() {
         1: { cellWidth: colRealizadoWidth }
     };
 
-    // A tabela agora contém apenas o nome do aluno.
+    // Corpo da primeira tabela (cabeçalho customizado)
     const nomeAlunoBody = [
         [{ content: 'Nome do(a) aluno(a):', colSpan: 2, styles: { fillColor: greyFill, fontStyle: 'bold' } }],
-        // << CORREÇÃO APLICADA AQUI >>
-        // Adicionamos 'minCellHeight' para aumentar a altura apenas desta linha.
         [{ 
-            content: relatorio.nome || '', 
-            colSpan: 2, 
-            styles: { 
-                fillColor: whiteFill,
-                minCellHeight: 10 // Aumenta a altura da célula do nome
-            } 
-        }]
+            content: relatorio.nome || '', 
+            colSpan: 2, 
+            styles: { 
+                fillColor: whiteFill,
+                minCellHeight: 10
+            } 
+        }],
+        [{ content: 'Habilidades', colSpan: 2, styles: { fillColor: greyFill, fontStyle: 'bold', halign: 'center' } }]
     ];
 
     autoTable(doc, {
@@ -418,7 +417,8 @@ function gerarHabilidades() {
         theme: 'grid',
         styles: { font: "arial", fontSize: 11, valign: 'middle', cellPadding: minCellPadding, textColor: [0, 0, 0] },
         headStyles: { 
-          fillColor: greyFill, 
+          // << CORREÇÃO AQUI >>: Usando um tom de cinza mais claro (230)
+          fillColor: [230, 230, 230], 
           fontStyle: 'bold', 
           halign: 'center', 
           fontSize: 12,
@@ -428,7 +428,6 @@ function gerarHabilidades() {
         tableWidth: tableMaxWidth,
         margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
         didDrawPage: (data) => {
-            // Insere o cabeçalho SEM o título nas páginas de continuação
             inserirCabecalho();
         },
     });
