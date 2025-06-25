@@ -1,11 +1,12 @@
 // ===================================================================================
-// ARQUIVO: RelatorioUC4.js (VERSÃO CORRIGIDA - LAYOUT DE OPÇÕES RESTAURADO)
+// ARQUIVO: RelatorioUC4.js (VERSÃO FINAL E CORRIGIDA PARA LAYOUT E PROPS)
 // ===================================================================================
 
 import React from "react";
 import "../../components/Relatorios/relatorio.css";
 
-// As listas de habilidades e atitudes permanecem as mesmas e são exportadas
+// As listas de habilidades e atitudes ESPECÍFICAS desta UC.
+// Elas são exportadas para serem importadas e passadas como props pelo componente pai (FormularioEstagio.jsx).
 export const habilidadesUC4 = [
   "Higienizar as mãos conforme a OMS",
   "Utilizar equipamentos de proteção",
@@ -90,15 +91,18 @@ export const atitudesUC4 = [
 ];
 
 // Opções de avaliação para os botões de rádio/selects
-const opcoes = ["Sim", "Não", "Parcialmente", "N/A"]; // Mantendo 'N/A' como estava antes
+const opcoesDeAvaliacao = ["Sim", "Não", "Parcialmente", "N/A"];
 
-// Componente RelatorioUC4
+// Componente RelatorioUC4 agora **RECEBE** habilidades e atitudes como props
 export default function RelatorioUC4({ uc, dados, setDados, erros, handleChange, handleCPFChange, habilidades, atitudes }) {
+    // ATENÇÃO: As variáveis 'habilidades' e 'atitudes' dentro deste escopo
+    // AGORA SÃO AS PROPS RECEBIDAS DO PAI, e não as 'const' definidas acima.
+    // Isso garante que a lista certa para a UC seja usada.
 
   const handleOpcao = (item, opcao) => {
     setDados({
       ...dados,
-      habilidades: {
+      habilidades: { // Continua salvando no objeto 'habilidades' do state do pai
         ...(dados.habilidades || {}),
         [item]: opcao,
       },
@@ -170,12 +174,17 @@ export default function RelatorioUC4({ uc, dados, setDados, erros, handleChange,
       />
       {erros?.conclusao && <p className="texto-erro">{erros.conclusao}</p>}
 
+      {/* SEÇÕES DE HABILIDADES E ATITUDES:
+           AGORA, MAPAMOS SOBRE AS PROPS 'habilidades' e 'atitudes'.
+           E O ATRIBUTO 'name' DOS RADIO BUTTONS FOI REVERTIDO PARA O NOME DA HABILIDADE/ATITUDE
+           PARA MANTER O LAYOUT QUE VOCÊ JÁ TINHA FUNCIONANDO.
+      */}
       <h4>Habilidades Desenvolvidas</h4>
       <div className="tabela-habilidades">
-        {habilidades.map((hab, idx) => ( // AGORA USAMOS A PROP 'habilidades'
+        {habilidades.map((hab) => ( // AGORA USA A PROP 'habilidades'
           <div key={hab} className="linha-hab"> {/* Usar 'hab' como key é mais estável */}
             <span className="hab-nome">{hab}</span>
-            {opcoes.map((opcao) => (
+            {opcoesDeAvaliacao.map((opcao) => (
               <label key={opcao}>
                 <input
                   type="radio"
@@ -194,10 +203,10 @@ export default function RelatorioUC4({ uc, dados, setDados, erros, handleChange,
 
       <h4>Atitudes e Valores</h4>
       <div className="tabela-habilidades">
-        {atitudes.map((att, idx) => ( // AGORA USAMOS A PROP 'atitudes'
+        {atitudes.map((att) => ( // AGORA USA A PROP 'atitudes'
           <div key={att} className="linha-hab"> {/* Usar 'att' como key é mais estável */}
             <span className="hab-nome">{att}</span>
-            {opcoes.map((opcao) => (
+            {opcoesDeAvaliacao.map((opcao) => (
               <label key={opcao}>
                 <input
                   type="radio"

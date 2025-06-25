@@ -1,15 +1,21 @@
+
 .checklist-uc {
- background-color: #ffffff;
+  background-color: #ffffff; /* Fundo do checklist no modo claro (igual ao formulario-container) */
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 16px; /* Ajustado para 16px, igual ao formulario-container */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra mais suave, similar ao formulario-container */
   margin-top: 20px;
-  max-width: 1000px;
+  max-width: 1200px; /* Ajustado para 1200px, igual ao formulario-container */
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
+
+  /* Adicionado para a "janela" do checklist, similar ao formulario-container */
+  max-height: 90vh; /* Permite que o checklist ocupe até 90% da altura da tela */
+  overflow-y: auto; /* Adiciona rolagem vertical SE o conteúdo exceder o max-height */
 }
 
+/* Scrollbar para .checklist-uc */
 .checklist-uc::-webkit-scrollbar {
   width: 10px;
 }
@@ -18,12 +24,16 @@
   background-color: #888;
   border-radius: 5px;
 }
+.checklist-uc::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Cor do hover da scrollbar, para consistência */
+}
+
 
 .checklist-uc h3 {
   text-align: center;
   margin-bottom: 20px;
-  color: #11744e;
-  font-size: 1.5rem;
+  color: #1b5e20; /* Cor ajustada para o verde dos títulos principais */
+  font-size: 1.8rem; /* Tamanho ajustado para ser como o título principal do formulário */
 }
 
 /* Identificação */
@@ -32,7 +42,7 @@
   border: 1px solid #ddd;
   padding: 15px;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #f9f9f9; /* Fundo similar a .col-esquerda */
 }
 
 .ident-row {
@@ -51,14 +61,15 @@
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
+  color: #1b5e20; /* Cor ajustada para o verde dos labels da coluna esquerda */
 }
 
 .ident-field input {
   width: 100%;
-  padding: 8px;
+  padding: 10px; /* Ajustado para 10px, igual aos inputs do formulário */
   border-radius: 6px;
   border: 1px solid #ccc;
-  font-size: 14px;
+  font-size: 15px; /* Ajustado para 15px, igual aos inputs do formulário */
 }
 
 /* Checklist */
@@ -69,7 +80,7 @@
 }
 
 .checklist-item h4 {
-  color: #11744e;
+  color: #388e3c; /* Cor ajustada para o verde dos h4 de relatório */
   margin-bottom: 10px;
   font-size: 1.2rem;
 }
@@ -78,39 +89,56 @@
 .pergunta-bloco {
   margin-bottom: 20px;
   padding: 15px;
-  background-color: #f9f9f9;
+  background-color: #f9f9f9; /* Fundo similar a .col-esquerda */
   border-radius: 8px;
   border: 1px solid #e0e0e0;
 }
 
-/* Opções (Acessado, Status, Parecer) */
+/* **CORREÇÃO: Opções (Acessado, Status, Parecer) - Para ficarem em linha** */
 .radio-group {
-  display: flex;
-  align-items: center;
+  display: flex; /* Transforma em flex container */
+  align-items: center; /* Alinha itens verticalmente */
+  gap: 5px; /* Espaço entre o span (título) e os labels (opções) */
+  flex-wrap: nowrap; /* CRUCIAL: Impede que as opções quebrem linha */
   margin: 10px 0;
-  flex-wrap: wrap;
-  gap: 10px;
+  justify-content: flex-start; /* Alinha ao início, pode usar space-between se quiser distribuir */
+  overflow-x: auto; /* Adiciona scroll horizontal se o conteúdo exceder */
+  padding-bottom: 5px; /* Espaçamento para a scrollbar horizontal, se aparecer */
 }
 
 .radio-group span {
-  margin-right: 10px;
+  flex-shrink: 0; /* Impede que o texto do span encolha */
+  min-width: 80px; /* Largura mínima para o título da opção (Acessado, Status) */
+  margin-right: 10px; /* Mantido se você quer um espaço maior entre o título e as opções */
   font-weight: 500;
-  white-space: nowrap;
+  white-space: nowrap; /* Impede que o texto do span quebre linha */
 }
 
 .radio-group label {
-  margin-right: 15px;
-  white-space: nowrap;
+  display: flex; /* Transforma cada label em flex para alinhar input e texto */
+  align-items: center; /* Alinha o radio button com o texto */
+  gap: 5px; /* Espaço entre radio button e seu texto */
+  white-space: nowrap; /* IMPEDE QUE O TEXTO DA OPÇÃO QUEBRE LINHA */
+  margin-right: 10px; /* Espaçamento entre as opções */
+}
+
+/* Estilo para o radio button em si */
+.radio-group input[type="radio"] {
+  margin: 0; /* Remove margem padrão que pode atrapalhar o alinhamento */
+  accent-color: #1b5e20; /* Cor do radio button */
+  width: 16px; /* Tamanho do radio button */
+  height: 16px; /* Tamanho do radio button */
 }
 
 /* Textarea */
 textarea {
-  width: 100%;
+  width: calc(100% - 20px); /* Ajusta para padding */
   border-radius: 6px;
   border: 1px solid #ccc;
-  padding: 8px;
+  padding: 10px; /* Ajustado para 10px */
   margin-top: 8px;
   resize: vertical;
+  font-size: 15px; /* Ajustado para 15px */
 }
 
 /* Parte extra */
@@ -122,6 +150,7 @@ textarea {
   font-weight: bold;
   display: block;
   margin-top: 15px;
+  color: #1b5e20; /* Cor ajustada para o verde dos labels */
 }
 
 .checklist-extra select {
@@ -130,7 +159,7 @@ textarea {
   margin-top: 5px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  font-size: 14px;
+  font-size: 15px; /* Ajustado para 15px */
 }
 
 /* Responsivo */
@@ -141,9 +170,19 @@ textarea {
 }
 
 @media (max-width: 768px) {
+  /* Alinhamento geral do grupo de rádio em telas menores (pode voltar a ser coluna) */
   .radio-group {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column; /* Em telas menores, o grupo de rádio volta a ser em coluna */
+    align-items: flex-start; /* Alinha os itens ao início da coluna */
+    gap: 8px; /* Reduz o espaçamento quando em coluna */
+    overflow-x: hidden; /* Remove rolagem horizontal em mobile se for indesejada */
+  }
+  .radio-group span {
+    margin-right: 0; /* Remove margem extra do span quando em coluna */
+    margin-bottom: 5px; /* Adiciona um pouco de espaço abaixo do título em coluna */
+  }
+  .radio-group label {
+    margin-right: 0; /* Remove margem extra dos labels quando em coluna */
   }
 
   .ident-row {
@@ -152,7 +191,7 @@ textarea {
   }
 
   .checklist-uc h3 {
-    font-size: 1.3rem;
+    font-size: 1.5rem; /* Ajustado para telas menores */
   }
 
   .checklist-item h4 {
@@ -168,8 +207,79 @@ textarea {
   .ident-field {
     min-width: 100%;
   }
-
+  
+  /* Ajuste de espaçamento menor para radio-group em telas muito pequenas */
   .radio-group {
     gap: 5px;
   }
+}
+
+/* ==================================================================== */
+/* === DARK MODE (padronizado com .dark) === */
+/* ==================================================================== */
+
+body.dark .checklist-uc {
+  background-color: #2b2b2b; /* Cor de fundo para modo escuro, similar ao formulario-container */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .checklist-uc h3 {
+  color: #81c784; /* Verde claro para títulos */
+}
+
+body.dark .identificacao {
+  background-color: #3a3a3a; /* Fundo para identificação no modo escuro */
+  border-color: #555;
+}
+
+body.dark .ident-field label {
+  color: #a5d6a7; /* Cor para labels no modo escuro */
+}
+
+body.dark .ident-field input {
+  background-color: #333333; /* Fundo inputs no modo escuro */
+  color: #ffffff; /* Texto inputs no modo escuro */
+  border-color: #555;
+}
+
+body.dark .checklist-item h4 {
+  color: #a5d6a7; /* Títulos h4 no modo escuro */
+}
+
+body.dark .pergunta-bloco {
+  background-color: #3a3a3a; /* Fundo para bloco de perguntas no modo escuro */
+  border-color: #555;
+}
+
+body.dark .radio-group span,
+body.dark .radio-group label {
+  color: #e0e0e0; /* Texto opções de rádio no modo escuro */
+}
+
+body.dark .radio-group input[type="radio"] {
+  accent-color: #66bb6a; /* Cor do radio button no dark mode */
+}
+
+body.dark textarea {
+  background-color: #333333; /* Fundo textarea no modo escuro */
+  color: #ffffff; /* Texto textarea no modo escuro */
+  border-color: #555;
+}
+
+body.dark .checklist-extra label {
+  color: #a5d6a7; /* Labels extra no modo escuro */
+}
+
+body.dark .checklist-extra select {
+  background-color: #333333; /* Select extra no modo escuro */
+  color: #ffffff; /* Texto select extra no modo escuro */
+  border-color: #555;
+}
+
+body.dark .checklist-uc::-webkit-scrollbar-thumb {
+  background-color: #616161;
+}
+
+body.dark .checklist-uc::-webkit-scrollbar-thumb:hover {
+  background: #757575;
 }

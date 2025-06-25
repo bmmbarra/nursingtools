@@ -15,10 +15,9 @@
   padding: 20px;
   box-sizing: border-box;
 
-  /* **AJUSTES PARA A "JANELA" DO FORMULÁRIO** */
+  /* AJUSTES PARA A "JANELA" DO FORMULÁRIO */
   max-height: 90vh; /* Permite que o formulário ocupe até 90% da altura da tela */
   overflow-y: auto; /* Adiciona rolagem vertical SE o conteúdo exceder o max-height */
-  /* Removido `overflow: visible;` daqui para que `auto` funcione */
 }
 
 /* Grid de duas colunas */
@@ -39,7 +38,7 @@
   flex-direction: column;
   gap: 20px;
 
-  /* **AJUSTES PARA A ROLAGEM INTERNA DA COLUNA ESQUERDA** */
+  /* AJUSTES PARA A ROLAGEM INTERNA DA COLUNA ESQUERDA */
   min-height: 300px; /* Garante uma altura mínima para a coluna */
   max-height: 70vh; /* Ajustado para que a coluna não fique muito grande e tenha sua própria rolagem */
   overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
@@ -75,7 +74,6 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* A coluna direita permitirá que seus filhos (aba-conteudo) controlem sua altura */
 }
 
 /* Abas */
@@ -111,7 +109,7 @@
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  /* **AJUSTES PARA A ROLAGEM INTERNA DO CONTEÚDO DA ABA** */
+  /* AJUSTES PARA A ROLAGEM INTERNA DO CONTEÚDO DA ABA */
   max-height: 50vh; /* Ajustado para que o conteúdo da aba não fique muito grande e tenha sua própria rolagem */
   overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
 }
@@ -291,11 +289,22 @@ body.dark .periodo-estagio-global {
 body.dark .periodo-estagio-global label {
   color: #a5d6a7;
 }
-body.dark .periodo-estagio-global input[type="date"] {
-  background-color: #444444;
-  border-color: #666666;
-  color: #ffffff;
+
+/* **CORREÇÃO CRÍTICA: CPF Branco no Modo Escuro - Usando !important para forçar o estilo** */
+body.dark input[type="text"], /* Alvo principal para o CPF */
+body.dark input[type="date"],
+body.dark input[type="number"], /* Adicionado para cobertura geral de inputs */
+body.dark input[type="email"],
+body.dark input[type="password"],
+body.dark input:not([type="radio"]):not([type="checkbox"]), /* Abrangente para a maioria dos inputs */
+body.dark select,
+body.dark textarea {
+  background-color: #333333 !important; /* **FORÇANDO O FUNDO ESCURO** */
+  color: #ffffff !important; /* Forçando o texto branco */
+  border: 1px solid #555555 !important; /* Forçando a borda cinza mais clara */
 }
+
+
 body.dark .aba-conteudo {
   background-color: #444444;
   border-color: #555555;
@@ -407,4 +416,173 @@ body.dark .mensagem-erro {
 body.dark .campo-erro {
     border: 1px solid #e96d7e !important;
     background-color: #5b1c22;
+}
+
+/* ==================================================================== */
+/* === ESTILOS DE RELATÓRIO INTEGRADOS AQUI NO FORM-INDEX.CSS === */
+/* Estas classes foram movidas do relatorio.css para cá para garantir que prevaleçam */
+
+.relatorio-uc {
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.relatorio-uc h3 {
+    color: #1b5e20;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.relatorio-uc h4 {
+    color: #388e3c;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.relatorio-uc label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.relatorio-uc input[type="text"],
+.relatorio-uc textarea {
+    width: calc(100% - 20px); /* Ajusta para padding */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Inclui padding e borda na largura total */
+}
+
+/* Estilos para a Tabela de Habilidades e Atitudes */
+.tabela-habilidades {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fff;
+    overflow-y: auto; /* Adiciona scroll se a tabela for muito longa */
+    max-height: 400px; /* Limita a altura da tabela de habilidades para evitar que ela fique enorme */
+    /* NOVO: Permite rolagem horizontal se necessário para manter as opções em linha */
+    overflow-x: auto; 
+}
+
+/* **CORREÇÃO FINAL PARA O LAYOUT DAS OPÇÕES EM LINHA** */
+.linha-hab {
+  display: flex; /* CRUCIAL: Transforma o contêiner em um flex container */
+  align-items: center; /* Centraliza verticalmente os itens na linha */
+  gap: 5px; /* **REDUZIDO:** Espaço entre o nome da habilidade e as opções de rádio */
+  flex-wrap: nowrap; /* **CRUCIAL:** IMPEDE que as opções quebrem para a linha de baixo */
+  justify-content: space-between; /* Tenta distribuir espaço entre o nome e as opções */
+  
+  border-bottom: 1px solid #eee; /* Borda inferior de cada linha de habilidade */
+  padding: 10px 0; /* Espaçamento interno de cada linha */
+}
+
+.hab-nome {
+  flex-shrink: 0; /* Impede que o nome da habilidade encolha */
+  min-width: 120px; /* **REDUZIDO:** Largura mínima para o nome (era 180px). Ajuste se for muito pequeno. */
+  font-weight: bold;
+  color: #555;
+  /* Se os nomes forem muito longos, considere 'overflow: hidden; text-overflow: ellipsis;' para cortá-los */
+}
+
+.linha-hab label {
+  display: flex; /* Transforma cada label em um flex container para alinhar input e texto */
+  align-items: center; /* Alinha o radio button com o texto */
+  gap: 5px; /* Espaço entre o radio button e o texto da opção */
+  white-space: nowrap; /* IMPEDE QUE O TEXTO DA OPÇÃO (Sim/Não/Parcialmente/N/A) QUEBRE */
+  color: #666;
+}
+
+.linha-hab input[type="radio"] {
+  margin: 0; /* Remove margem padrão que pode atrapalhar o alinhamento */
+  accent-color: #1b5e20; /* Cor do radio button */
+  width: 16px; /* Tamanho do radio button */
+  height: 16px; /* Tamanho do radio button */
+}
+/* **FIM DA CORREÇÃO PARA O LAYOUT DAS OPÇÕES EM LINHA** */
+
+
+/* Responsividade para .linha-hab DENTRO DO FORM-INDEX.CSS */
+/* Nestas media queries, podemos decidir se queremos que as opções QUEBREM ou não */
+@media (max-width: 768px) {
+  .linha-hab {
+    flex-direction: column; /* Em telas menores, as opções voltam a ser em coluna */
+    align-items: flex-start; /* Alinha os itens no início da coluna */
+    gap: 8px; /* Reduz o espaçamento entre itens quando em coluna */
+    padding: 10px 0;
+    flex-wrap: wrap; /* Permite quebrar linha para mobile para evitar overflow horizontal */
+    justify-content: flex-start; /* Alinha ao início quando em coluna */
+  }
+
+  .hab-nome {
+    margin-bottom: 5px; /* Adiciona um pequeno espaço abaixo do nome quando em coluna */
+    min-width: unset; /* Remove a largura mínima para que o texto se ajuste */
+  }
+
+  /* Ajuste para o padding das seções em telas pequenas */
+  .relatorio-uc {
+    padding: 15px;
+  }
+}
+
+/* Dark Mode para Relatorio UC (integrado com o sistema de tema global) */
+body.dark .relatorio-uc {
+  background-color: #2a2a2a;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .relatorio-uc h3 {
+  color: #81c784;
+}
+
+body.dark .relatorio-uc h4 {
+  color: #a5d6a7;
+  border-bottom-color: #444;
+}
+
+body.dark .relatorio-uc label {
+  color: #e0e0e0;
+}
+
+body.dark .relatorio-uc input[type="text"],
+body.dark .relatorio-uc textarea {
+  background-color: #3a3a3a;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+body.dark .tabela-habilidades {
+  background-color: #3a3a3a;
+  border-color: #555;
+}
+
+body.dark .linha-hab {
+  border-bottom-color: #444;
+}
+
+body.dark .hab-nome {
+  color: #c0c0c0;
+}
+
+body.dark .linha-hab label {
+  color: #d0d0d0;
+}
+
+body.dark .linha-hab input[type="radio"] {
+  accent-color: #66bb6a; /* Cor do radio button no dark mode */
+}
+
+body.dark .tabela-habilidades::-webkit-scrollbar-thumb {
+  background-color: #616161;
+}
+
+body.dark .tabela-habilidades::-webkit-scrollbar-thumb:hover {
+  background: #757575;
 }

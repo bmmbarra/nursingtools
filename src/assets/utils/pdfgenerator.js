@@ -1,5 +1,5 @@
 // ===================================================================================
-// ARQUIVO: pdfgenerator.js (VERSÃO FINAL CONSOLIDADA)
+// ARQUIVO: pdfgenerator.js (VERSÃO FINAL CONSOLIDADA E VALIDADA)
 //
 // PROPÓSITO GERAL:
 // Gera um PDF (Checklist ou Relatório) com base nos dados fornecidos.
@@ -15,7 +15,8 @@ function marcarOpcoes(valor, opcoes) {
     return opcoes.map((op) => (valor?.toLowerCase() === op.toLowerCase() ? `(X) ${op}` : `( ) ${op}`)).join(" ");
 }
 
-function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo, habilidadesExigidas, checklistEstrutura }) {
+// Função auxiliar para validar campos obrigatórios, recebe listas de habilidades/atitudes
+function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo, habilidadesRelatorio, atitudesRelatorio, checklistEstrutura }) {
     if (tipo === "Relatório") {
         // --- VALIDAÇÕES DO RELATÓRIO ---
         if (!empresa || empresa.length === 0) {
@@ -28,25 +29,49 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo, ha
         const camposFaltantesRelatorio = ["nome", "cpf", "turma", "instrutores", "conclusao"].filter(campo => !relatorio[campo]);
         if (camposFaltantesRelatorio.length > 0) {
             const error = new Error("Campos de identificação obrigatórios não preenchidos.");
-            error.campos = camposFaltantesRelatorio;
+            error.campos = camposFaltantesRelatorio.map(campo => {
+                // Formatação amigável para os nomes dos campos para o toast
+                switch(campo) {
+                    case 'nome': return 'Nome do Aluno';
+                    case 'cpf': return 'CPF do Aluno';
+                    case 'turma': return 'Turma';
+                    case 'instrutores': return 'Nome do(s) Instrutor(es)';
+                    case 'conclusao': return 'Conclusão';
+                    default: return campo;
+                }
+            });
             throw error;
         }
-        if (habilidadesExigidas && habilidadesExigidas.length > 0) {
-            const habilidadesRespondidas = relatorio.habilidades || {};
-            const algumaHabilidadeFaltando = habilidadesExigidas.some(h => !habilidadesRespondidas[h]);
-            if (algumaHabilidadeFaltando) {
-                throw new Error("Todas as habilidades e atitudes devem ser preenchidas. Por favor, revise a lista.");
-            }
+
+        // Validação de Habilidades e Atitudes
+        // Usaremos flags para verificar se *alguma* habilidade/atitude está faltando
+        let algumaHabilidadeFaltando = false;
+        let algumaAtitudeFaltando = false;
+        const habilidadesRespondidas = relatorio.habilidades || {}; 
+
+        // 1. Valida Habilidades específicas da UC
+        if (habilidadesRelatorio && habilidadesRelatorio.length > 0) {
+            algumaHabilidadeFaltando = habilidadesRelatorio.some(habilidade => !habilidadesRespondidas[habilidade]);
+        }
+
+        // 2. Valida Atitudes específicas da UC
+        if (atitudesRelatorio && atitudesRelatorio.length > 0) {
+            algumaAtitudeFaltando = atitudesRelatorio.some(atitude => !habilidadesRespondidas[atitude]);
+        }
+        
+        if (algumaHabilidadeFaltando) {
+            throw new Error("Preencha todas as habilidades.");
+        }
+        if (algumaAtitudeFaltando) {
+            throw new Error("Preencha todas as atitudes e valores.");
         }
 
     } else if (tipo === "Checklist") {
-        // ==========================================================
-        // LÓGICA DO CHECKLIST CORRIGIDA E ROBUSTA
-        // ==========================================================
+        // LÓGICA DO CHECKLIST
         const camposFaltantesChecklist = ["aluno", "turma", "resultado"].filter(campo => !checklist[campo]);
         if (camposFaltantesChecklist.length > 0) {
             const error = new Error("Campos obrigatórios do checklist não preenchidos.");
-            error.campos = camposFaltantesChecklist;
+            error.campos = camposFaltantesChecklist; // Pode formatar também se quiser no toast
             throw error;
         }
 
@@ -54,23 +79,29 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo, ha
             throw new Error("A estrutura ou os itens do checklist estão faltando. Não é possível validar.");
         }
         
+        const itensNaoPreenchidosChecklist = [];
         // Itera pela estrutura MESTRA e verifica se CADA item foi respondido
         for (const secao of checklistEstrutura) {
             for (const pergunta of secao.perguntas) {
                 const resposta = checklist.itens[secao.titulo]?.[pergunta];
                 // Falha se a resposta não existir, ou se 'acesso' ou 'status' não tiverem sido marcados
                 if (!resposta || !resposta.acesso || !resposta.status) {
-                    // Lança um erro específico informando qual item está faltando
-                    throw new Error(`O item "${pergunta}" na seção "${secao.titulo}" precisa ser preenchido completamente (Análise e Status).`);
+                    itensNaoPreenchidosChecklist.push(`"${pergunta}" na seção "${secao.titulo}"`);
                 }
             }
+        }
+        if (itensNaoPreenchidosChecklist.length > 0) {
+            const error = new Error("Todos os itens do checklist precisam ser preenchidos completamente (Análise e Status).");
+            error.campos = itensNaoPreenchidosChecklist; // Passa a lista detalhada para o toast no Front-end
+            throw error;
         }
     }
 }
 
-export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo, habilidadesExigidas, checklistEstrutura }) {
-    // A validação rigorosa acontece aqui, agora recebendo a estrutura do checklist
-    validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo, habilidadesExigidas, checklistEstrutura });
+// Função principal para gerar o PDF, recebe listas de habilidades/atitudes separadas
+export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo, habilidadesRelatorio, atitudesRelatorio, checklistEstrutura }) {
+    // A validação rigorosa acontece aqui
+    validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo, habilidadesRelatorio, atitudesRelatorio, checklistEstrutura });
 
     empresa = Array.isArray(empresa) ? empresa : [empresa];
     const doc = new jsPDF();
@@ -81,19 +112,14 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     logoImg.src = logo;
     await new Promise((resolve) => (logoImg.onload = resolve));
 
-    const atitudesList = [
-        "Comprometimento com o atendimento humanizado", "Responsabilidade no uso dos recursos organizacionais", "Colaboração, flexibilidade e iniciativa no desenvolvimento do trabalho em equipe", "Proatividade na resolução de problemas", "Respeito à diversidade e aos valores morais, culturais e religiosos do cliente e da família", "Respeito ao limite da atuação profissional", "Responsabilidade no descarte de resíduos", "Sigilo no tratamento de dados e informações", "Zelo na apresentação pessoal e postura profissional", "Responsabilidade no cumprimento das normas de segurança", "Respeito às normas técnicas e legislações vigentes", "Escuta Ativa", "Registro das Ações de Enfermagem conforme a rotina e protocolo da Instituição",
-    ];
-
-
 if (tipo === "Checklist") {
     // ---- 1. AJUSTES PARA CONDENSAR EM UMA PÁGINA ----
     const marginH = 15;
     const marginV = 15;
     const tableMaxWidth = pageWidth - marginH * 2;
-    const baseFontSize = 9;    // Reduzido para melhor ajuste
-    const headerFontSize = 10;  // Reduzido para melhor ajuste
-    const smallFontSize = 8;   // Reduzido para melhor ajuste
+    const baseFontSize = 9;    // Ajustado
+    const headerFontSize = 10;  // Ajustado
+    const smallFontSize = 8;   // Ajustado
     const cellPadding = 1.5;
 
     // ---- 2. CORES RESTAURADAS E PADRONIZADAS (baseado no relatório) ----
@@ -103,7 +129,7 @@ if (tipo === "Checklist") {
     const whiteFill = [255, 255, 255];       // Adicionado para preenchimento de células como no relatório
     const greyLineColor = [200, 200, 200];   // Adicionado para linhas como no relatório
 
-    // A função marcarOpcoes permanece inalterada, pois os valores já vêm de outro lugar.
+    // A função marcarOpcoes permanece inalterada.
 
     const inserirCabecalhoChecklist = () => {
         let posY = marginV;
@@ -132,7 +158,6 @@ if (tipo === "Checklist") {
     const startY = 50;
 
     // --- Tabela de dados do aluno (Topo) ---
-    // Estrutura similar ao cabeçalho do relatório para padronização.
     const cabecalhoChecklistBody = [
         [{ content: 'Aluno(a):', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: 'bold' } }],
         [{ content: checklist.aluno || '', colSpan: 2, styles: { fillColor: whiteFill, minCellHeight: 10 } }],
@@ -140,7 +165,7 @@ if (tipo === "Checklist") {
         [{ content: checklist.turma || '', styles: { fillColor: whiteFill } }, { content: `${uc}`, styles: { fillColor: whiteFill } }],
         [{ content: 'Carga Horária:', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: 'bold' } }],
         [{ content: checklist.cargaHoraria || '', colSpan: 2, styles: { fillColor: whiteFill, minCellHeight: 10 } }],
-        [{ content: 'ITENS DE AVALIAÇÃO', colSpan: 3, styles: { fillColor: titleFillColor, fontStyle: 'bold', halign: 'center', fontSize: baseFontSize } }] // ColSpan 3 para ajustar às colunas da tabela principal
+        [{ content: 'ITENS DE AVALIAÇÃO', colSpan: 3, styles: { fillColor: titleFillColor, fontStyle: 'bold', halign: 'center', fontSize: baseFontSize } }]
     ];
 
     autoTable(doc, {
@@ -149,7 +174,7 @@ if (tipo === "Checklist") {
         theme: 'grid',
         styles: { font: "times", fontSize: baseFontSize, cellPadding: cellPadding, textColor: blackColor, lineColor: greyLineColor, lineWidth: 0.1, valign: "middle" },
         columnStyles: { 
-            0: { cellWidth: (tableMaxWidth / 2) }, // Divide igualmente as duas colunas principais
+            0: { cellWidth: (tableMaxWidth / 2) },
             1: { cellWidth: (tableMaxWidth / 2) }
         },
         tableWidth: tableMaxWidth,
@@ -167,18 +192,16 @@ if (tipo === "Checklist") {
                 const respostas = checklist.itens[secao.titulo][pergunta] || {};
                 corpoTabelaChecklist.push([
                     { content: pergunta },
-                    { content: marcarOpcoes(respostas.acesso, ["Sim", "Não"]), styles: { halign: 'center' } }, // Usando a função original
-                    { content: marcarOpcoes(respostas.status, ["Regular", "Irregular", "Pendente"]), styles: { halign: 'center' } }, // Usando a função original
+                    { content: marcarOpcoes(respostas.acesso, ["Sim", "Não"]), styles: { halign: 'center' } },
+                    { content: marcarOpcoes(respostas.status, ["Regular", "Irregular", "Pendente"]), styles: { halign: 'center' } },
                 ]);
             }
         }
     }
     
-    // Ajuste das larguras das colunas para a tabela de itens
-    // Estas larguras precisam ser balanceadas para caberem na página
-    const colStatusWidth = 45; // Largura para 'Status'
-    const colAcessoWidth = 45; // Largura para 'Análise'
-    const colRegistroWidth = tableMaxWidth - colStatusWidth - colAcessoWidth; // O restante para 'Registro/Formulário'
+    const colStatusWidth = 45;
+    const colAcessoWidth = 45;
+    const colRegistroWidth = tableMaxWidth - colStatusWidth - colAcessoWidth;
 
     autoTable(doc, {
         startY: lastTableY,
@@ -194,17 +217,16 @@ if (tipo === "Checklist") {
         },
         tableWidth: tableMaxWidth,
         margin: { left: marginH, right: marginH },
-        pageBreak: 'avoid', // Ajuda a manter seções na mesma página
+        pageBreak: 'avoid',
         willDrawCell: (data) => {
-            // Lógica para quebrar a página antes de uma célula que não caberia
             const cellHeight = data.cell.height;
             const currentY = data.cursor.y;
-            const pageBreakThreshold = pageHeight - marginV - 10; // Margem inferior de 10mm
+            const pageBreakThreshold = pageHeight - marginV - 10; 
 
             if (currentY + cellHeight > pageBreakThreshold && data.section === 'body') {
                 doc.addPage();
-                inserirCabecalhoChecklist(); // Adiciona o cabeçalho novamente na nova página
-                data.cursor.y = startY; // Reinicia o cursor Y para o topo da nova página
+                inserirCabecalhoChecklist(); 
+                data.cursor.y = startY; 
             }
         }
     });
@@ -216,7 +238,7 @@ if (tipo === "Checklist") {
     doc.setTextColor(blackColor[0], blackColor[1], blackColor[2]);
     
     const resultadoFinalText = `Resultado Final: ${marcarOpcoes(checklist.resultado, ["Desenvolvida", "Não Desenvolvida"])}`;
-    const cargaHorariaText = "Carga Horária realizada: ___________________";
+    const cargaHorariaText = "Carga Horaria realizada: ___________________";
     
     doc.text(resultadoFinalText, marginH, finalY);
     
@@ -274,6 +296,7 @@ if (tipo === "Checklist") {
             }
         }
 
+        // CORREÇÃO: Nome da função de 'initiarNovaPagina' para 'iniciarNovaPagina'
         function iniciarNovaPagina(titulo) {
             doc.addPage();
             inserirCabecalho(titulo);
@@ -344,6 +367,7 @@ if (tipo === "Checklist") {
         }
 
         function gerarIdentificacao() {
+            // CORREÇÃO: Chamando 'iniciarNovaPagina'
             iniciarNovaPagina("IDENTIFICAÇÃO");
             const nomesUnidades = Array.isArray(empresa) ? empresa.map((e) => e.nome).join(", ") : "";
             const dataEntregaFormatada = "";
@@ -368,6 +392,7 @@ if (tipo === "Checklist") {
         }
 
         function gerarIntroducao() {
+            // CORREÇÃO: Chamando 'iniciarNovaPagina'
             iniciarNovaPagina("INTRODUÇÃO");
             const nomesEmpresas = empresa.map((e) => e.nome).filter(Boolean).join(" e ");
             let textoIntroducao = [`Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${nomesEmpresas}.`];
@@ -397,6 +422,7 @@ if (tipo === "Checklist") {
         }
 
         function gerarRelatorioHabilidadesEAtitudes() {
+            // CORREÇÃO: Chamando 'iniciarNovaPagina'
             iniciarNovaPagina("RELATÓRIO DE ATIVIDADES REALIZADAS NO CAMPO DE ESTÁGIO");
             const titleFillColor = [188, 189, 176];
             const subtitleFillColor = [242, 242, 242];
@@ -412,9 +438,9 @@ if (tipo === "Checklist") {
             };
             const opcoesDeAvaliacao = ["Sim", "Não", "Parcialmente", "Não se aplica"];
             const cabecalhoBody = [
-                [{ content: 'Nome do(a) aluno(a):', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: 'bold' } }],
+                [{ content: 'Nome do(a) aluno(a):', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: "bold" } }],
                 [{ content: relatorio.nome || '', colSpan: 2, styles: { fillColor: whiteFill, minCellHeight: 10 } }],
-                [{ content: 'Habilidades', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: 'bold', halign: 'center', fontSize: 12 } }]
+                [{ content: 'Habilidades', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: "bold", halign: 'center', fontSize: 12 } }]
             ];
 
             autoTable(doc, {
@@ -423,8 +449,8 @@ if (tipo === "Checklist") {
 
             let lastTableY = doc.lastAutoTable.finalY;
 
-            const habilidades = Object.entries(relatorio.habilidades || {})
-                .filter(([h]) => !atitudesList.includes(h));
+            // CORREÇÃO: Usa as props 'habilidadesRelatorio' para gerar a tabela de habilidades
+            const habilidades = habilidadesRelatorio.map(h => [h, relatorio.habilidades[h] || '']);
 
             if (habilidades.length > 0) {
                 const tableHead = [['Atividades', 'Realizado']];
@@ -432,7 +458,7 @@ if (tipo === "Checklist") {
                     return [habilidade, marcarOpcoes(resposta, opcoesDeAvaliacao)];
                 });
                 autoTable(doc, {
-                    startY: lastTableY, head: tableHead, body: tableBody, theme: 'grid', styles: { font: "times", fontSize: 12, valign: 'middle', cellPadding: minCellPadding, textColor: [0, 0, 0], lineColor: greyLineColor, lineWidth: 0.1 }, headStyles: { fillColor: subtitleFillColor, fontStyle: 'bold', fontSize: 12, font: "times", textColor: [0, 0, 0], lineColor: greyLineColor, halign: 'center' }, columnStyles: sharedColumnStyles, tableWidth: tableMaxWidth, margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior }, didDrawPage: (data) => {
+                    startY: lastTableY, head: tableHead, body: tableBody, theme: 'grid', styles: { font: "times", fontSize: 12, valign: 'middle', cellPadding: minCellPadding, textColor: [0, 0, 0], lineColor: greyLineColor, lineWidth: 0.1 }, headStyles: { fillColor: subtitleFillColor, fontStyle: "bold", fontSize: 12, font: "times", textColor: [0, 0, 0], lineColor: greyLineColor, halign: 'center' }, columnStyles: sharedColumnStyles, tableWidth: tableMaxWidth, margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior }, didDrawPage: (data) => {
                         inserirCabecalho();
                     },
                     willDrawCell: (data) => {
@@ -445,12 +471,12 @@ if (tipo === "Checklist") {
                 lastTableY = doc.lastAutoTable.finalY;
             }
 
-            const atitudes = Object.entries(relatorio.habilidades || {})
-                .filter(([h]) => atitudesList.includes(h));
+            // CORREÇÃO: Usa as props 'atitudesRelatorio' para gerar a tabela de atitudes
+            const atitudes = atitudesRelatorio.map(a => [a, relatorio.habilidades[a] || '']);
 
             if (atitudes.length > 0) {
                 const atitudesBody = [
-                    [{ content: 'ATITUDES/VALORES', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: 'bold', halign: 'center', fontSize: 12 } }]
+                    [{ content: 'ATITUDES/VALORES', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: "bold", halign: 'center', fontSize: 12 } }]
                 ];
                 atitudes.forEach(([atitude, resposta]) => {
                     atitudesBody.push([atitude, marcarOpcoes(resposta, opcoesDeAvaliacao)]);
@@ -469,6 +495,7 @@ if (tipo === "Checklist") {
             }
         }
         function gerarConclusao() {
+            // CORREÇÃO: Chamando 'iniciarNovaPagina'
             iniciarNovaPagina("CONCLUSÃO");
             const texto = relatorio.conclusao || "";
             const lineHeight = 12 * 0.352778 * 1.5;
