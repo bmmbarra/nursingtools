@@ -432,6 +432,8 @@ function gerarHabilidades() {
         },
     });
 }
+
+
     function gerarAtitudes() {
         if (!relatorio.habilidades) return;
         const atitudesLinhas = atitudesList.map((a) => [a, relatorio.habilidades[a] || "Não informado"]);
@@ -450,7 +452,7 @@ function gerarHabilidades() {
             },
         });
     }
-
+// comentário teste
     function gerarConclusao() {
         iniciarNovaPagina("CONCLUSÃO");
         const texto = relatorio.conclusao || "";
