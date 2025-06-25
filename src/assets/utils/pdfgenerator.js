@@ -217,13 +217,16 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
         }
 
         function renderJustifiedText(doc, text, x, y, maxWidth, lineHeight) {
-            const paragraphs = text.split('\n\n');
+            // A única alteração está aqui: trocamos '\n\n' por '\n'
+            const paragraphs = text.split('\n');
             let currentY = y;
 
             doc.setFont("times", "normal");
             doc.setFontSize(12);
 
             paragraphs.forEach((paragraph, pIndex) => {
+                if (paragraph.trim() === '') return; // Adicionado para ignorar linhas em branco
+
                 if (currentY > pageHeight - marginInferior - lineHeight) {
                     doc.addPage();
                     inserirCabecalho();
@@ -272,13 +275,14 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
                     }
                     currentY += lineHeight;
                 });
+                
+                // Este espaçamento agora fica responsável por todo o espaço entre parágrafos
                 if (pIndex < paragraphs.length - 1) {
                     currentY += lineHeight / 2;
                 }
-            });
-            return currentY;
-        }
-
+    });
+    return currentY;
+}
         function gerarCapa() {
             inserirCabecalho();
             const centerX = pageWidth / 2;
@@ -320,6 +324,7 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
             iniciarNovaPagina("INTRODUÇÃO");
             const nomesEmpresas = empresa.map((e) => e.nome).filter(Boolean).join(" e ");
             let textoIntroducao = [`Este relatório tem como objetivo descrever as atividades realizadas, observadas e acompanhadas durante o estágio curricular no campo ${nomesEmpresas}.`];
+            
             empresa.forEach((emp) => {
                 const partesTextoEmpresa = [emp.info, emp.plano, emp.descricao].filter(Boolean);
                 let periodoEstagioEmpresaTexto = "";
@@ -332,17 +337,19 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
                             const dataFimFormatada = fim.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
                             periodoEstagioEmpresaTexto = `O estágio nesta unidade foi realizado de ${dataInicioFormatada} a ${dataFimFormatada}.`;
                         }
-                    } catch (error) { console.error("Erro ao formatar datas do estágio:", error); }
+                    } catch (error) {
+                        console.error("Erro ao formatar datas do estágio:", error);
+                    }
                 }
                 if (periodoEstagioEmpresaTexto) partesTextoEmpresa.push(periodoEstagioEmpresaTexto);
                 textoIntroducao.push(partesTextoEmpresa.join("\n\n"));
-            });
-            const textoCompleto = textoIntroducao.join("\n\n");
-            const lineHeight = 12 * 0.352778 * 1.5;
-            const maxWidth = pageWidth - marginEsquerda - marginDireita;
-            renderJustifiedText(doc, textoCompleto, marginEsquerda, contentStartY, maxWidth, lineHeight);
-        }
+    });
 
+    const textoCompleto = textoIntroducao.join("\n\n");
+    const lineHeight = 12 * 0.352778 * 1.5;
+    const maxWidth = pageWidth - marginEsquerda - marginDireita;
+    renderJustifiedText(doc, textoCompleto, marginEsquerda, contentStartY, maxWidth, lineHeight);
+}
         function gerarRelatorioHabilidadesEAtitudes() {
             iniciarNovaPagina("RELATÓRIO DE ATIVIDADES REALIZADAS NO CAMPO DE ESTÁGIO");
 
@@ -461,14 +468,16 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
                 });
             }
         }
-        function gerarConclusao() {
+      function gerarConclusao() {
             iniciarNovaPagina("CONCLUSÃO");
             const texto = relatorio.conclusao || "";
-            const textoFormatado = texto.replace(/\n/g, '\n\n');
             const lineHeight = 12 * 0.352778 * 1.5;
             const maxWidth = pageWidth - marginEsquerda - marginDireita;
-            renderJustifiedText(doc, textoFormatado, marginEsquerda, contentStartY, maxWidth, lineHeight);
-        }
+
+            // A linha "textoFormatado" foi removida.
+            // Passamos o 'texto' original diretamente para a função.
+            renderJustifiedText(doc, texto, marginEsquerda, contentStartY, maxWidth, lineHeight);
+}
 
         gerarCapa();
         gerarIdentificacao();
