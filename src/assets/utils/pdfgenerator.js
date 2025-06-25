@@ -426,7 +426,7 @@ function gerarHabilidades() {
         },
         columnStyles: sharedColumnStyles,
         tableWidth: tableMaxWidth,
-        margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
+        margin: { top: 60, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
         didDrawPage: (data) => {
             inserirCabecalho();
         },
