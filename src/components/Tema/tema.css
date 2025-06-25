@@ -1,4 +1,10 @@
-
+/* ===================================================================================
+// ARQUIVO: theme.css (VERSÃO AJUSTADA - FUNDO SIMPLIFICADO)
+//
+// PROPÓSITO GERAL:
+// Este arquivo contém os estilos para o seletor de tema (dark/light) e as
+// regras globais para aplicar o tema em diversos elementos da aplicação.
+// =================================================================================== */
 
 /* Toggle de Tema (Botão para alternar entre temas) */
 .theme-toggle {
@@ -75,40 +81,42 @@ body.dark .slider {
 /* Estilos Globais do Body e Temas */
 /* ==================================================================== */
 
-/* **INÍCIO DA ALTERAÇÃO CRÍTICA AQUI para o fundo global** */
-html {
-  height: 100%; /* Garante que o HTML ocupe pelo menos 100% da altura da viewport */
-  /* Isso é crucial para que 'body' com height: 100% ou min-height: 100% se baseie na viewport */
+/* **INÍCIO DA ALTERAÇÃO: Fundo mais simples no body** */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Garante que ocupem a altura total da viewport */
+  /* min-height: 100vh; */ /* Pode ser removido se a scrollbar global for o que se quer */
+  overflow-x: hidden; /* Evita barra de rolagem horizontal desnecessária */
+  /* background-attachment: scroll; (default) */ /* Remove fixed, permitindo que a imagem role */
 }
 
 body {
-  margin: 0; /* Certifica-se de que não há margens padrão que impeçam o ajuste */
-  min-height: 100vh; /* Garante que o body ocupe pelo menos 100% da altura da viewport */
-  /* IMPORTANTE: Se o conteúdo exceder 100vh, o body vai se expandir */
-  
+  position: relative; /* Mantido se for necessário para outros elementos posicionados */
   color: #1e1e1e; /* Cor do texto padrão no modo claro */
-  background-color: white; /* Cor de fundo padrão no modo claro */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed; /* <--- NOVO/CONFIRMADO: Fixa a imagem de fundo ao viewport */
-  transition: all 0.3s ease;
+  background-color: white; /* Cor de fundo de fallback, caso a imagem não carregue */
   font-family: 'Segoe UI', 'Roboto', sans-serif;
+  transition: all 0.3s ease;
+  z-index: 1; /* Garante que o body esteja acima de outros elementos se houver */
+  
+  /* ESTILOS DE FUNDO DO BODY */
+  background-size: cover; /* A imagem de fundo cobrirá a área do body */
+  background-position: center;
+  background-repeat: no-repeat; /* Não repete a imagem */
 }
-/* **FIM DA ALTERAÇÃO CRÍTICA AQUI** */
 
-
-/* Estilos para o Body no Tema Claro */
+/* Imagens de fundo específicas para o Body */
 body.light {
   background-image: url(../../assets/Images/wallp-day.jpg);
 }
 
-/* Estilos para o Body no Tema Escuro */
 body.dark {
-  background-image: url(../../assets/Images/wallp-dark.jpg); /* Imagem de fundo principal para o modo escuro */
+  background-image: url(../../assets/Images/wallp-dark.jpg);
   color: #ffffff; /* Cor do texto principal no modo escuro */
   background-color: #121212; /* Cor de fundo mais escura para o body */
 }
+/* **FIM DA ALTERAÇÃO: Fundo mais simples no body** */
+
 
 /* Fundo da home-content-box no modo escuro */
 body.dark .home-content-box {
@@ -116,7 +124,7 @@ body.dark .home-content-box {
   transition: all 0.3s ease;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover; /* <--- NOVO: Garante que esta imagem cubra a caixa interna */
+  background-size: cover; /* Garante que esta imagem cubra a caixa interna */
   background-color: #1e1e1e;
   color: white;
 }
@@ -579,19 +587,14 @@ body.dark .periodo-estagio-global {
   margin-top: 20px;
 }
 
-/* Animação do Spinner (Modo Claro) */
+/* Animação do Spinner */
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border-left-color: #1b5e20; /* Verde do seu tema claro */
+  border-left-color: #1b5e20; /* Usando o verde principal do seu tema */
   animation: spin 1s linear infinite;
-}
-
-/* Animação do Spinner (Modo Escuro) */
-body.dark .spinner {
-  border-left-color: #66bb6a; /* Verde mais brilhante do seu tema escuro */
 }
 
 @keyframes spin {
@@ -599,7 +602,7 @@ body.dark .spinner {
   100% { transform: rotate(360deg); }
 }
 
-/* Estilos para as mensagens de feedback (Modo Claro) */
+/* Estilos para as mensagens de feedback */
 .mensagem-sucesso,
 .mensagem-erro {
   margin-top: 15px;

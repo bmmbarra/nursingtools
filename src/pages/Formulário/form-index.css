@@ -13,10 +13,12 @@
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  /* Remover overflow: hidden; se não for estritamente necessário e estiver causando cortes */
-  /* Se o objetivo é que o conteúdo interno tenha sua própria rolagem, este 'hidden' pode atrapalhar o pai */
-  overflow: visible; /* Alterado para visible para permitir que o conteúdo "saia" se precisar de espaço */
   box-sizing: border-box;
+
+  /* **AJUSTES PARA A "JANELA" DO FORMULÁRIO** */
+  max-height: 90vh; /* Permite que o formulário ocupe até 90% da altura da tela */
+  overflow-y: auto; /* Adiciona rolagem vertical SE o conteúdo exceder o max-height */
+  /* Removido `overflow: visible;` daqui para que `auto` funcione */
 }
 
 /* Grid de duas colunas */
@@ -24,26 +26,23 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
-  /* Adicionar min-height ou permitir que cresça */
   align-items: start; /* Alinha os itens no topo, importante para grids com conteúdo variável */
 }
 
 /* Coluna esquerda */
 .col-esquerda {
-  overflow-y: auto; /* Manter para rolagem interna se o conteúdo for grande */
   background-color: #f0f4f8;
   padding: 20px;
   border-radius: 8px;
   font-size: 15px;
-  /* REMOVIDO: height: 530px; */ /* <--- REMOVER ESTA LINHA */
-  /* REMOVIDO: display: flex; flex-direction: column; gap: 20px; (se não for para o layout interno da coluna) */
-  /* Se a coluna esquerda deve ser apenas um contêiner de rolagem sem um height fixo, remova essas propriedades ou ajuste-as */
-  /* Se você precisa que ela tenha um scroll e não se expanda infinitamente, use max-height com overflow-y: auto */
-  min-height: 300px; /* Sugestão: Defina uma altura mínima para ela não sumir com pouco conteúdo */
-  max-height: 80vh; /* Sugestão: Use max-height com vh para permitir que ela ocupe uma parte da tela, mas com scroll */
-  display: flex; /* Mantido para organizar o conteúdo interno */
+  display: flex;
   flex-direction: column;
   gap: 20px;
+
+  /* **AJUSTES PARA A ROLAGEM INTERNA DA COLUNA ESQUERDA** */
+  min-height: 300px; /* Garante uma altura mínima para a coluna */
+  max-height: 70vh; /* Ajustado para que a coluna não fique muito grande e tenha sua própria rolagem */
+  overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
 }
 
 .col-esquerda label {
@@ -76,7 +75,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* Permitir que a coluna direita se expanda. Se o conteúdo for maior que a tela, ela deve empurrar o pai para gerar rolagem. */
+  /* A coluna direita permitirá que seus filhos (aba-conteudo) controlem sua altura */
 }
 
 /* Abas */
@@ -112,10 +111,9 @@
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  /* ALTERADO: Aumentei o max-height para dar mais espaço. */
-  /* Se você quiser que ela se expanda infinitamente e o scroll seja no body, remova o max-height. */
-  max-height: 60vh; /* OU REMOVA TOTALMENTE SE O SCROLL FOR NA PÁGINA */
-  overflow-y: auto; /* Manter para rolagem interna */
+  /* **AJUSTES PARA A ROLAGEM INTERNA DO CONTEÚDO DA ABA** */
+  max-height: 50vh; /* Ajustado para que o conteúdo da aba não fique muito grande e tenha sua própria rolagem */
+  overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
 }
 
 .aba-conteudo::-webkit-scrollbar {
@@ -154,12 +152,12 @@
     grid-template-columns: 1fr;
   }
   .col-esquerda {
-    height: auto; /* IMPORTANTE: Remover a altura fixa */
+    height: auto; /* Remover a altura fixa */
     max-height: 50vh; /* Ajustado para permitir mais espaço, mas com scroll */
   }
   .aba-conteudo {
-    max-height: none; /* Em telas menores, permitir que se expanda totalmente */
-    overflow: visible; /* E que o overflow seja visível, o scroll será da página */
+    max-height: 60vh; /* Em telas menores, pode precisar de max-height novamente */
+    overflow-y: auto; /* E rolagem */
   }
 }
 
@@ -183,8 +181,8 @@
     max-width: 300px;
   }
   .aba-conteudo {
-    max-height: none; /* Em telas menores, permitir que se expanda totalmente */
-    overflow: visible; /* E que o overflow seja visível, o scroll será da página */
+    max-height: 60vh; /* Mantido max-height para rolagem em telas menores também */
+    overflow-y: auto; /* E rolagem */
   }
   .btn-enviar {
     font-size: 1rem;
@@ -374,6 +372,19 @@ body.dark ::-webkit-scrollbar-thumb:hover {
   color: #721c24;
   background-color: #f8d7da;
   border: 1px solid #f5c6cb;
+}
+
+/* Estilos para as mensagens de feedback (Modo Escuro) */
+body.dark .mensagem-sucesso {
+  color: #d4edda;
+  background-color: #1c4426;
+  border: 1px solid #2f6339;
+}
+
+body.dark .mensagem-erro {
+  color: #f8d7da;
+  background-color: #5b1c22;
+  border: 1px solid #8a2a34;
 }
 
 .mensagem-erro ul {

@@ -7,11 +7,13 @@ import RelatorioUC7 from "../../components/Relatorios/relatoriouc7";
 import RelatorioUC10 from "../../components/Relatorios/relatoriouc10";
 import RelatorioUC17 from "../../components/Relatorios/relatoriouc17";
 import ChecklistUC from "../../components/Checklist/checklistuc";
-import gerarPDF from "../../assets/utils/pdfgenerator"; // Certifique-se de que este caminho está correto
+import gerarPDF from "../../assets/utils/pdfgenerator";
 import "../Formulário/form-index.css";
 
+// NOVO: Importar 'toast' de react-toastify
+import { toast } from 'react-toastify';
+
 // Importa as listas de habilidades de cada UC
-// **MANTENHA ESTAS IMPORTAÇÕES**
 import { habilidadesUC4, atitudesUC4 } from "../../components/Relatorios/relatoriouc4";
 import { habilidadesUC7, atitudesUC7 } from "../../components/Relatorios/relatoriouc7";
 import { habilidadesUC10, atitudesUC10 } from "../../components/Relatorios/relatoriouc10";
@@ -55,8 +57,7 @@ export default function FormularioEstagio() {
   });
   const [dadosChecklist, setDadosChecklist] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState('');
+  const [errors, setErrors] = useState({}); // Mantemos este state para validação de campos visuais
 
   const toggleEmpresa = (nome) => {
     const existe = empresasSelecionadas.find((e) => e.nome === nome);
@@ -90,6 +91,7 @@ export default function FormularioEstagio() {
   const handleChangeRelatorio = (e) => {
     const { name, value } = e.target;
     setDadosRelatorio(prevState => ({ ...prevState, [name]: value }));
+    // Limpa o erro específico do campo quando o usuário começa a digitar
     if (errors[name]) {
         setErrors(prevErrors => ({ ...prevErrors, [name]: null }));
     }
@@ -98,6 +100,7 @@ export default function FormularioEstagio() {
   const handleCPFChange = (e) => {
     const valorFormatado = mascararCPF(e.target.value);
     setDadosRelatorio(prevState => ({ ...prevState, cpf: valorFormatado }));
+    // Limpa o erro de CPF quando o usuário começa a digitar
     if (errors.cpf) {
         setErrors(prevErrors => ({ ...prevErrors, cpf: null }));
     }
@@ -113,15 +116,36 @@ export default function FormularioEstagio() {
     } else if (!validarCPF(dadosRelatorio.cpf)) {
       novosErros.cpf = "O CPF digitado é inválido.";
     }
+    // Atualiza o state de erros para que os campos visuais possam mostrar o feedback
     setErrors(novosErros);
     return Object.keys(novosErros).length === 0;
   };
 
   const handleGerarPDF = async () => {
-    setSuccessMessage('');
-    setErrors({});
+    setErrors({}); // Sempre limpa os erros visuais antes de uma nova tentativa
 
+    // --- Validação de Formulário (UI-side) ---
     if (abaAtiva === 'Relatório' && !validarFormularioRelatorio()) {
+        const camposComErro = Object.keys(errors).filter(key => errors[key]); // Filtra apenas os campos que têm mensagem de erro
+        
+        let mensagemErroToast = "Por favor, corrija os seguintes campos:";
+        if (camposComErro.length > 0) {
+            mensagemErroToast += "\n- " + camposComErro.map(campo => {
+                // Formata o nome do campo para ser mais amigável
+                switch(campo) {
+                    case 'nome': return 'Nome do Aluno';
+                    case 'cpf': return 'CPF do Aluno';
+                    case 'turma': return 'Turma';
+                    case 'instrutores': return 'Nome do(s) Instrutor(es)';
+                    case 'conclusao': return 'Conclusão';
+                    default: return campo; 
+                }
+            }).join('\n- ');
+        } else {
+            mensagemErroToast = "Por favor, preencha todos os campos obrigatórios.";
+        }
+        
+        toast.error(mensagemErroToast, { autoClose: 7000 }); // Exibe o toast com a lista
         return;
     }
 
@@ -129,8 +153,6 @@ export default function FormularioEstagio() {
 
     setTimeout(async () => {
       try {
-        // **INÍCIO DA ALTERAÇÃO IMPORTANTE AQUI**
-        // Coletar habilidades e atitudes separadamente
         let habilidadesRelatorio = [];
         let atitudesRelatorio = [];
 
@@ -162,29 +184,31 @@ export default function FormularioEstagio() {
           relatorio: dadosRelatorio,
           checklist: dadosChecklist,
           tipo: abaAtiva,
-          // **PASSAR AS LISTAS SEPARADAMENTE PARA pdfgenerator.js**
           habilidadesRelatorio: habilidadesRelatorio,
           atitudesRelatorio: atitudesRelatorio,
           checklistEstrutura: estruturaChecklist,
         };
-        // **FIM DA ALTERAÇÃO IMPORTANTE AQUI**
 
+        // Chama a função de geração de PDF.
+        // A validação de campos obrigatórios dentro de gerarPDF.js agora também
+        // lança erros específicos que podem ser pegos aqui.
         await gerarPDF(dadosParaPDF);
 
-        setSuccessMessage('PDF gerado e salvo com sucesso!');
-        setTimeout(() => setSuccessMessage(''), 5000);
+        toast.success('PDF gerado e salvo com sucesso!');
 
       } catch (error) {
         console.error("Falha na validação ou geração do PDF:", error);
-        if (error.campos) {
-          const novosErros = {};
-          error.campos.forEach(campo => {
-            novosErros[campo] = `O campo '${campo}' é obrigatório.`;
-          });
-          setErrors(novosErros);
-        } else {
-          setErrors({ geral: error.message || "Ocorreu um erro inesperado." });
+        let errorMessage = error.message || "Ocorreu um erro inesperado na geração do PDF.";
+        
+        // Verifica se há uma lista de campos específicos no erro vindo de 'validarCamposObrigatorios' do pdfgenerator.js
+        if (error.campos && Array.isArray(error.campos) && error.campos.length > 0) {
+            errorMessage = "Erro de validação: Por favor, preencha completamente os itens:";
+            error.campos.forEach(campo => {
+                errorMessage += `\n- ${campo}`; // Lista os campos específicos que faltaram
+            });
         }
+        
+        toast.error(errorMessage, { autoClose: 7000 }); // Exibe o toast com a mensagem de erro detalhada
       } finally {
         setIsLoading(false);
       }
@@ -196,18 +220,15 @@ export default function FormularioEstagio() {
       uc: ucSelecionada,
       dados: dadosRelatorio,
       setDados: setDadosRelatorio,
-      erros: errors,
+      erros: errors, // Passa o state de erros para os componentes de relatório
       handleChange: handleChangeRelatorio,
       handleCPFChange: handleCPFChange,
     };
     switch (ucSelecionada) {
-      // **INÍCIO DA ALTERAÇÃO IMPORTANTE AQUI**
-      // Passar as props 'habilidades' e 'atitudes' para cada componente de relatório
       case "UC4": return <RelatorioUC4 {...commonProps} habilidades={habilidadesUC4} atitudes={atitudesUC4} />;
       case "UC7": return <RelatorioUC7 {...commonProps} habilidades={habilidadesUC7} atitudes={atitudesUC7} />;
       case "UC10": return <RelatorioUC10 {...commonProps} habilidades={habilidadesUC10} atitudes={atitudesUC10} />;
       case "UC17": return <RelatorioUC17 {...commonProps} habilidades={habilidadesUC17} atitudes={atitudesUC17} />;
-      // **FIM DA ALTERAÇÃO IMPORTANTE AQUI**
       default: return null;
     }
   };
@@ -286,15 +307,7 @@ export default function FormularioEstagio() {
                 {isLoading && <div className="spinner"></div>}
               </div>
 
-              {successMessage && <div className="mensagem-sucesso">{successMessage}</div>}
-              {Object.keys(errors).length > 0 && (
-                <div className="mensagem-erro">
-                  <p><strong>Por favor, corrija os seguintes erros:</strong></p>
-                  <ul>
-                    {Object.values(errors).map((erro, i) => (erro && <li key={i}>{erro}</li>))}
-                  </ul>
-                </div>
-              )}
+            
             </div>
           </div>
         </div>

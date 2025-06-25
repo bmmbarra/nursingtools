@@ -19,11 +19,11 @@ function validarCamposObrigatorios({ uc, empresa, relatorio, checklist, tipo, ha
     if (tipo === "Relatório") {
         // --- VALIDAÇÕES DO RELATÓRIO ---
         if (!empresa || empresa.length === 0) {
-            throw new Error("Pelo menos uma empresa deve ser selecionada para gerar o Relatório.");
+            throw new Error("Pelo menos uma unidade concedente deve ser selecionada para gerar o Relatório.");
         }
         const algumaDataFaltando = empresa.some(e => !e.dataInicio || !e.dataFim);
         if (algumaDataFaltando) {
-            throw new Error("Por favor, preencha as datas de início e fim para TODAS as empresas selecionadas.");
+            throw new Error("Por favor, preencha as datas de início e fim para TODAS as unidades selecionadas.");
         }
         const camposFaltantesRelatorio = ["nome", "cpf", "turma", "instrutores", "conclusao"].filter(campo => !relatorio[campo]);
         if (camposFaltantesRelatorio.length > 0) {
