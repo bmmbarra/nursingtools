@@ -558,3 +558,96 @@ body.dark .periodo-estagio-global {
   border-color: #606060; /* Borda mais clara */
   color: #e0e0e0; /* Cor do texto dentro do bloco de datas */
 }
+
+/* ==================================================================== */
+/* === ESTILOS PARA A EXPERIÊNCIA DO USUÁRIO (UX) DO FORMULÁRIO === */
+/* Adicionados para o spinner de loading e mensagens de feedback. */
+/* ==================================================================== */
+
+/* Container para o botão e o spinner ficarem alinhados */
+.acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Animação do Spinner (Modo Claro) */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border-left-color: #1b5e20; /* Verde do seu tema claro */
+  animation: spin 1s linear infinite;
+}
+
+/* Animação do Spinner (Modo Escuro) */
+body.dark .spinner {
+  border-left-color: #66bb6a; /* Verde mais brilhante do seu tema escuro */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos para as mensagens de feedback (Modo Claro) */
+.mensagem-sucesso,
+.mensagem-erro {
+  margin-top: 15px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mensagem-sucesso {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.mensagem-erro {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+/* Estilos para as mensagens de feedback (Modo Escuro) */
+body.dark .mensagem-sucesso {
+    color: #d4edda;
+    background-color: #1c4426;
+    border: 1px solid #2f6339;
+}
+
+body.dark .mensagem-erro {
+    color: #f8d7da;
+    background-color: #5b1c22;
+    border: 1px solid #8a2a34;
+}
+
+.mensagem-erro ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  text-align: left;
+  list-style-position: inside;
+}
+
+.mensagem-erro li {
+    margin-bottom: 5px;
+}
+
+/* Estilo para destacar campos com erro de validação */
+.campo-erro {
+  border: 1px solid #c51244 !important; /* !important para garantir que sobreponha outros estilos */
+  background-color: #f8d7da;
+}
+
+body.dark .campo-erro {
+    border: 1px solid #e96d7e !important;
+    background-color: #5b1c22;
+}
