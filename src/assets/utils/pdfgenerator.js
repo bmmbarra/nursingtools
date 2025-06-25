@@ -166,7 +166,7 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
     const marginInferior = 20;
     const marginEsquerda = 30;
     const marginDireita = 20;
-    const contentStartY = 70;
+    const contentStartY = 66;
 
     function inserirCabecalho(titulo = "") {
         doc.setFont("arial", "normal");
@@ -350,25 +350,89 @@ export default async function gerarPDF({ uc, empresa, relatorio, checklist, tipo
         renderJustifiedText(doc, textoCompleto, marginEsquerda, contentStartY, maxWidth, lineHeight);
     }
 
-    function gerarHabilidades() {
-        iniciarNovaPagina("HABILIDADES");
-        const body = Object.entries(relatorio.habilidades || {})
-            .filter(([h]) => !atitudesList.includes(h))
-            .map(([titulo, val]) => [titulo, val]);
-        autoTable(doc, {
-            head: [["Habilidade", "Avaliação"]],
-            body: body,
-            styles: { font: "arial", fontSize: 12, lineHeightFactor: 1.5, textColor: [0, 0, 0] },
-            headStyles: { fillColor: [230, 230, 230], fontStyle: "bold", textColor: [0,0,0], fontSize: 12, font: "arial" },
-            columnStyles: { 1: { halign: "center", didParseCell: (data) => { data.cell.styles.textColor = corTexto(data.cell.raw); } } },
-            theme: "grid",
-            margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
-            didDrawPage: (data) => {
-                inserirCabecalho("HABILIDADES");
-            },
-        });
-    }
+function gerarHabilidades() {
+    // Adiciona o novo título no cabeçalho da página
+    iniciarNovaPagina("RELATÓRIO DE ATIVIDADES REALIZADAS NO CAMPO DE ESTÁGIO");
 
+    const greyFill = [200, 200, 200]; 
+    const whiteFill = [255, 255, 255];
+    const minCellPadding = 0.5;
+
+    const tableMaxWidth = pageWidth - marginEsquerda - marginDireita;
+    const colRealizadoWidth = 85;
+    const colAtividadesWidth = tableMaxWidth - colRealizadoWidth;
+
+    const sharedColumnStyles = {
+        0: { cellWidth: colAtividadesWidth },
+        1: { cellWidth: colRealizadoWidth }
+    };
+
+    // A tabela agora contém apenas o nome do aluno.
+    const nomeAlunoBody = [
+        [{ content: 'Nome do(a) aluno(a):', colSpan: 2, styles: { fillColor: greyFill, fontStyle: 'bold' } }],
+        // << CORREÇÃO APLICADA AQUI >>
+        // Adicionamos 'minCellHeight' para aumentar a altura apenas desta linha.
+        [{ 
+            content: relatorio.nome || '', 
+            colSpan: 2, 
+            styles: { 
+                fillColor: whiteFill,
+                minCellHeight: 10 // Aumenta a altura da célula do nome
+            } 
+        }]
+    ];
+
+    autoTable(doc, {
+        startY: contentStartY,
+        body: nomeAlunoBody,
+        theme: 'grid',
+        styles: { font: "arial", fontSize: 12, cellPadding: minCellPadding, lineColor: greyFill, lineWidth: 0.1, valign: "middle", textColor: [0, 0, 0] },
+        columnStyles: sharedColumnStyles,
+        tableWidth: tableMaxWidth,
+        margin: { left: marginEsquerda, right: marginDireita }
+    });
+
+    const lastTableY = doc.lastAutoTable.finalY;
+
+    const habilidades = Object.entries(relatorio.habilidades || {})
+        .filter(([h]) => !atitudesList.includes(h));
+
+    if (habilidades.length === 0) {
+        doc.setFont("arial", "normal");
+        doc.setFontSize(12);
+        doc.text("Nenhuma habilidade foi avaliada neste relatório.", marginEsquerda, lastTableY + 10);
+        return;
+    }
+
+    const opcoesDeAvaliacao = ["Sim", "Não", "Parcialmente", "Não se aplica"];
+    const tableHead = [["Atividades", "Realizado"]];
+    const tableBody = habilidades.map(([habilidade, resposta]) => {
+        const opcoesMarcadas = marcarOpcoes(resposta, opcoesDeAvaliacao);
+        return [habilidade, opcoesMarcadas];
+    });
+
+    autoTable(doc, {
+        startY: lastTableY, 
+        head: tableHead,
+        body: tableBody,
+        theme: 'grid',
+        styles: { font: "arial", fontSize: 11, valign: 'middle', cellPadding: minCellPadding, textColor: [0, 0, 0] },
+        headStyles: { 
+          fillColor: greyFill, 
+          fontStyle: 'bold', 
+          halign: 'center', 
+          fontSize: 12,
+          textColor: [0, 0, 0]
+        },
+        columnStyles: sharedColumnStyles,
+        tableWidth: tableMaxWidth,
+        margin: { top: contentStartY, left: marginEsquerda, right: marginDireita, bottom: marginInferior },
+        didDrawPage: (data) => {
+            // Insere o cabeçalho SEM o título nas páginas de continuação
+            inserirCabecalho();
+        },
+    });
+}
     function gerarAtitudes() {
         if (!relatorio.habilidades) return;
         const atitudesLinhas = atitudesList.map((a) => [a, relatorio.habilidades[a] || "Não informado"]);
