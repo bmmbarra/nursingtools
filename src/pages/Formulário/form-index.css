@@ -1,406 +1,429 @@
 /* Título */
 .titulo {
-  margin-bottom: 20px;
-  text-align: center;
-  color: #1b5e20;
-  font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #1b5e20;
+    font-size: 1.8rem;
 }
 
 /* Container geral do formulário */
 .formulario-container {
-  background-color: #ffffff88;
-  border-radius: 16px;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  box-sizing: border-box;
+    background-color: #ffffff88;
+    border-radius: 16px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    box-sizing: border-box;
 
-  /* AJUSTES PARA A "JANELA" DO FORMULÁRIO */
-  max-height: 90vh; /* Permite que o formulário ocupe até 90% da altura da tela */
-  overflow-y: auto; /* Adiciona rolagem vertical SE o conteúdo exceder o max-height */
+    /* AJUSTES PARA A "JANELA" DO FORMULÁRIO */
+    max-height: 90vh; /* Permite que o formulário ocupe até 90% da altura da tela */
+    overflow-y: auto; /* Adiciona rolagem vertical SE o conteúdo exceder o max-height */
+
+    /* **AJUSTE:** Garante que o fundo não mude no hover */
+    transition: none; /* Remove transições para este elemento se houver algum padrão */
+    /* Você pode adicionar um background-color no hover aqui se quiser uma mudança específica,
+       mas 'none' para transition geralmente impede efeitos não intencionais. */
+    /* .formulario-container:hover { background-color: #ffffff88; } */ /* Linha para garantir que o fundo seja o mesmo no hover */
 }
 
 /* Grid de duas colunas */
 .form-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 20px;
-  align-items: start; /* Alinha os itens no topo, importante para grids com conteúdo variável */
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    align-items: start; /* Alinha os itens no topo, importante para grids com conteúdo variável */
 }
 
 /* Coluna esquerda */
 .col-esquerda {
-  background-color: #f0f4f8;
-  padding: 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    background-color: #f0f4f8;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 
-  /* AJUSTES PARA A ROLAGEM INTERNA DA COLUNA ESQUERDA */
-  min-height: 300px; /* Garante uma altura mínima para a coluna */
-  max-height: 70vh; /* Ajustado para que a coluna não fique muito grande e tenha sua própria rolagem */
-  overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
+    /* AJUSTES PARA A ROLAGEM INTERNA DA COLUNA ESQUERDA */
+    min-height: 300px; /* Garante uma altura mínima para a coluna */
+    max-height: 70vh; /* Ajustado para que a coluna não fique muito grande e tenha sua própria rolagem */
+    overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
 }
 
 .col-esquerda label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #1b5e20;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #1b5e20;
 }
 
 .col-esquerda select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
 }
 
 .info-empresa {
-  border: 1px solid #e0e0e0;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #fefefe;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fefefe;
 }
 
 .info-empresa p {
-  margin: 5px 0;
+    margin: 5px 0;
 }
 
 .col-direita {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* Abas */
 .uc-tabs,
 .aba-tabs {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .uc-tabs button,
 .aba-tabs button {
-  padding: 10px 20px;
-  border: 2px solid #1b5e20;
-  background-color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #1b5e20;
-  transition: all 0.3s;
-  flex: 1 1 auto;
-  min-width: 120px;
+    padding: 10px 20px;
+    border: 2px solid #1b5e20;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #1b5e20;
+    transition: all 0.3s;
+    flex: 1 1 auto;
+    min-width: 120px;
 }
 
 .uc-tabs button.ativo,
 .aba-tabs button.ativo {
-  background-color: #1b5e20;
-  color: white;
+    background-color: #1b5e20;
+    color: white;
 }
 
 .aba-conteudo {
-  background-color: #fafafa;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  /* AJUSTES PARA A ROLAGEM INTERNA DO CONTEÚDO DA ABA */
-  max-height: 50vh; /* Ajustado para que o conteúdo da aba não fique muito grande e tenha sua própria rolagem */
-  overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
+    background-color: #fafafa;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    /* AJUSTES PARA A ROLAGEM INTERNA DO CONTEÚDO DA ABA */
+    max-height: 50vh; /* Ajustado para que o conteúdo da aba não fique muito grande e tenha sua própria rolagem */
+    overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
 }
 
 .aba-conteudo::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 .aba-conteudo::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 4px;
+    background-color: #888;
+    border-radius: 4px;
 }
 .aba-conteudo::-webkit-scrollbar-thumb:hover {
-  background: #555;
+    background: #555;
 }
 
 /* Botão */
 .btn-enviar {
-  padding: 15px;
-  border: none;
-  background-color: #1b5e20;
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  display: block;
+    padding: 15px;
+    border: none;
+    background-color: #1b5e20;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
 }
 .btn-enviar:hover {
-  background-color: #145a1e;
+    background-color: #145a1e;
 }
 
 /* RESPONSIVO */
 @media (max-width: 1024px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-  .col-esquerda {
-    height: auto; /* Remover a altura fixa */
-    max-height: 50vh; /* Ajustado para permitir mais espaço, mas com scroll */
-  }
-  .aba-conteudo {
-    max-height: 60vh; /* Em telas menores, pode precisar de max-height novamente */
-    overflow-y: auto; /* E rolagem */
-  }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .col-esquerda {
+        height: auto; /* Remover a altura fixa */
+        max-height: 50vh; /* Ajustado para permitir mais espaço, mas com scroll */
+    }
+    .aba-conteudo {
+        max-height: 60vh; /* Em telas menores, pode precisar de max-height novamente */
+        overflow-y: auto; /* E rolagem */
+    }
 }
 
 @media (max-width: 768px) {
-  .formulario-container {
-    padding: 15px;
-  }
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  .uc-tabs,
-  .aba-tabs {
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
-  .uc-tabs button,
-  .aba-tabs button {
-    width: 100%;
-    max-width: 300px;
-  }
-  .aba-conteudo {
-    max-height: 60vh; /* Mantido max-height para rolagem em telas menores também */
-    overflow-y: auto; /* E rolagem */
-  }
-  .btn-enviar {
-    font-size: 1rem;
-  }
+    .formulario-container {
+        padding: 15px;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .uc-tabs,
+    .aba-tabs {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .uc-tabs button,
+    .aba-tabs button {
+        width: 100%;
+        max-width: 300px;
+    }
+    .aba-conteudo {
+        max-height: 60vh; /* Mantido max-height para rolagem em telas menores também */
+        overflow-y: auto; /* E rolagem */
+    }
+    .btn-enviar {
+        font-size: 1rem;
+    }
 }
 
 /* Lista de empresas */
 .formulario-container .lista-empresas {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 14px 16px;
-  border-radius: 10px;
-  margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 .formulario-container .empresa-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-  cursor: pointer;
-  font-weight: 500;
-  color: #000000;
-  line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    font-weight: 500;
+    color: #000000;
+    line-height: 1.4;
 }
 .formulario-container .empresa-checkbox:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 .formulario-container .empresa-checkbox input[type="checkbox"] {
-  accent-color: #1e90ff;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
+    accent-color: #1e90ff;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 
-/* Período de estágio */
+/* **NOVO ESTILO**: Para o container individual da empresa e suas datas */
+.empresa-item {
+    margin-bottom: 15px;
+}
+
+/* Período de estágio (para os campos de data dinâmicos) */
+.periodo-estagio-empresa {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 5px;
+}
+
+/* Período de estágio Global (se ainda existir e for usado em outro lugar) */
 .periodo-estagio-global {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f0f4f8;
 }
 .periodo-estagio-global label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #1b5e20;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #1b5e20;
 }
 .periodo-estagio-global input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  font-size: 15px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 15px;
 }
 .periodo-estagio-global input[type="date"]:last-of-type {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* === DARK MODE (padronizado com .dark) === */
 body.dark .formulario-container {
-  background-color: #2b2b2b;
-  color: #e0e0e0;
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+    /* **AJUSTE:** Garante que o fundo não mude no hover no modo escuro também */
+    transition: none; /* Remove transições se houver algum padrão */
+    /* .formulario-container:hover { background-color: #2b2b2b; } */ /* Opcional: para forçar no hover */
 }
 body.dark .titulo {
-  color: #81c784;
+    color: #81c784;
 }
 body.dark .col-esquerda {
-  background-color: #3a3a3a;
-  color: #e0e0e0;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
 }
 body.dark .col-esquerda label {
-  color: #a5d6a7;
+    color: #a5d6a7;
 }
 body.dark .formulario-container .lista-empresas {
-  background-color: #444444;
+    background-color: #444444;
 }
 body.dark .formulario-container .empresa-checkbox {
-  color: #e0e0e0;
+    color: #e0e0e0;
 }
 body.dark .formulario-container .empresa-checkbox:hover {
-  background-color: #505050;
+    background-color: #505050;
 }
 body.dark .info-empresa {
-  background-color: #444444;
-  border-color: #555555;
+    background-color: #444444;
+    border-color: #555555;
 }
 body.dark .info-empresa p {
-  color: #e0e0e0;
+    color: #e0e0e0;
 }
 body.dark .info-empresa p strong {
-  color: #a5d6a7;
+    color: #a5d6a7;
 }
+
+body.dark .periodo-estagio-empresa {
+    background-color: #4a4a4a !important; /* Um cinza mais escuro para o fundo do quadro de datas */
+    border-color: #666666; /* Uma borda mais visível */
+    color: #e0e0e0; /* Cor do texto dentro do quadro */
+}
+
+body.dark .periodo-estagio-empresa label {
+    color: #a5d6a7;
+}
+
 body.dark .periodo-estagio-global {
-  background-color: #444444;
-  border-color: #555555;
-  color: #e0e0e0;
+    background-color: #444444;
+    border-color: #555555;
+    color: #e0e0e0;
 }
 body.dark .periodo-estagio-global label {
-  color: #a5d6a7;
+    color: #a5d6a7;
 }
 
-/* **CORREÇÃO CRÍTICA: CPF Branco no Modo Escuro - Usando !important para forçar o estilo** */
-body.dark input[type="text"], /* Alvo principal para o CPF */
-body.dark input[type="date"],
-body.dark input[type="number"], /* Adicionado para cobertura geral de inputs */
-body.dark input[type="email"],
-body.dark input[type="password"],
-body.dark input:not([type="radio"]):not([type="checkbox"]), /* Abrangente para a maioria dos inputs */
-body.dark select,
-body.dark textarea {
-  background-color: #333333 !important; /* **FORÇANDO O FUNDO ESCURO** */
-  color: #ffffff !important; /* Forçando o texto branco */
-  border: 1px solid #555555 !important; /* Forçando a borda cinza mais clara */
-}
-
+/* **CORREÇÃO: Inputs no Modo Escuro (e ao focar) - Mantidas as regras do tema.css** */
+/* Elas são globais e devem ser definidas no tema.css para consistência */
+/* (Se houver conflito, verifique a ordem de importação dos CSS no seu React) */
 
 body.dark .aba-conteudo {
-  background-color: #444444;
-  border-color: #555555;
-  color: #e0e0e0;
+    background-color: #444444;
+    border-color: #555555;
+    color: #e0e0e0;
 }
 body.dark .uc-tabs button,
 body.dark .aba-tabs button {
-  border-color: #81c784;
-  background-color: #3a3a3a;
-  color: #81c784;
+    border-color: #81c784;
+    background-color: #3a3a3a;
+    color: #81c784;
 }
 body.dark .uc-tabs button.ativo,
 body.dark .aba-tabs button.ativo {
-  background-color: #66bb6a;
-  color: #ffffff;
-  border-color: #66bb6a;
+    background-color: #66bb6a;
+    color: #ffffff;
+    border-color: #66bb6a;
 }
 body.dark .btn-enviar {
-  background-color: #4caf50;
-  color: #ffffff;
+    background-color: #4caf50;
+    color: #ffffff;
 }
 body.dark .btn-enviar:hover {
-  background-color: #388e3c;
+    background-color: #388e3c;
 }
 body.dark ::-webkit-scrollbar-thumb {
-  background-color: #616161;
+    background-color: #616161;
 }
 body.dark ::-webkit-scrollbar-thumb:hover {
-  background: #757575;
+    background: #757575;
 }
 /* Container para alinhar o botão e o spinner lado a lado */
 .acoes {
-  display: flex;
-  flex-direction: column; /* Coloca os itens em coluna */
-  align-items: center; /* Centraliza horizontalmente */
-  gap: 15px; /* Espaço entre os elementos */
-  margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Coloca os itens em coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    gap: 15px; /* Espaço entre os elementos */
+    margin-top: 20px;
 }
 
 /* Animação do Spinner */
 .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border-left-color: #1b5e20; /* Usando o verde principal do seu tema */
-  animation: spin 1s linear infinite;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border-left-color: #1b5e20; /* Usando o verde principal do seu tema */
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Estilos para as mensagens de feedback */
 .mensagem-sucesso,
 .mensagem-erro {
-  margin-top: 15px;
-  padding: 12px 15px;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: 500;
-  width: 100%;
-  box-sizing: border-box;
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .mensagem-sucesso {
-  color: #155724;
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
 }
 
 .mensagem-erro {
-  color: #721c24;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
 }
 
 /* Estilos para as mensagens de feedback (Modo Escuro) */
 body.dark .mensagem-sucesso {
-  color: #d4edda;
-  background-color: #1c4426;
-  border: 1px solid #2f6339;
+    color: #d4edda;
+    background-color: #1c4426;
+    border: 1px solid #2f6339;
 }
 
 body.dark .mensagem-erro {
-  color: #f8d7da;
-  background-color: #5b1c22;
-  border: 1px solid #8a2a34;
+    color: #f8d7da;
+    background-color: #5b1c22;
+    border: 1px solid #8a2a34;
 }
 
 .mensagem-erro ul {
-  margin: 10px 0 0;
-  padding-left: 20px; /* Adiciona um recuo para a lista */
-  text-align: left; /* Alinha o texto da lista à esquerda */
-  list-style-position: inside;
+    margin: 10px 0 0;
+    padding-left: 20px; /* Adiciona um recuo para a lista */
+    text-align: left; /* Alinha o texto da lista à esquerda */
+    list-style-position: inside;
 }
 
 .mensagem-erro li {
@@ -410,8 +433,8 @@ body.dark .mensagem-erro {
 /* Estilo para destacar campos com erro de validação (caso não funcione bem) */
 /* Usamos !important para garantir que este estilo sobreponha outros de borda */
 .campo-erro {
-  border: 1px solid #c51244 !important;
-  background-color: #f8d7da;
+    border: 1px solid #c51244 !important;
+    background-color: #f8d7da;
 }
 body.dark .campo-erro {
     border: 1px solid #e96d7e !important;
@@ -474,37 +497,37 @@ body.dark .campo-erro {
 
 /* **CORREÇÃO FINAL PARA O LAYOUT DAS OPÇÕES EM LINHA** */
 .linha-hab {
-  display: flex; /* CRUCIAL: Transforma o contêiner em um flex container */
-  align-items: center; /* Centraliza verticalmente os itens na linha */
-  gap: 5px; /* **REDUZIDO:** Espaço entre o nome da habilidade e as opções de rádio */
-  flex-wrap: nowrap; /* **CRUCIAL:** IMPEDE que as opções quebrem para a linha de baixo */
-  justify-content: space-between; /* Tenta distribuir espaço entre o nome e as opções */
-  
-  border-bottom: 1px solid #eee; /* Borda inferior de cada linha de habilidade */
-  padding: 10px 0; /* Espaçamento interno de cada linha */
+    display: flex; /* CRUCIAL: Transforma o contêiner em um flex container */
+    align-items: center; /* Centraliza verticalmente os itens na linha */
+    gap: 5px; /* **REDUZIDO:** Espaço entre o nome da habilidade e as opções de rádio */
+    flex-wrap: nowrap; /* **CRUCIAL:** IMPEDE que as opções quebrem para a linha de baixo */
+    justify-content: space-between; /* Tenta distribuir espaço entre o nome e as opções */
+    
+    border-bottom: 1px solid #eee; /* Borda inferior de cada linha de habilidade */
+    padding: 10px 0; /* Espaçamento interno de cada linha */
 }
 
 .hab-nome {
-  flex-shrink: 0; /* Impede que o nome da habilidade encolha */
-  min-width: 120px; /* **REDUZIDO:** Largura mínima para o nome (era 180px). Ajuste se for muito pequeno. */
-  font-weight: bold;
-  color: #555;
-  /* Se os nomes forem muito longos, considere 'overflow: hidden; text-overflow: ellipsis;' para cortá-los */
+    flex-shrink: 0; /* Impede que o nome da habilidade encolha */
+    min-width: 120px; /* **REDUZIDO:** Largura mínima para o nome (era 180px). Ajuste se for muito pequeno. */
+    font-weight: bold;
+    color: #555;
+    /* Se os nomes forem muito longos, considere 'overflow: hidden; text-overflow: ellipsis;' para cortá-los */
 }
 
 .linha-hab label {
-  display: flex; /* Transforma cada label em um flex container para alinhar input e texto */
-  align-items: center; /* Alinha o radio button com o texto */
-  gap: 5px; /* Espaço entre o radio button e o texto da opção */
-  white-space: nowrap; /* IMPEDE QUE O TEXTO DA OPÇÃO (Sim/Não/Parcialmente/N/A) QUEBRE */
-  color: #666;
+    display: flex; /* Transforma cada label em um flex container para alinhar input e texto */
+    align-items: center; /* Alinha o radio button com o texto */
+    gap: 5px; /* Espaço entre o radio button e o texto da opção */
+    white-space: nowrap; /* IMPEDE QUE O TEXTO DA OPÇÃO (Sim/Não/Parcialmente/N/A) QUEBRE */
+    color: #666;
 }
 
 .linha-hab input[type="radio"] {
-  margin: 0; /* Remove margem padrão que pode atrapalhar o alinhamento */
-  accent-color: #1b5e20; /* Cor do radio button */
-  width: 16px; /* Tamanho do radio button */
-  height: 16px; /* Tamanho do radio button */
+    margin: 0; /* Remove margem padrão que pode atrapalhar o alinhamento */
+    accent-color: #1b5e20; /* Cor do radio button */
+    width: 16px; /* Tamanho do radio button */
+    height: 16px; /* Tamanho do radio button */
 }
 /* **FIM DA CORREÇÃO PARA O LAYOUT DAS OPÇÕES EM LINHA** */
 
@@ -512,77 +535,77 @@ body.dark .campo-erro {
 /* Responsividade para .linha-hab DENTRO DO FORM-INDEX.CSS */
 /* Nestas media queries, podemos decidir se queremos que as opções QUEBREM ou não */
 @media (max-width: 768px) {
-  .linha-hab {
-    flex-direction: column; /* Em telas menores, as opções voltam a ser em coluna */
-    align-items: flex-start; /* Alinha os itens no início da coluna */
-    gap: 8px; /* Reduz o espaçamento entre itens quando em coluna */
-    padding: 10px 0;
-    flex-wrap: wrap; /* Permite quebrar linha para mobile para evitar overflow horizontal */
-    justify-content: flex-start; /* Alinha ao início quando em coluna */
-  }
+    .linha-hab {
+        flex-direction: column; /* Em telas menores, as opções voltam a ser em coluna */
+        align-items: flex-start; /* Alinha os itens no início da coluna */
+        gap: 8px; /* Reduz o espaçamento entre itens quando em coluna */
+        padding: 10px 0;
+        flex-wrap: wrap; /* Permite quebrar linha para mobile para evitar overflow horizontal */
+        justify-content: flex-start; /* Alinha ao início quando em coluna */
+    }
 
-  .hab-nome {
-    margin-bottom: 5px; /* Adiciona um pequeno espaço abaixo do nome quando em coluna */
-    min-width: unset; /* Remove a largura mínima para que o texto se ajuste */
-  }
+    .hab-nome {
+        margin-bottom: 5px; /* Adiciona um pequeno espaço abaixo do nome quando em coluna */
+        min-width: unset; /* Remove a largura mínima para que o texto se ajuste */
+    }
 
-  /* Ajuste para o padding das seções em telas pequenas */
-  .relatorio-uc {
-    padding: 15px;
-  }
+    /* Ajuste para o padding das seções em telas pequenas */
+    .relatorio-uc {
+        padding: 15px;
+    }
 }
 
 /* Dark Mode para Relatorio UC (integrado com o sistema de tema global) */
 body.dark .relatorio-uc {
-  background-color: #2a2a2a;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background-color: #2a2a2a;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 body.dark .relatorio-uc h3 {
-  color: #81c784;
+    color: #81c784;
 }
 
 body.dark .relatorio-uc h4 {
-  color: #a5d6a7;
-  border-bottom-color: #444;
+    color: #a5d6a7;
+    border-bottom-color: #444;
 }
 
 body.dark .relatorio-uc label {
-  color: #e0e0e0;
+    color: #e0e0e0;
 }
 
 body.dark .relatorio-uc input[type="text"],
 body.dark .relatorio-uc textarea {
-  background-color: #3a3a3a;
-  color: #e0e0e0;
-  border-color: #555;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border-color: #555;
 }
 
 body.dark .tabela-habilidades {
-  background-color: #3a3a3a;
-  border-color: #555;
+    background-color: #3a3a3a;
+    border-color: #555;
 }
 
 body.dark .linha-hab {
-  border-bottom-color: #444;
+    border-bottom-color: #444;
 }
 
 body.dark .hab-nome {
-  color: #c0c0c0;
+    color: #c0c0c0;
 }
 
 body.dark .linha-hab label {
-  color: #d0d0d0;
+    color: #d0d0d0;
 }
 
 body.dark .linha-hab input[type="radio"] {
-  accent-color: #66bb6a; /* Cor do radio button no dark mode */
+    accent-color: #66bb6a; /* Cor do radio button no dark mode */
 }
 
 body.dark .tabela-habilidades::-webkit-scrollbar-thumb {
-  background-color: #616161;
+    background-color: #616161;
 }
 
 body.dark .tabela-habilidades::-webkit-scrollbar-thumb:hover {
-  background: #757575;
+    background: #757575;
 }

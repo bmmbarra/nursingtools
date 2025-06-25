@@ -1,18 +1,18 @@
-// ===================================================================================
-// ARQUIVO: pdfgenerator.js (VERSÃO FINAL CONSOLIDADA E VALIDADA)
-//
-// PROPÓSITO GERAL:
-// Gera um PDF (Checklist ou Relatório) com base nos dados fornecidos.
-// Esta versão inclui todas as melhorias de layout, formatação e a lógica de
-// validação ajustada para integração com React.
-// ===================================================================================
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import logo from "../../assets/Images/senac-logo.png";
 
+// FUNÇÃO CORRIGIDA: Adicionado .trim() para garantir comparação exata sem espaços extras
 function marcarOpcoes(valor, opcoes) {
-    return opcoes.map((op) => (valor?.toLowerCase() === op.toLowerCase() ? `(X) ${op}` : `( ) ${op}`)).join(" ");
+    // Normaliza o valor de entrada, removendo espaços e convertendo para minúsculas
+    const normalizedValor = valor?.toLowerCase().trim(); 
+
+    return opcoes.map((op) => {
+        // Normaliza cada opção da lista antes da comparação
+        const normalizedOp = op.toLowerCase().trim();
+        return (normalizedValor === normalizedOp ? `(X) ${op}` : `( ) ${op}`);
+    }).join(" ");
 }
 
 // Função auxiliar para validar campos obrigatórios, recebe listas de habilidades/atitudes
@@ -117,17 +117,17 @@ if (tipo === "Checklist") {
     const marginH = 15;
     const marginV = 15;
     const tableMaxWidth = pageWidth - marginH * 2;
-    const baseFontSize = 9;    // Ajustado
-    const headerFontSize = 10;  // Ajustado
-    const smallFontSize = 8;   // Ajustado
+    const baseFontSize = 9;    // Ajustado
+    const headerFontSize = 10;  // Ajustado
+    const smallFontSize = 8;   // Ajustado
     const cellPadding = 1.5;
 
     // ---- 2. CORES RESTAURADAS E PADRONIZADAS (baseado no relatório) ----
-    const titleFillColor = [188, 189, 176];   // Cor principal para títulos de seção
+    const titleFillColor = [188, 189, 176];   // Cor principal para títulos de seção
     const headerFillColor = [230, 230, 230]; // Cinza claro para cabeçalhos de tabela
-    const blackColor = [0, 0, 0];            // Cor preta para fontes e linhas
-    const whiteFill = [255, 255, 255];       // Adicionado para preenchimento de células como no relatório
-    const greyLineColor = [200, 200, 200];   // Adicionado para linhas como no relatório
+    const blackColor = [0, 0, 0];            // Cor preta para fontes e linhas
+    const whiteFill = [255, 255, 255];       // Adicionado para preenchimento de células como no relatório
+    const greyLineColor = [200, 200, 200];   // Adicionado para linhas como no relatório
 
     // A função marcarOpcoes permanece inalterada.
 
@@ -436,7 +436,7 @@ if (tipo === "Checklist") {
                 0: { cellWidth: colAtividadesWidth, valign: "middle" },
                 1: { cellWidth: colRealizadoWidth, halign: 'left', valign: "middle" }
             };
-            const opcoesDeAvaliacao = ["Sim", "Não", "Parcialmente", "Não se aplica"];
+            const opcoesDeAvaliacao = ["Sim", "Não", "Parcialmente", "N/A"];
             const cabecalhoBody = [
                 [{ content: 'Nome do(a) aluno(a):', colSpan: 2, styles: { fillColor: titleFillColor, fontStyle: "bold" } }],
                 [{ content: relatorio.nome || '', colSpan: 2, styles: { fillColor: whiteFill, minCellHeight: 10 } }],
