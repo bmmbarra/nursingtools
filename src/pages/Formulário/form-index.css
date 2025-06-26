@@ -246,7 +246,10 @@
         justify-content: center;
     }
     
-    .dot, .dot_home, .dot-about {
+    /* <<< A CORREÇÃO DE ESPECIFICIDADE ESTÁ AQUI >>> */
+    /* Esconde os pontos apenas se estiverem dentro de .home-content-box */
+    .home-content-box .dot,
+    .home-content-box .dot-about {
         display: none;
     }
 }
