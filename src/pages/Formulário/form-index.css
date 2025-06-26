@@ -14,16 +14,9 @@
     margin: 20px auto;
     padding: 20px;
     box-sizing: border-box;
-
-    /* AJUSTES PARA A "JANELA" DO FORMULÁRIO */
-    max-height: 90vh; /* Permite que o formulário ocupe até 90% da altura da tela */
-    overflow-y: auto; /* Adiciona rolagem vertical SE o conteúdo exceder o max-height */
-
-    /* **AJUSTE:** Garante que o fundo não mude no hover */
-    transition: none; /* Remove transições para este elemento se houver algum padrão */
-    /* Você pode adicionar um background-color no hover aqui se quiser uma mudança específica,
-       mas 'none' para transition geralmente impede efeitos não intencionais. */
-    /* .formulario-container:hover { background-color: #ffffff88; } */ /* Linha para garantir que o fundo seja o mesmo no hover */
+    max-height: 90vh;
+    overflow-y: auto;
+    transition: none;
 }
 
 /* Grid de duas colunas */
@@ -31,7 +24,7 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 20px;
-    align-items: start; /* Alinha os itens no topo, importante para grids com conteúdo variável */
+    align-items: start;
 }
 
 /* Coluna esquerda */
@@ -43,11 +36,9 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-
-    /* AJUSTES PARA A ROLAGEM INTERNA DA COLUNA ESQUERDA */
-    min-height: 300px; /* Garante uma altura mínima para a coluna */
-    max-height: 70vh; /* Ajustado para que a coluna não fique muito grande e tenha sua própria rolagem */
-    overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
+    min-height: 300px;
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
 .col-esquerda label {
@@ -115,9 +106,8 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    /* AJUSTES PARA A ROLAGEM INTERNA DO CONTEÚDO DA ABA */
-    max-height: 50vh; /* Ajustado para que o conteúdo da aba não fique muito grande e tenha sua própria rolagem */
-    overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder */
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 .aba-conteudo::-webkit-scrollbar {
@@ -156,12 +146,12 @@
         grid-template-columns: 1fr;
     }
     .col-esquerda {
-        height: auto; /* Remover a altura fixa */
-        max-height: 50vh; /* Ajustado para permitir mais espaço, mas com scroll */
+        height: auto;
+        max-height: 50vh;
     }
     .aba-conteudo {
-        max-height: 60vh; /* Em telas menores, pode precisar de max-height novamente */
-        overflow-y: auto; /* E rolagem */
+        max-height: 60vh;
+        overflow-y: auto;
     }
 }
 
@@ -185,13 +175,82 @@
         max-width: 300px;
     }
     .aba-conteudo {
-        max-height: 60vh; /* Mantido max-height para rolagem em telas menores também */
-        overflow-y: auto; /* E rolagem */
+        max-height: 60vh;
+        overflow-y: auto;
     }
     .btn-enviar {
         font-size: 1rem;
     }
 }
+
+/* ESTILOS DE CABEÇALHO */
+.header-background {
+    width: 100%;
+    padding: 10px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out; 
+}
+
+.custom-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+}
+
+.custom-header .bar-link {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot, .dot_home, .dot-about {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Media query para telas menores (smartphones) */
+@media (max-width: 600px) {
+    .header-background {
+        height: auto;
+        padding: 15px 0;
+    }
+
+    .custom-header {
+        flex-direction: column; 
+        align-items: center;
+        gap: 10px;
+    }
+
+    .custom-header .bar-link {
+        width: 90%; 
+        text-align: center;
+        font-size: 1rem;
+        justify-content: center;
+    }
+    
+    .dot, .dot_home, .dot-about {
+        display: none;
+    }
+}
+
 
 /* Lista de empresas */
 .formulario-container .lista-empresas {
@@ -225,12 +284,10 @@
     cursor: pointer;
 }
 
-/* **NOVO ESTILO**: Para o container individual da empresa e suas datas */
 .empresa-item {
     margin-bottom: 15px;
 }
 
-/* Período de estágio (para os campos de data dinâmicos) */
 .periodo-estagio-empresa {
     border: 1px solid #ddd;
     padding: 10px;
@@ -239,7 +296,6 @@
     margin-top: 5px;
 }
 
-/* Período de estágio Global (se ainda existir e for usado em outro lugar) */
 .periodo-estagio-global {
     display: flex;
     flex-direction: column;
@@ -271,9 +327,7 @@
 body.dark .formulario-container {
     background-color: #2b2b2b;
     color: #e0e0e0;
-    /* **AJUSTE:** Garante que o fundo não mude no hover no modo escuro também */
-    transition: none; /* Remove transições se houver algum padrão */
-    /* .formulario-container:hover { background-color: #2b2b2b; } */ /* Opcional: para forçar no hover */
+    transition: none;
 }
 body.dark .titulo {
     color: #81c784;
@@ -306,9 +360,9 @@ body.dark .info-empresa p strong {
 }
 
 body.dark .periodo-estagio-empresa {
-    background-color: #4a4a4a !important; /* Um cinza mais escuro para o fundo do quadro de datas */
-    border-color: #666666; /* Uma borda mais visível */
-    color: #e0e0e0; /* Cor do texto dentro do quadro */
+    background-color: #4a4a4a !important;
+    border-color: #666666;
+    color: #e0e0e0;
 }
 
 body.dark .periodo-estagio-empresa label {
@@ -323,10 +377,6 @@ body.dark .periodo-estagio-global {
 body.dark .periodo-estagio-global label {
     color: #a5d6a7;
 }
-
-/* **CORREÇÃO: Inputs no Modo Escuro (e ao focar) - Mantidas as regras do tema.css** */
-/* Elas são globais e devem ser definidas no tema.css para consistência */
-/* (Se houver conflito, verifique a ordem de importação dos CSS no seu React) */
 
 body.dark .aba-conteudo {
     background-color: #444444;
@@ -361,9 +411,9 @@ body.dark ::-webkit-scrollbar-thumb:hover {
 /* Container para alinhar o botão e o spinner lado a lado */
 .acoes {
     display: flex;
-    flex-direction: column; /* Coloca os itens em coluna */
-    align-items: center; /* Centraliza horizontalmente */
-    gap: 15px; /* Espaço entre os elementos */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
     margin-top: 20px;
 }
 
@@ -373,7 +423,7 @@ body.dark ::-webkit-scrollbar-thumb:hover {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border-left-color: #1b5e20; /* Usando o verde principal do seu tema */
+    border-left-color: #1b5e20;
     animation: spin 1s linear infinite;
 }
 
@@ -421,8 +471,8 @@ body.dark .mensagem-erro {
 
 .mensagem-erro ul {
     margin: 10px 0 0;
-    padding-left: 20px; /* Adiciona um recuo para a lista */
-    text-align: left; /* Alinha o texto da lista à esquerda */
+    padding-left: 20px;
+    text-align: left;
     list-style-position: inside;
 }
 
@@ -431,7 +481,6 @@ body.dark .mensagem-erro {
 }
 
 /* Estilo para destacar campos com erro de validação (caso não funcione bem) */
-/* Usamos !important para garantir que este estilo sobreponha outros de borda */
 .campo-erro {
     border: 1px solid #c51244 !important;
     background-color: #f8d7da;
@@ -475,12 +524,12 @@ body.dark .campo-erro {
 
 .relatorio-uc input[type="text"],
 .relatorio-uc textarea {
-    width: calc(100% - 20px); /* Ajusta para padding */
+    width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Inclui padding e borda na largura total */
+    box-sizing: border-box;
 }
 
 /* Estilos para a Tabela de Habilidades e Atitudes */
@@ -489,67 +538,61 @@ body.dark .campo-erro {
     border-radius: 8px;
     padding: 15px;
     background-color: #fff;
-    overflow-y: auto; /* Adiciona scroll se a tabela for muito longa */
-    max-height: 400px; /* Limita a altura da tabela de habilidades para evitar que ela fique enorme */
-    /* NOVO: Permite rolagem horizontal se necessário para manter as opções em linha */
-    overflow-x: auto; 
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: auto;
 }
 
-/* **CORREÇÃO FINAL PARA O LAYOUT DAS OPÇÕES EM LINHA** */
 .linha-hab {
-    display: flex; /* CRUCIAL: Transforma o contêiner em um flex container */
-    align-items: center; /* Centraliza verticalmente os itens na linha */
-    gap: 5px; /* **REDUZIDO:** Espaço entre o nome da habilidade e as opções de rádio */
-    flex-wrap: nowrap; /* **CRUCIAL:** IMPEDE que as opções quebrem para a linha de baixo */
-    justify-content: space-between; /* Tenta distribuir espaço entre o nome e as opções */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     
-    border-bottom: 1px solid #eee; /* Borda inferior de cada linha de habilidade */
-    padding: 10px 0; /* Espaçamento interno de cada linha */
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
 }
 
 .hab-nome {
-    flex-shrink: 0; /* Impede que o nome da habilidade encolha */
-    min-width: 120px; /* **REDUZIDO:** Largura mínima para o nome (era 180px). Ajuste se for muito pequeno. */
+    flex-shrink: 0;
+    min-width: 120px;
     font-weight: bold;
     color: #555;
-    /* Se os nomes forem muito longos, considere 'overflow: hidden; text-overflow: ellipsis;' para cortá-los */
 }
 
 .linha-hab label {
-    display: flex; /* Transforma cada label em um flex container para alinhar input e texto */
-    align-items: center; /* Alinha o radio button com o texto */
-    gap: 5px; /* Espaço entre o radio button e o texto da opção */
-    white-space: nowrap; /* IMPEDE QUE O TEXTO DA OPÇÃO (Sim/Não/Parcialmente/N/A) QUEBRE */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
     color: #666;
 }
 
 .linha-hab input[type="radio"] {
-    margin: 0; /* Remove margem padrão que pode atrapalhar o alinhamento */
-    accent-color: #1b5e20; /* Cor do radio button */
-    width: 16px; /* Tamanho do radio button */
-    height: 16px; /* Tamanho do radio button */
+    margin: 0;
+    accent-color: #1b5e20;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
-/* **FIM DA CORREÇÃO PARA O LAYOUT DAS OPÇÕES EM LINHA** */
-
 
 /* Responsividade para .linha-hab DENTRO DO FORM-INDEX.CSS */
-/* Nestas media queries, podemos decidir se queremos que as opções QUEBREM ou não */
 @media (max-width: 768px) {
     .linha-hab {
-        flex-direction: column; /* Em telas menores, as opções voltam a ser em coluna */
-        align-items: flex-start; /* Alinha os itens no início da coluna */
-        gap: 8px; /* Reduz o espaçamento entre itens quando em coluna */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
         padding: 10px 0;
-        flex-wrap: wrap; /* Permite quebrar linha para mobile para evitar overflow horizontal */
-        justify-content: flex-start; /* Alinha ao início quando em coluna */
+        flex-wrap: wrap;
+        justify-content: flex-start;
     }
 
     .hab-nome {
-        margin-bottom: 5px; /* Adiciona um pequeno espaço abaixo do nome quando em coluna */
-        min-width: unset; /* Remove a largura mínima para que o texto se ajuste */
+        margin-bottom: 5px;
+        min-width: unset;
     }
 
-    /* Ajuste para o padding das seções em telas pequenas */
     .relatorio-uc {
         padding: 15px;
     }
@@ -599,7 +642,7 @@ body.dark .linha-hab label {
 }
 
 body.dark .linha-hab input[type="radio"] {
-    accent-color: #66bb6a; /* Cor do radio button no dark mode */
+    accent-color: #66bb6a;
 }
 
 body.dark .tabela-habilidades::-webkit-scrollbar-thumb {

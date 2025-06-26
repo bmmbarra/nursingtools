@@ -84,8 +84,9 @@ body.dark .slider {
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%; /* Garante que ocupem a altura total da viewport */
-    overflow-x: hidden; /* Evita barra de rolagem horizontal desnecessária */
+    min-height: 100vh;
+    height: auto;      
+    overflow-x: hidden;
 }
 
 body {

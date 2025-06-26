@@ -1,3 +1,27 @@
+/*
+  O seletor original '.App' e '.App-header' provavelmente vieram
+  do template padrão do Create React App. Vamos ignorá-los
+  e criar a regra correta para o SEU container, que é '.app-container'.
+*/
+
+/* REGRA CORRETA PARA O SEU CONTAINER */
+.app-container {
+  /* Alinha o conteúdo dos seus componentes filhos */
+  text-align: center; 
+
+  /* Essas são as regras que estavam causando o problema, mas no seletor errado */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  /* --- A CORREÇÃO FINAL E DEFINITIVA --- */
+  justify-content: flex-start; /* <<< TIRA O CONTEÚDO DO MEIO E ALINHA NO TOPO */
+  padding-top: 30px;           /* <<< CRIA UM RESPIRO SEGURO NO TOPO DA PÁGINA */
+  box-sizing: border-box;
+}
+
+
+/* O resto do arquivo pode continuar como estava, mas estas regras abaixo provavelmente não estão sendo usadas. */
 .App {
   text-align: center;
 }
