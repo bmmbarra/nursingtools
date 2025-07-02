@@ -121,7 +121,7 @@ export default function FormularioEstagio() {
         setErrors(novosErros);
         return Object.keys(novosErros).length === 0;
     };
-//exemplo
+
     const handleGerarPDF = async () => {
         setErrors({}); // Sempre limpa os erros visuais antes de uma nova tentativa
 
