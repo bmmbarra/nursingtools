@@ -121,7 +121,7 @@ export default function FormularioEstagio() {
         setErrors(novosErros);
         return Object.keys(novosErros).length === 0;
     };
-
+//exemplo
     const handleGerarPDF = async () => {
         setErrors({}); // Sempre limpa os erros visuais antes de uma nova tentativa
 
@@ -261,55 +261,43 @@ export default function FormularioEstagio() {
                         <div className="col-esquerda">
                             <label><strong>Unidade(s) Concedente(s):</strong></label>
                             <div className="lista-empresas">
-                                {Object.keys(empresasData).map((nome, i) => {
-                                    // Verifica se a empresa atual está selecionada
-                                    const isSelected = empresasSelecionadas.some((e) => e.nome === nome);
-                                    // Encontra os dados completos da empresa selecionada (para as datas)
-                                    const empresaAtual = empresasSelecionadas.find((e) => e.nome === nome);
-
-                                    return (
-                                        <div key={nome} className="empresa-item">
-                                            <label className="empresa-checkbox">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={isSelected}
-                                                    onChange={() => toggleEmpresa(nome)} // Gerencia a seleção/desseleção
-                                                />
-                                                {nome}
-                                            </label>
-
-                                            {/* Renderiza os campos de data SOMENTE se a empresa estiver selecionada */}
-                                            {isSelected && (
-                                                <div 
-                                                    className="periodo-estagio-empresa" 
-                                                    style={{ 
-                                                        marginBottom: '15px', 
-                                                        marginTop: '5px', 
-                                                        border: '1px solid #ddd', 
-                                                        padding: '10px', 
-                                                        borderRadius: '5px',
-                                                        backgroundColor: '#f9f9f9' 
-                                                    }}
-                                                >
-                                                    <label><strong>Início do Estágio:</strong></label>
-                                                    <input 
-                                                        type="date" 
-                                                        value={empresaAtual?.dataInicio || ""} // Usa optional chaining para evitar erro se empresaAtual for undefined
-                                                        onChange={(e) => handleEmpresaDateChange(nome, "dataInicio", e.target.value)} 
-                                                    />
-                                                    <label><strong>Fim do Estágio:</strong></label>
-                                                    <input 
-                                                        type="date" 
-                                                        value={empresaAtual?.dataFim || ""} 
-                                                        onChange={(e) => handleEmpresaDateChange(nome, "dataFim", e.target.value)} 
-                                                        min={empresaAtual?.dataInicio || ""} // Garante que a data fim não seja anterior à data início
-                                                    />
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
+                                {Object.keys(empresasData).map((nome, i) => (
+                                    <label key={i} className="empresa-checkbox">
+                                        <input type="checkbox" checked={empresasSelecionadas.some((e) => e.nome === nome)} onChange={() => toggleEmpresa(nome)} />
+                                        {nome}
+                                    </label>
+                                ))}
                             </div>
+                            {/* Este bloco agora exibe apenas o nome da empresa e os campos de data */}
+                            {empresasSelecionadas.map((empresa) => (
+                                <div 
+                                    key={empresa.nome} 
+                                    className="periodo-estagio-empresa" 
+                                    style={{ 
+                                        marginBottom: '15px', 
+                                        border: '1px solid #ccc', 
+                                        padding: '10px', 
+                                        borderRadius: '5px',
+                                        backgroundColor: '#f9f9f9' // Um fundo leve para destacar o bloco
+                                    }}
+                                >
+                                    <h4>{empresa.nome}</h4> {/* Mantém o nome para contexto das datas */}
+                                    <label><strong>Início do Estágio:</strong></label>
+                                    <input 
+                                        type="date" 
+                                        value={empresa.dataInicio || ""} 
+                                        onChange={(e) => handleEmpresaDateChange(empresa.nome, "dataInicio", e.target.value)} 
+                                    />
+                                    <label><strong>Fim do Estágio:</strong></label>
+                                    <input 
+                                        type="date" 
+                                        value={empresa.dataFim || ""} 
+                                        onChange={(e) => handleEmpresaDateChange(empresa.nome, "dataFim", e.target.value)} 
+                                        min={empresa.dataInicio || ""} 
+                                    />
+                                    <hr style={{ margin: '15px 0' }}/>
+                                </div>
+                            ))}
                         </div>
 
                         <div className="col-direita">
